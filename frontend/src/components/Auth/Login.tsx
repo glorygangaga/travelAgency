@@ -1,14 +1,12 @@
 'use client';
 
-import { useState, type FC, type FormEvent } from 'react';
+import { lazy, useState, type FC, type FormEvent } from 'react';
 import { LoaderCircle } from 'lucide-react';
 import { useModal } from '../modal/ModalProvider';
 import { isEmail } from '@/functions/isEmail';
 import { Input } from '../ui/Input';
 
-import dynamic from 'next/dynamic';
-
-const Register = dynamic(() => import('./Register'));
+const Register = lazy(() => import('./Register'));
 
 const Login: FC = () => {
   const [error, setError] = useState<boolean>(false);

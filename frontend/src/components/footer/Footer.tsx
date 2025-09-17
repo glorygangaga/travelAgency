@@ -1,40 +1,15 @@
-'use client';
-
-import { THEMES_DATA } from '@/shared/data/themes.data';
-import { memo, useEffect, useState } from 'react';
-import { FooterButtons } from './FooterButtons';
+import { memo } from 'react';
+import { Theme } from '../Theme/Theme';
+import { SITE_NAME } from '@/shared/data/names.data';
 
 export function FooterElement() {
-  const [isDark, setIsDark] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const localTheme = localStorage.getItem('theme');
-
-    const dark = localTheme === 'dark' || (!localTheme && prefersDark);
-    setIsDark(dark);
-  }, []);
-
-  useEffect(() => {
-    if (isDark === null) return;
-
-    const root = document.documentElement;
-
-    if (!isDark) {
-      root.classList.remove('dark');
-      localStorage.theme = 'light';
-    } else {
-      root.classList.add('dark');
-      localStorage.theme = 'dark';
-    }
-  }, [isDark]);
-
   return (
-    <footer className='py-1.5 border-t border-white/10 sticky bottom-0'>
-      <div className='flex justify-end px-3 gap-1'>
-        {THEMES_DATA.map((element) => (
-          <FooterButtons element={element} key={element.id} isDark={isDark} setIsDark={setIsDark} />
-        ))}
+    <footer className='py-3 border-t dark:bg-black/70 backdrop-blur-xl z-[1] border-black/20 dark:border-white/10 sticky bottom-0'>
+      <div className='flex justify-between px-2 gap-5 items-center'>
+        <Theme />
+        <span className='max-md:text-xs'>
+          &copy; {new Date().getFullYear()} {SITE_NAME}. Все права Защищены
+        </span>
       </div>
     </footer>
   );

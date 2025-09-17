@@ -14,7 +14,7 @@ export function Modal({ children, isOpen, onClose }: Props) {
 
   return (
     <div
-      className='absolute left-0 top-0 w-screen h-screen bg-black/15 flex justify-center items-center z-20 backdrop-blur-xs cursor-pointer'
+      className='absolute left-0 top-0 w-screen h-screen bg-black/15 flex justify-center items-center z-20 backdrop-blur-xs cursor-pointer text-black dark:text-white'
       onClick={onClose}
     >
       <div

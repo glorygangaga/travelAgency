@@ -1,5 +1,8 @@
+import type { ReactNode } from "react";
+
 export type AsideTypesExtentionsData = {
-  text: string;
+  element: ReactNode;
+  data: string;
 };
 
 export type AsideTypesExtentions = AsideTypesExtentionsData[];
@@ -7,7 +10,8 @@ export type AsideTypesExtentions = AsideTypesExtentionsData[];
 export type AsideElementType = { 
   text: string;
   icon: string;
-  href: string;
+  href?: string;
+  element?: ReactNode;
   isNew?: boolean;
   extentions?: AsideTypesExtentions;
 };

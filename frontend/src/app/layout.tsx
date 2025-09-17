@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { SITE_NAME } from '@/shared/data/names.data';
+import { ThemeProvider } from 'next-themes';
 import { ModalProvider } from '@/components/modal/ModalProvider';
 
 const geistSans = Geist({
@@ -28,9 +29,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en' className='h-full'>
+    <html lang='en' className='h-full' suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}>
-        <ModalProvider>{children}</ModalProvider>
+        <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
+          <ModalProvider>{children}</ModalProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

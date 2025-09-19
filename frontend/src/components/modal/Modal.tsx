@@ -18,7 +18,7 @@ export function Modal({ children, isOpen, onClose }: Props) {
       onClick={onClose}
     >
       <div
-        className='w-auto max-w-10/12 overflow-auto md:max-w-3/5 bg-gray-100 dark:bg-black border border-black/20 dark:border-white/20 p-8 rounded-2xl z-40 cursor-default relative'
+        className='w-auto max-w-10/12 overflow-auto md:max-w-3/5 bg-gray-100 dark:bg-black border border-black/20 dark:border-white/20 p-8 rounded-2xl z-40 cursor-default relative min-w-xs'
         onClick={(e) => e.stopPropagation()}
       >
         <button

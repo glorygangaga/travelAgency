@@ -1,7 +1,9 @@
 import type { AsideTypes } from '../types/aside.types';
-import { lazy } from 'react';
+import { lazy, Suspense } from 'react';
 
 const Login = lazy(() => import('@/components/Auth/Login'));
+const Language = lazy(() => import('@/components/language/Language'));
+import { Theme } from '@/components/Theme/Theme';
 
 import {
   CircleQuestionMark,
@@ -13,37 +15,6 @@ import {
   GalleryVerticalEnd,
 } from 'lucide-react';
 
-export const ASIDE_MAIN_DATA: AsideTypes = [
-  { icon: 'Compass', text: 'Подбор тура', href: '/#Find' },
-  { icon: 'GalleryVerticalEnd', text: 'Галерея', href: '/#Gallary' },
-  { icon: 'TableOfContents', text: 'Деятельность', href: '/#About' },
-  { icon: 'CircleUser', text: 'Аккаунт', element: <Login /> },
-  {
-    icon: 'Settings',
-    text: 'Настройки',
-    isNew: true,
-    extentions: [
-      {
-        element: (
-          <div className='flex items-center flex-col gap-2 w-48'>
-            <h1 className='text-xl font-bold'>Тема</h1>
-          </div>
-        ),
-        data: 'Тема',
-      },
-      {
-        element: (
-          <div className='flex items-center flex-col gap-2 w-48'>
-            <h1 className='text-xl font-bold'>Язык</h1>
-          </div>
-        ),
-        data: 'Язык',
-      },
-    ],
-  },
-  { icon: 'CircleQuestionMark', text: 'FAQ', href: '/faq' },
-];
-
 export const iconMap: Record<string, LucideIcon> = {
   Compass,
   Settings,
@@ -52,3 +23,59 @@ export const iconMap: Record<string, LucideIcon> = {
   TableOfContents,
   CircleQuestionMark,
 };
+
+export const getAsideData = (t: (key: string) => string): AsideTypes => [
+  {
+    icon: 'Compass',
+    text: t('ASIDE.Selection'),
+    href: '/find',
+  },
+  {
+    icon: 'GalleryVerticalEnd',
+    text: t('ASIDE.Gallary'),
+    href: '/gallary',
+  },
+  {
+    icon: 'TableOfContents',
+    text: t('ASIDE.Activity'),
+    href: '/about',
+  },
+  {
+    icon: 'CircleUser',
+    text: t('ASIDE.Account'),
+    element: (
+      <Suspense>
+        <Login />
+      </Suspense>
+    ),
+  },
+  {
+    icon: 'Settings',
+    text: t('ASIDE.Settings'),
+    isNew: true,
+    extentions: [
+      {
+        element: (
+          <div className='flex items-center flex-col gap-2'>
+            <h1 className='text-xl font-bold'>{t('ASIDE.Theme')}</h1>
+            <Theme />
+          </div>
+        ),
+        data: t('ASIDE.Theme'),
+      },
+      {
+        element: (
+          <Suspense>
+            <Language />
+          </Suspense>
+        ),
+        data: t('ASIDE.Language'),
+      },
+    ],
+  },
+  {
+    icon: 'CircleQuestionMark',
+    text: t('ASIDE.Faq'),
+    href: '/faq',
+  },
+];

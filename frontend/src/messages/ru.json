@@ -1,0 +1,35 @@
+{
+  "SITE_NAME": "Путешествия",
+  "ASIDE": {
+    "Selection": "Подбор тура",
+    "Gallary": "Галерея",
+    "Activity": "Деятельность",
+    "Account": "Аккаунт",
+    "Settings": "Настройки",
+    "Theme": "Тема",
+    "Language": "Язык",
+    "Faq": "FAQ"
+  },
+  "THEME": {
+    "dark": "Темная",
+    "system": "Системная",
+    "light": "Светлая"
+  },
+  "RIGHTS": "Все права Защищены",
+  "FINDER": "Найти тур",
+  "Auth": {
+    "Login": "Вход",
+    "Register": "Регистрация",
+    "Email": "Эмейл",
+    "Password": "Пароль",
+    "ConfPassword": "Повторите пароль",
+    "ERRORS": {
+      "ENTER_EMAIL": "Введите эмейл",
+      "VALID_EMAIL": "Введите валидный эмейл",
+      "ENTER_PASS": "Введите пароль",
+      "PASS_SAME": "Введен не тот же пароль",
+      "REPEAT_PASS": "Повторите пароль"
+    }
+
+  }
+}

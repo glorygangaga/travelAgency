@@ -1,7 +1,8 @@
 'use client';
 
-import { lazy, useState, type FC, type FormEvent } from 'react';
+import { lazy, Suspense, useState, type FC, type FormEvent } from 'react';
 import { LoaderCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useModal } from '../modal/ModalProvider';
 import { isEmail } from '@/functions/isEmail';
 import { Input } from '../ui/Input';
@@ -9,43 +10,35 @@ import { Input } from '../ui/Input';
 const Register = lazy(() => import('./Register'));
 
 const Login: FC = () => {
-  const [error, setError] = useState<boolean>(false);
-  const [checkError, setCheckError] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [values, setValues] = useState({ login: '', password: '' });
+  const t = useTranslations();
+  const [values, setValues] = useState({ login: '', password: '', error: '', checkError: false });
   const { open } = useModal();
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setError(false);
+    setValues((prev) => ({ ...prev, error: '' }));
 
     if (!values.login.trim() || !values.password.trim() || !isEmail(values.login)) {
-      setCheckError(true);
+      setValues((prev) => ({ ...prev, checkError: true }));
       return;
     }
-    setCheckError(false);
-
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setError(true);
-    }, 3000);
+    setValues((prev) => ({ ...prev, checkError: false }));
   }
 
   return (
     <>
       <form
-        onSubmit={(e) => handleSubmit(e)}
+        onSubmit={handleSubmit}
         className='grid gap-5 justify-items-center mb-2 w-lg max-lg:w-fit'
       >
-        <h1 className='text-3xl font-bold'>Вход</h1>
-        {error && (
+        <h1 className='text-3xl font-bold'>{t('Auth.Login')}</h1>
+        {values.error && (
           <div className='bg-black/10 mb-2 text-red-500 p-2 rounded-lg'>
             <p>Ваш адрес электронной почты и пароль не совпадают.</p>
           </div>
         )}
         <Input
-          label='Email'
+          label={t('Auth.Email')}
           type='text'
           id='login'
           name='login'
@@ -53,12 +46,13 @@ const Login: FC = () => {
           className='w-full'
           value={values.login}
           onChange={(e) => setValues((prev) => ({ ...prev, login: e.target.value }))}
+          required
           error={
-            checkError
+            values.checkError
               ? !values.login.trim()
-                ? 'Введите эмейл'
+                ? t('Auth.ERRORS.ENTER_EMAIL')
                 : !isEmail(values.login)
-                ? 'Введите валидный эмейл'
+                ? t('Auth.ERRORS.VALID_EMAIL')
                 : ''
               : ''
           }
@@ -68,25 +62,38 @@ const Login: FC = () => {
           id='password'
           name='password'
           autoComplete='off'
-          label='Пароль'
+          label={t('Auth.Password')}
           passwordToggle={true}
           className='w-full'
+          required
           value={values.password}
           onChange={(e) => setValues((prev) => ({ ...prev, password: e.target.value }))}
-          error={checkError ? (!values.password.trim() ? 'Введите пароль' : '') : ''}
+          error={
+            values.checkError ? (!values.password.trim() ? t('Auth.ERRORS.ENTER_PASS') : '') : ''
+          }
         />
         <button className='dark:bg-white/20 flex gap-2 max-sm:w-full bg-black/10 px-25 py-2 rounded-lg transition-colors hover:bg-black/15 dark:hover:bg-white/15'>
-          {loading ? (
+          {false ? (
             <>
               <LoaderCircle className='transition-transform animate-spin' /> <span>Loading</span>
             </>
           ) : (
-            'Войти'
+            <>{t('Auth.Login')}</>
           )}
         </button>
       </form>
-      <button className='border-b-2' onClick={() => open(<Register />)}>
-        Регистрация
+      <button
+        disabled={false}
+        className='border-b-2'
+        onClick={() =>
+          open(
+            <Suspense>
+              <Register />
+            </Suspense>,
+          )
+        }
+      >
+        {t('Auth.Register')}
       </button>
     </>
   );

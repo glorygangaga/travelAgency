@@ -1,0 +1,35 @@
+{
+  "SITE_NAME": "Travel",
+  "ASIDE": {
+    "Selection": "Tour Selection",
+    "Gallary": "Gallery",
+    "Activity": "Activity",
+    "Account": "Account",
+    "Settings": "Settings",
+    "Theme": "Theme",
+    "Language": "Language",
+    "Faq": "FAQ"
+  },
+  "THEME": {
+    "dark": "Dark",
+    "system": "System",
+    "light": "Light"
+  },
+  "RIGHTS": "All Rights Reserved",
+  "FINDER": "Find Tour",
+  "Auth": {
+    "Login": "Login",
+    "Register": "Register",
+    "Email": "Email",
+    "Password": "Password",
+    "ConfPassword": "Confirm Password",
+    "ERRORS": {
+      "ENTER_EMAIL": "Enter email",
+      "VALID_EMAIL": "Enter a valid email",
+      "ENTER_PASS": "Enter password",
+      "PASS_SAME": "Passwords do not match",
+      "CONF_PASS": "Confirm password",
+      "REPEAT_PASS": "Repeat password"
+    }
+  }
+}

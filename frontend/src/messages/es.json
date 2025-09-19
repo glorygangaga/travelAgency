@@ -1,0 +1,34 @@
+{
+  "SITE_NAME": "Viajes",
+  "ASIDE": {
+    "Selection": "Selección de Tours",
+    "Gallary": "Galería",
+    "Activity": "Actividad",
+    "Account": "Cuenta",
+    "Settings": "Configuración",
+    "Theme": "Tema",
+    "Language": "Idioma",
+    "Faq": "Preguntas Frecuentes"
+  },
+  "THEME": {
+    "dark": "Oscuro",
+    "system": "Sistema",
+    "light": "Claro"
+  },
+  "RIGHTS": "Todos los Derechos Reservados",
+  "FINDER": "Encontrar Tour",
+  "Auth": {
+    "Login": "Iniciar Sesión",
+    "Register": "Registrarse",
+    "Email": "Correo Electrónico",
+    "Password": "Contraseña",
+    "ConfPassword": "Confirmar Contraseña",
+    "ERRORS": {
+      "ENTER_EMAIL": "Ingrese el correo electrónico",
+      "VALID_EMAIL": "Ingrese un correo electrónico válido",
+      "ENTER_PASS": "Ingrese la contraseña",
+      "PASS_SAME": "Las contraseñas no coinciden",
+      "REPEAT_PASS": "Repetir contraseña"
+    }
+  }
+}

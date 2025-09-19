@@ -1,12 +1,13 @@
 'use client';
 
-import { CircleUser } from 'lucide-react';
+import { CircleUser, Languages } from 'lucide-react';
 import { lazy } from 'react';
 import { HeaderForm } from './HeaderForm';
 import { useModal } from '../modal/ModalProvider';
 
 import { Burger } from './Burger';
 
+const Language = lazy(() => import('../language/Language'));
 const Login = lazy(() => import('@/components/Auth/Login'));
 
 export function Header() {
@@ -20,12 +21,17 @@ export function Header() {
         </div>
         <HeaderForm />
         <div className='flex gap-3 font-bold max-md:hidden'>
-          <div className='h-full w-[1px] bg-white/10' />
           <button
             className='transition-colors dark:hover:bg-white/10 hover:bg-black/10 rounded-lg w-10 h-10 flex justify-center items-center'
             onClick={() => open(<Login />)}
           >
             <CircleUser />
+          </button>
+          <button
+            className='transition-colors dark:hover:bg-white/10 hover:bg-black/10 rounded-lg w-10 h-10 flex justify-center items-center'
+            onClick={() => open(<Language />)}
+          >
+            <Languages />
           </button>
         </div>
       </div>

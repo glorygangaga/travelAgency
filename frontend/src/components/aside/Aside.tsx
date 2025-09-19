@@ -3,14 +3,15 @@
 import { Earth } from 'lucide-react';
 import AsideItems from './AsideItems';
 import type { FC } from 'react';
-import { SITE_NAME } from '@/shared/data/names.data';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 type Props = {
   CloseMenu?: () => void;
 };
 
 const Aside: FC<Props> = ({ CloseMenu }) => {
+  const t = useTranslations();
   return (
     <aside className='flex flex-col gap-4 px-2 max-md:pt-2 pt-8 border-r z-10 border-black/20 dark:border-white/10 fixed left-0 max-md:h-min h-screen text-md transition-all group max-md:w-full min-w-[70px] hover:w-auto bg-gray-100 max-md:bg-white dark:bg-black hover:px-4'>
       <Link
@@ -20,7 +21,7 @@ const Aside: FC<Props> = ({ CloseMenu }) => {
       >
         <Earth />
         <span className='hidden max-w-0 invisible opacity-0 group-hover:max-w-fit max-md:max-w-fit max-md:opacity-100 group-hover:opacity-100 max-md:visible group-hover:visible max-md:block group-hover:block transition-opacity duration-500 ease-in-out'>
-          {SITE_NAME}
+          {t('SITE_NAME')}
         </span>
       </Link>
       <AsideItems CloseMenu={CloseMenu} />

@@ -1,24 +1,28 @@
 'use client';
 
-import { useState, type FC, type FormEvent } from 'react';
+import { lazy, Suspense, useState, type FC, type FormEvent } from 'react';
 import { LoaderCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useModal } from '../modal/ModalProvider';
 import { isEmail } from '@/functions/isEmail';
 import { Input } from '../ui/Input';
-import dynamic from 'next/dynamic';
 
-const Login = dynamic(() => import('./Login'));
+const Login = lazy(() => import('./Login'));
 
 const Register: FC = () => {
-  const [error, setError] = useState<boolean>(false);
-  const [checkError, setCheckError] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [values, setValues] = useState({ login: '', password: '', confPass: '' });
+  const t = useTranslations();
+  const [values, setValues] = useState({
+    login: '',
+    password: '',
+    confPass: '',
+    error: '',
+    checkError: false,
+  });
   const { open } = useModal();
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setError(false);
+    setValues((prev) => ({ ...prev, error: '' }));
 
     if (
       !values.login.trim() ||
@@ -27,16 +31,10 @@ const Register: FC = () => {
       !isEmail(values.login) ||
       values.password.trim() !== values.confPass.trim()
     ) {
-      setCheckError(true);
+      setValues((prev) => ({ ...prev, checkError: true }));
       return;
     }
-    setCheckError(false);
-
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setError(true);
-    }, 3000);
+    setValues((prev) => ({ ...prev, checkError: false }));
   }
 
   return (
@@ -45,15 +43,15 @@ const Register: FC = () => {
         onSubmit={(e) => handleSubmit(e)}
         className='grid gap-5 justify-items-center mb-2 w-lg max-lg:w-fit'
       >
-        <h1 className='text-3xl font-bold'>Регистрация</h1>
-        {error && (
+        <h1 className='text-3xl font-bold'>{t('Auth.Register')}</h1>
+        {values.error && (
           <div className='bg-black/10 mb-2 text-red-500 p-2 rounded-lg dark:bg-white/10'>
             <p>Не удалось создать аккаунт. Попробуйте позже.</p>
           </div>
         )}
 
         <Input
-          label='Email'
+          label={t('Auth.Email')}
           type='text'
           id='login'
           name='login'
@@ -62,11 +60,11 @@ const Register: FC = () => {
           value={values.login}
           onChange={(e) => setValues((prev) => ({ ...prev, login: e.target.value }))}
           error={
-            checkError
+            values.checkError
               ? !values.login.trim()
-                ? 'Введите эмейл'
+                ? t('Auth.ERRORS.ENTER_EMAIL')
                 : !isEmail(values.login)
-                ? 'Введите валидный эмейл'
+                ? t('Auth.ERRORS.VALID_EMAIL')
                 : ''
               : ''
           }
@@ -76,45 +74,56 @@ const Register: FC = () => {
           id='password'
           name='password'
           autoComplete='off'
-          label='Пароль'
+          label={t('Auth.Password')}
           passwordToggle={true}
           className='w-full'
           value={values.password}
           onChange={(e) => setValues((prev) => ({ ...prev, password: e.target.value }))}
-          error={checkError ? (!values.password.trim() ? 'Введите пароль' : '') : ''}
+          error={
+            values.checkError ? (!values.password.trim() ? t('Auth.ERRORS.ENTER_PASS') : '') : ''
+          }
         />
         <Input
           type='password'
           id='passwordVerify'
           name='passwordVerify'
           autoComplete='off'
-          label='Повторите пароль'
+          label={t('Auth.ConfPassword')}
           passwordToggle={true}
           className='w-full'
           value={values.confPass}
           onChange={(e) => setValues((prev) => ({ ...prev, confPass: e.target.value }))}
           error={
-            checkError
+            values.checkError
               ? !values.password.trim()
-                ? 'Подтвердите пароль'
+                ? t('Auth.ERRORS.REPEAT_PASS')
                 : values.password.trim() !== values.confPass.trim()
-                ? 'Введен не тот же пароль'
+                ? t('Auth.ERRORS.PASS_SAME')
                 : ''
               : ''
           }
         />
         <button className='dark:bg-white/20 flex gap-2 bg-black/10 px-25 py-2 rounded-lg transition-colors hover:bg-black/15 dark:hover:bg-white/15 max-lg:text-sm'>
-          {loading ? (
+          {false ? (
             <>
               <LoaderCircle className='transition-transform animate-spin' /> <span>Loading</span>
             </>
           ) : (
-            'Регистрация'
+            <>{t('Auth.Register')}</>
           )}
         </button>
       </form>
-      <button className='border-b-2' onClick={() => open(<Login />)}>
-        Вход
+      <button
+        className='border-b-2'
+        onClick={() =>
+          open(
+            <Suspense>
+              <Login />
+            </Suspense>,
+          )
+        }
+      >
+        {t('Auth.Login')}
       </button>
     </>
   );

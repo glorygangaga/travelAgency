@@ -1,4 +1,4 @@
-import { Error } from './Error';
+import { Error } from '../components/Error';
 
 export const metadata = {
   title: '404 - Страница не найдена',

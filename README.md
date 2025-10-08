@@ -107,7 +107,6 @@
 - Фреймворк: Next.js
 - Язык: TypeScript
 - State management: Zustand
-- Тестирование: Jest (возможно)
 - Маршрутизация: React Router
 - Вспомогательные библиотеки:
   - lucide icons

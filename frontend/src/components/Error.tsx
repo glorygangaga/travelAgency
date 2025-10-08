@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
 export function Error() {
@@ -7,13 +8,13 @@ export function Error() {
 
   return (
     <main className='flex flex-col dark:bg-black bg-white text-black dark:text-white justify-center items-center h-full font-bold gap-2'>
-      <h1 className='text-7xl max-md:text-3xl'>Страница не найдена</h1>
+      <h1 className='text-7xl max-md:text-3xl'>Page not found</h1>
       <p className='text-7xl max-md:text-3xl'>404</p>
       <button
         onClick={() => router.back()}
         className='px-4 py-2 dark:bg-white bg-black text-white dark:text-black rounded-xl'
       >
-        Вернуться на предыдущую страницу
+        Go back to the previous page
       </button>
     </main>
   );

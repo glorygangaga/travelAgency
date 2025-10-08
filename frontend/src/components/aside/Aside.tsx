@@ -1,31 +1,40 @@
 'use client';
 
-import { Earth } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { createContext, useState, type FC } from 'react';
+
+import { AsideHeader } from './AsideHeader';
 import AsideItems from './AsideItems';
-import type { FC } from 'react';
-import Link from 'next/link';
-import { useTranslations } from 'next-intl';
+import { AppContextType } from '@/hook/useAsideContext';
+
+export const AsideContext = createContext<null | AppContextType>(null);
 
 type Props = {
   CloseMenu?: () => void;
 };
 
+export const textVariants = {
+  initial: { opacity: 0, scale: 0 },
+  exit: { opacity: 0, scale: 0 },
+  animate: { opacity: 1, scale: 1 },
+};
+
 const Aside: FC<Props> = ({ CloseMenu }) => {
-  const t = useTranslations();
+  const [hovered, setHovered] = useState<boolean>(false);
   return (
-    <aside className='flex flex-col gap-4 px-2 max-md:pt-2 pt-8 border-r z-10 border-black/20 dark:border-white/10 fixed left-0 max-md:h-min h-screen text-md transition-all group max-md:w-full min-w-[70px] hover:w-auto bg-gray-100 max-md:bg-white dark:bg-black hover:px-4'>
-      <Link
-        className='flex items-center group-hover:gap-2 max-md:gap-2 justify-center text-2xl font-bold mb-4'
-        href='/'
-        onClick={() => CloseMenu && CloseMenu()}
+    <AsideContext.Provider value={{ hovered, CloseMenu }}>
+      <motion.aside
+        layout
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        className='flex flex-col gap-4 px-2 max-md:pt-2 pt-8 border-r z-10 border-black/20 dark:border-white/10 fixed left-0 max-md:h-min h-screen text-md group max-md:w-full min-w-[70px] bg-gray-100 max-md:bg-white dark:bg-black'
+        initial={{ width: '70px' }}
+        animate={{ width: hovered ? '220px' : '70px' }}
       >
-        <Earth />
-        <span className='hidden max-w-0 invisible opacity-0 group-hover:max-w-fit max-md:max-w-fit max-md:opacity-100 group-hover:opacity-100 max-md:visible group-hover:visible max-md:block group-hover:block transition-opacity duration-500 ease-in-out'>
-          {t('SITE_NAME')}
-        </span>
-      </Link>
-      <AsideItems CloseMenu={CloseMenu} />
-    </aside>
+        <AsideHeader />
+        <AsideItems />
+      </motion.aside>
+    </AsideContext.Provider>
   );
 };
 

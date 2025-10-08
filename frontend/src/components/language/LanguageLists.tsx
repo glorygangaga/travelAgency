@@ -3,14 +3,13 @@
 import { useLocale } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
 
-interface Props {}
 const languages = [
   { code: 'en', name: 'English' },
   { code: 'es', name: 'Español' },
   { code: 'ru', name: 'Русский' },
 ] as const;
 
-export function LanguageLists({}: Props) {
+export function LanguageLists() {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();

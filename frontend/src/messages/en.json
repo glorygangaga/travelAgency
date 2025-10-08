@@ -29,7 +29,11 @@
       "ENTER_PASS": "Enter password",
       "PASS_SAME": "Passwords do not match",
       "CONF_PASS": "Confirm password",
-      "REPEAT_PASS": "Repeat password"
+      "REPEAT_PASS": "Repeat password",
+      "PASS_MIN_6": "Password must be at least 6 characters"
     }
+  },
+  "FINDER_LIST": {
+    "Search": "Search"
   }
 }

@@ -35,6 +35,19 @@ export function ModalProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  useEffect(() => {
+    const body = document.body;
+    const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+    if (isOpen) {
+      body.style.overflow = 'hidden';
+      document.body.style.paddingRight = scrollBarWidth + 'px';
+    } else {
+      body.style.overflow = '';
+      document.body.style.paddingRight = '';
+    }
+  }, [isOpen]);
+
   return (
     <ModalContext.Provider value={{ open, close, isOpen }}>
       <Modal isOpen={isOpen} onClose={close}>

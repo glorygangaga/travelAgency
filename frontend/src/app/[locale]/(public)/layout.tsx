@@ -13,7 +13,9 @@ export default function Layout({ children }: PropsWithChildren<unknown>) {
         </div>
         <div className='w-full flex flex-col flex-1'>
           <Header />
-          <main className='flex-1 px-3'>{children}</main>
+          <main className='flex-1 px-3'>
+            <div className='container mx-auto'>{children}</div>
+          </main>
           <Footer />
         </div>
       </div>

@@ -1,12 +1,10 @@
-import { useTranslations } from 'next-intl';
 import { LanguageLists } from './LanguageLists';
+import { LanguageTitle } from './LanguageTitle';
 
 export default function Page() {
-  const t = useTranslations();
-
   return (
-    <div className='grid gap-3'>
-      <h1 className='font-bold text-3xl'>{t('ASIDE.Language')}</h1>
+    <div className='grid gap-3 min-lg:w-lg'>
+      <LanguageTitle />
       <LanguageLists />
     </div>
   );

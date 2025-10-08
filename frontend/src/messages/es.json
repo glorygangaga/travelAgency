@@ -28,7 +28,11 @@
       "VALID_EMAIL": "Ingrese un correo electrónico válido",
       "ENTER_PASS": "Ingrese la contraseña",
       "PASS_SAME": "Las contraseñas no coinciden",
-      "REPEAT_PASS": "Repetir contraseña"
+      "REPEAT_PASS": "Repetir contraseña",
+      "PASS_MIN_6": "La contraseña debe tener al menos 6 caracteres"
     }
+  },
+  "FINDER_LIST": {
+    "Search": "Найти"
   }
 }

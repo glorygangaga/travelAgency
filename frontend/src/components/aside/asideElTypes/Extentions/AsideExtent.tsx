@@ -1,12 +1,11 @@
 import type { FC } from 'react';
 import type { AsideTypesExtentionsData } from '../../../../shared/types/aside.types';
 import { useModal } from '../../../../components/modal/ModalProvider';
+import { useAsideContext } from '@/hook/useAsideContext';
+import { AsideSpanFramer } from './AsideSpanFramer';
 
-const AsideExtent: FC<AsideTypesExtentionsData & { CloseMenu?: () => void }> = ({
-  element,
-  data,
-  CloseMenu,
-}) => {
+const AsideExtent: FC<AsideTypesExtentionsData> = ({ element, data }) => {
+  const { CloseMenu } = useAsideContext();
   const { open } = useModal();
 
   return (
@@ -17,7 +16,7 @@ const AsideExtent: FC<AsideTypesExtentionsData & { CloseMenu?: () => void }> = (
         open(element);
       }}
     >
-      {data}
+      <AsideSpanFramer text={data} />
     </button>
   );
 };

@@ -5,20 +5,15 @@ import AsideLinkEl from './asideElTypes/AsideLinkEl';
 
 interface Props {
   lists: AsideElementType;
-  CloseMenu?: () => void;
 }
 
-const AsideElement: FC<Props> = ({ lists, CloseMenu }) => {
+const AsideElement: FC<Props> = ({ lists }) => {
   return (
     <li
       key={lists.text}
       className={lists.isNew ? 'border-t pt-3 mt-2 border-black/20 dark:border-white/20' : ''}
     >
-      {lists.extentions ? (
-        <AsideExtentEl lists={lists} CloseMenu={CloseMenu} />
-      ) : (
-        <AsideLinkEl lists={lists} CloseMenu={CloseMenu} />
-      )}
+      {lists.extentions ? <AsideExtentEl lists={lists} /> : <AsideLinkEl lists={lists} />}
     </li>
   );
 };

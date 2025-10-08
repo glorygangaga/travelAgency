@@ -111,11 +111,13 @@
 - Маршрутизация: React Router
 - Вспомогательные библиотеки:
   - lucide icons
+  - zod
+  - framer-motion
 
 ## Backend
 
 - Язык: Go
-- ORM: (не выбран)
+- ORM: ?
 
 ## Database
 
@@ -123,4 +125,109 @@
 
 # ER-диаграмма
 
-не готова)
+```mermaid
+erDiagram
+    ROLE {
+        int role_id PK
+        string role_name
+    }
+
+    USER {
+        int user_id PK
+        int role_id FK
+        string full_name
+        date birth_date
+        string passport_number
+        string phone
+        string email
+        string password_hash
+        timestamp created_at
+    }
+
+    COUNTRY {
+        int country_id PK
+        string country_name
+        text description
+    }
+
+    HOTEL {
+        int hotel_id PK
+        int country_id FK
+        string hotel_name
+        string category
+        text description
+    }
+
+    TOUR {
+        int tour_id PK
+        int hotel_id FK
+        int country_id FK
+        string title
+        date start_date
+        date end_date
+        int duration_days
+        string tour_type
+        string food_type
+        numeric price_person
+        int available_slots
+        text description
+    }
+
+    BOOKING {
+        int booking_id PK
+        int user_id FK
+        int tour_id FK
+        timestamp booking_date
+        int num_people
+        numeric total_price
+        string status
+    }
+
+    PAYMENT {
+        int payment_id PK
+        int booking_id FK
+        timestamp payment_date
+        numeric amount
+        string method
+        string status
+    }
+
+    REVIEW {
+        int review_id PK
+        int user_id FK
+        int tour_id FK
+        timestamp created_at
+        numeric rating
+        text comment
+        boolean is_approved
+    }
+
+    SUBSCRIPTION {
+        int subscription_id PK
+        int user_id FK
+        timestamp subscribed_at
+        boolean is_active
+    }
+
+    BLOG_POST {
+        int post_id PK
+        int author_id FK
+        string title
+        text content
+        timestamp created_at
+        timestamp updated
+    }
+
+    %% Relationships
+    ROLE ||--o{ USER : assigns
+    COUNTRY ||--o{ HOTEL : has
+    COUNTRY ||--o{ TOUR : located_in
+    HOTEL ||--o{ TOUR : offers
+    USER ||--o{ BOOKING : makes
+    TOUR ||--o{ BOOKING : reserved_by
+    BOOKING ||--o{ PAYMENT : paid_with
+    USER ||--o{ REVIEW : writes
+    TOUR ||--o{ REVIEW : receives
+    USER ||--o{ SUBSCRIPTION : subscribes
+    USER ||--o{ BLOG_POST : authors
+```

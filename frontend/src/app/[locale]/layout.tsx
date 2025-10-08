@@ -1,14 +1,12 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import { ThemeProvider } from 'next-themes';
 import { ReactNode } from 'react';
-import { getMessages } from 'next-intl/server';
+import { getMessages, getTranslations } from 'next-intl/server';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 
-import { ModalProvider } from '@/components/modal/ModalProvider';
+import { Providers } from './Providers';
 
 import './globals.css';
-import { SITE_NAME } from '@/shared/data/names.data';
 import { routing } from '@/i18n/routing';
 import { notFound } from 'next/navigation';
 
@@ -22,18 +20,27 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
-export const metadata: Metadata = {
-  title: {
-    template: `%s - ${SITE_NAME}`,
-    default: SITE_NAME,
-  },
-  description: `${SITE_NAME} site`,
-};
-
 type Props = {
   children: ReactNode;
   params: Promise<{ locale: string }>;
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale });
+
+  return {
+    title: {
+      default: t('SITE_NAME'),
+      template: `%s - ${t('SITE_NAME')}`,
+    },
+    description: t('SITE_NAME'),
+  };
+}
 
 export default async function RootLayout({ children, params }: Props) {
   const { locale } = await params;
@@ -46,9 +53,7 @@ export default async function RootLayout({ children, params }: Props) {
     <html lang={locale} className='h-full' suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}>
         <NextIntlClientProvider messages={messages}>
-          <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
-            <ModalProvider>{children}</ModalProvider>
-          </ThemeProvider>
+          <Providers>{children}</Providers>
         </NextIntlClientProvider>
       </body>
     </html>

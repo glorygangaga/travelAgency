@@ -7,11 +7,14 @@ import { useTranslations } from 'next-intl';
 import { useModal } from '../modal/ModalProvider';
 import { LoginSkeleton } from '../Auth/login/LoginSkeleton';
 import { LanguageSkeleton } from '../language/LanguageSkeleton';
+import { useUserStore } from '@/store/userStore';
 
 const Language = lazy(() => import('../language/Language'));
 const Login = lazy(() => import('@/components/Auth/login/Login'));
 
 export function HeaderButtons() {
+  const { user, loading } = useUserStore();
+
   const t = useTranslations();
   const { open } = useModal();
 
@@ -28,7 +31,11 @@ export function HeaderButtons() {
         }
       >
         <CircleUser />
-        <p>{t('ASIDE.Account')}</p>
+        {loading ? (
+          <div className='w-16 h-6 bg-black/20 dark:bg-white/20 rounded-sm' />
+        ) : (
+          <p>{user ? user.name : t('ASIDE.Account')}</p>
+        )}
       </button>
       <div className='min-h-full w-[1px] dark:bg-white/10 bg-black/10' />
       <button

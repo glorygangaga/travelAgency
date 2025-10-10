@@ -115,8 +115,8 @@
 
 ## Backend
 
-- Язык: Go
-- ORM: ?
+- Nest.js
+- ORM: Prisma
 
 ## Database
 
@@ -141,6 +141,7 @@ erDiagram
         string email
         string password_hash
         timestamp created_at
+        timestamp updated_at
     }
 
     COUNTRY {

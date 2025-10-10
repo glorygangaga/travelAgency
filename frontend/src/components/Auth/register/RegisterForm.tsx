@@ -1,22 +1,36 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { LoaderCircle } from 'lucide-react';
 
-import { RegisterAction } from './RegisterAction';
 import { Input } from '@/components/ui/Input';
+import { RegisterAction } from '@/actions/registerAction';
+import { useUserStore } from '@/store/userStore';
+import { useRouter } from 'next/navigation';
+import { useModal } from '@/components/modal/ModalProvider';
 
 export function RegisterForm() {
+  const { push } = useRouter();
+  const { close } = useModal();
+  const { setUserData } = useUserStore();
   const [state, action, isPending] = useActionState(RegisterAction, {});
   const t = useTranslations();
+
+  useEffect(() => {
+    if (state.data) {
+      setUserData(state.data.user);
+      push('/account');
+      close();
+    }
+  }, [state]);
 
   return (
     <form action={action} className='grid gap-5 justify-items-center mb-2 w-lg max-lg:w-fit'>
       <h1 className='text-3xl font-bold'>{t('Auth.Register')}</h1>
       {state.error?.global && (
         <div className='bg-black/10 mb-2 text-red-500 p-2 rounded-lg dark:bg-white/10'>
-          <p>{state.error.global}</p>
+          <p>{state.error.global.message}</p>
         </div>
       )}
 

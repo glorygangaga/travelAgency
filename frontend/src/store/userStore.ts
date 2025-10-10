@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { fetchUser } from "@/lib/auth";
-import { UserStore } from "@/shared/types/user.types";
+import { User, UserStore } from "@/shared/types/user.types";
 
 export const useUserStore = create<UserStore>((set) => ({
   user: null,
@@ -18,5 +18,13 @@ export const useUserStore = create<UserStore>((set) => ({
     } finally {
       set({loading: false});
     }
+  },
+
+  setUserData: (user: User) => {
+    set({user})
+  },
+
+  logout: () => {
+    set({user: null})
   }
 }));

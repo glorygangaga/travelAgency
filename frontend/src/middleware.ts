@@ -3,13 +3,14 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { routing } from './i18n/routing';
 import { isAdminRoute, isProtectedRoute } from './shared/data/routing';
+import { EnumTokens } from './shared/types/auth.types';
 
 const intlMiddleware = createMiddleware(routing);
 
 export default function middleware(req: NextRequest) {
   const response = intlMiddleware(req);
 
-  const token = req.cookies.get('token')?.value;
+  const token = req.cookies.get(EnumTokens.ACCESS_TOKEN)?.value;
 
   const [, locale, ...rest] = req.nextUrl.pathname.split('/');
   const pathWithoutLocale = '/' + rest.join('/');

@@ -1,23 +1,37 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 
-import { LoginAction } from './loginAction';
 import { Input } from '@/components/ui/Input';
 import { LoaderCircle } from 'lucide-react';
+import { LoginAction } from '@/actions/loginAction';
+import { useRouter } from 'next/navigation';
+import { useModal } from '@/components/modal/ModalProvider';
+import { useUserStore } from '@/store/userStore';
 
 export function LoginForm() {
   const t = useTranslations();
+  const { push } = useRouter();
+  const { close } = useModal();
+  const { setUserData } = useUserStore();
 
   const [state, action, isPending] = useActionState(LoginAction, {});
+
+  useEffect(() => {
+    if (state.data) {
+      setUserData(state.data.user);
+      push('/account');
+      close();
+    }
+  }, [state]);
 
   return (
     <form action={action} className='grid gap-5 justify-items-center mb-2 w-lg max-lg:w-fit'>
       <h1 className='text-3xl font-bold'>{t('Auth.Login')}</h1>
       {state.error?.global && (
         <div className='bg-black/10 mb-2 text-red-500 p-2 rounded-lg'>
-          <p>{state.error.global}</p>
+          <p>{state.error.global.message}</p>
         </div>
       )}
       <Input

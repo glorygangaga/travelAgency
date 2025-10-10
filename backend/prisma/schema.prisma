@@ -1,0 +1,150 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  role_id   Int      @id @default(autoincrement())
+  role_name RoleEnum @unique
+  users     User[]
+}
+
+model User {
+  user_id         Int            @id @default(autoincrement())
+  role_id         Int
+  email           String         @unique
+  password        String
+  fullname        String?
+  date            DateTime?
+  passport_number String?
+  phone           String?
+  created_at      DateTime       @default(now())
+  updated_at      DateTime       @updatedAt
+  blogPosts       BlogPost[]
+  bookings        Booking[]
+  reviews         Review[]
+  subscriptions   Subscription[]
+  role            Role           @relation(fields: [role_id], references: [role_id])
+}
+
+model BlogPost {
+  post_id    Int      @id @default(autoincrement())
+  author_id  Int
+  title      String
+  content    String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  author     User     @relation(fields: [author_id], references: [user_id])
+}
+
+model Subscription {
+  subscription_id Int      @id @default(autoincrement())
+  user_id         Int
+  subscribed_at   DateTime @default(now())
+  is_active       Boolean  @default(false)
+  user            User     @relation(fields: [user_id], references: [user_id])
+}
+
+model Review {
+  review_id   Int      @id @default(autoincrement())
+  user_id     Int
+  tour_id     Int
+  created_at  DateTime @default(now())
+  rating      Int
+  comment     String
+  is_approved Boolean  @default(false)
+  tour        Tour     @relation(fields: [tour_id], references: [tour_id])
+  user        User     @relation(fields: [user_id], references: [user_id])
+}
+
+model Tour {
+  tour_id         Int       @id @default(autoincrement())
+  hotel_id        Int
+  country_id      Int
+  title           String
+  start_date      DateTime
+  end_date        DateTime
+  duration_days   Int
+  tour_type       String
+  food_type       FoodEnum  @default(RO)
+  price_person    Float
+  available_slots Int
+  description     String
+  bookings        Booking[]
+  reviews         Review[]
+  country         Counry    @relation(fields: [country_id], references: [country_id])
+  hotel           Hotel     @relation(fields: [hotel_id], references: [hotel_id])
+}
+
+model Hotel {
+  hotel_id    Int    @id @default(autoincrement())
+  country_id  Int
+  hotel_name  String
+  category    String
+  description String
+  country     Counry @relation(fields: [country_id], references: [country_id])
+  tours       Tour[]
+}
+
+model Counry {
+  country_id   Int     @id @default(autoincrement())
+  country_name String
+  description  String
+  hotels       Hotel[]
+  tours        Tour[]
+}
+
+model Booking {
+  booking_id   Int       @id @default(autoincrement())
+  user_id      Int
+  tour_id      Int
+  booking_date DateTime  @default(now())
+  num_people   Int
+  total_price  Float
+  tour         Tour      @relation(fields: [tour_id], references: [tour_id])
+  user         User      @relation(fields: [user_id], references: [user_id])
+  payments     Payment[]
+}
+
+model Payment {
+  payment_id   Int           @id @default(autoincrement())
+  booking_id   Int
+  payment_date DateTime      @default(now())
+  amount       Float
+  method       PaymentMethod
+  status       BookingStatus @default(PENDING)
+  booking      Booking       @relation(fields: [booking_id], references: [booking_id])
+}
+
+enum RoleEnum {
+  user
+  admin
+  manager
+}
+
+enum FoodEnum {
+  RO
+  BB
+  HB
+  FB
+  AI
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  EXPIRED
+  COMPLETED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  CASH
+  CARD
+  ONLINE_PAYMENT
+}

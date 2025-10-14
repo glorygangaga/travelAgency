@@ -14,12 +14,12 @@ export class UserController {
     return this.userService.getProfile(id);
   }
 
-
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Put('profile')
   @Auth()
   async updateProfile(@CurrentUser('user_id') id: number, @Body() dto: UserDto) {
-    return this.userService.update(dto, id);
+    const {password, ...user} = await this.userService.update(dto, id);
+    return user;
   }
 }

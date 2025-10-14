@@ -39,7 +39,7 @@ export class UserService {
     })
   }
 
-  async update (dto: UserDto, id: number) {
+  async update(dto: UserDto, id: number) {
     let data = dto;
 
     if (dto.password) data = {...data, password: await hash(dto.password)};
@@ -51,6 +51,12 @@ export class UserService {
   }
 
   async getProfile(id: number) {
-    return this.getById(id);
+    const response = await this.getById(id);
+    if (response) {
+      const {password, ...user} = response;
+      return user;
+    }
+    
+    return response;
   }
 }

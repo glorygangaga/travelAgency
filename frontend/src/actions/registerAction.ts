@@ -2,7 +2,8 @@
 
 import { cookies } from 'next/headers';
 import { CreateRegisterSchema } from '@/shared/schemas/auth.schema';
-import { AuthRegisterResponse, EnumTokens, RegisterActionType } from '@/shared/types/auth.types';
+import { EnumTokens, RegisterActionType } from '@/shared/types/auth.types';
+import { api, ApiError } from '@/app/api/api.routes';
 
 export async function RegisterAction(_prevState: {}, formData: FormData): Promise<RegisterActionType> {
   const login = formData.get('login') as string;
@@ -10,7 +11,6 @@ export async function RegisterAction(_prevState: {}, formData: FormData): Promis
   const confPassword = formData.get('passwordVerify') as string;
 
   const registerSchema = await CreateRegisterSchema();
-
   const validatedFields = registerSchema.safeParse({login, password, confPassword});
 
   if (!validatedFields.success)
@@ -28,21 +28,7 @@ export async function RegisterAction(_prevState: {}, formData: FormData): Promis
   }
 
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`, {
-      method: "POST",
-      headers: {
-        'Content-type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({email: login, password})
-    });
-    const data: AuthRegisterResponse  = await res.json();
-
-    if (!res.ok) {
-      return {
-        login, confPassword, password, error: {global: {message: res.statusText, status: res.status}}
-      }
-    }
+    const data = await api.auth.register({login, password});
 
     if (data.accessToken) {
       const cookie = await cookies();
@@ -52,11 +38,9 @@ export async function RegisterAction(_prevState: {}, formData: FormData): Promis
       });
     };
 
-    return {login, password, confPassword, data};
+    return {data};
   } catch (error) {
-    console.error('Login action error:', error);
+    if (error instanceof ApiError) return {login, confPassword: '', password: '', error: {global: {message: error.message, status: error.status}}}
+    else return {login, password, error: {global: {message: "Internal Server Error", status: 500}}}
   }
-
-
-  return {login, password, confPassword};
 }

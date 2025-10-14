@@ -13,10 +13,5 @@ export function UserWrapper({ children }: { children: ReactNode }) {
     fetchUserData();
   }, [fetchUserData]);
 
-  if (error) {
-    push('/');
-    return null;
-  }
-
   return <>{children}</>;
 }

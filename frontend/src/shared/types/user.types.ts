@@ -9,6 +9,7 @@ export interface User {
   name: string;
   email: string;
   role_id: ROLE,
+  date: Date | null;
   fullname: string | null;
   passport_number: string | null;
   phone: string | null;
@@ -23,3 +24,30 @@ export interface UserStore {
   setUserData: (user: User) => void;
   logout: () => void;
 }
+
+export type UserTypeUpdate = {
+  password?: string;
+  fullname?: string;
+  date?: Date;
+  passport_number?: string;
+  phone?: string;
+}
+
+export type UserTypeUpdateRequest = {
+  password?: string;
+  firstname?: string;
+  lastname?: string;
+  date?: Date;
+  passport_number?: string;
+  phone?: string;
+}
+
+export type updateUserActionType = {
+  data?: User;
+  error?: {
+    global?: {
+      message: string;
+      status: number;
+    },
+  } & UserTypeUpdateRequest
+} & UserTypeUpdateRequest;

@@ -1,9 +1,14 @@
 import { User } from "./user.types";
 
+export type AuthTypeRequest = {
+  login: string;
+  password: string;
+}
+
 export type LoginActionType = {
   login?: string;
   password?: string;
-  data?: any;
+  data?: AuthRegisterResponse;
   error?: {
     login?: string;
     password?: string;
@@ -12,7 +17,7 @@ export type LoginActionType = {
       status: number;
     }
   }
-}
+};
 
 export type RegisterActionType = {
   login?: string;

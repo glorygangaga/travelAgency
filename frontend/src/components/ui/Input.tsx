@@ -38,7 +38,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       <div className={`relative ${className}`}>
         {label && (
           <label
-            className={`${inputClassname} mb-1 block text-xs font-medium text-black/90 dark:text-white/90 absolute -top-4`}
+            className={`${inputClassname} mb-1 block text-xs font-medium text-black dark:text-white absolute -top-4`}
             htmlFor={props.name}
           >
             {label}
@@ -56,7 +56,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             <input
               ref={ref}
               type={inputType}
-              className={`${inputClassname} w-full rounded-xl border border-black/40 dark:border-white/40 text-black/60 dark:text-white/50 transition-all hover:border-blue-400 bg-transparent py-2 px-3 text-sm outline-none placeholder:text-gray-400 ${
+              className={`${inputClassname} w-full rounded-xl border border-black/40 dark:border-white/40 text-black dark:text-white transition-all hover:border-blue-400 bg-transparent py-2 px-3 text-sm outline-none placeholder:text-black dark:placeholder:text-white ${
                 leftIcon ? 'pl-8' : ''
               } ${rightIcon ? 'pr-8' : ''}`}
               {...props}

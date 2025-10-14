@@ -1,8 +1,9 @@
 'use server';
 
+import { cookies } from 'next/headers';
 import { EnumTokens, LoginActionType } from '@/shared/types/auth.types';
 import { CreateLoginSchema } from '@/shared/schemas/auth.schema';
-import { cookies } from 'next/headers';
+import { api, ApiError } from '@/app/api/api.routes';
 
 export async function LoginAction(_prevState: {}, formData: FormData): Promise<LoginActionType> {
   const login = formData.get('login') as string;
@@ -12,7 +13,6 @@ export async function LoginAction(_prevState: {}, formData: FormData): Promise<L
 
   const validatedFields = LoginSchema.safeParse({login, password});
 
-  
   if (!validatedFields.success){
     const fieldErrors = validatedFields.error.flatten().fieldErrors;
     return {
@@ -23,26 +23,10 @@ export async function LoginAction(_prevState: {}, formData: FormData): Promise<L
       },
     };
   }
-  
+
   try  {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`, {
-      method: "POST",
-      headers: {
-        'Content-type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({email: login, password})
-    });
-    const data = await res.json();
-
-    if (!res.ok) {
-      return {
-        login,
-        password: '',
-        error: {global: {message: res.statusText, status: res.status}}
-      }
-    }
-
+    const data = await api.auth.login({login, password});
+    
     if (data.accessToken) {
       const cookie = await cookies();
       cookie.set(EnumTokens.ACCESS_TOKEN, data.accessToken, {
@@ -51,11 +35,9 @@ export async function LoginAction(_prevState: {}, formData: FormData): Promise<L
       });
     };
 
-    return {login, password, data};
+    return {data};
   } catch(error) {
-    console.error('Login action error:', error);
+    if (error instanceof ApiError) return {login, password: '', error: {global: {message: error.message, status: error.status}}}
+    else return { login, password, error: {global: {message: "Internal Server Error", status: 500}}}
   }
-
-
-  return {login, password};
 };

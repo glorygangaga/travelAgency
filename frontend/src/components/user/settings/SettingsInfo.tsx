@@ -2,30 +2,39 @@
 
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, LoaderCircle } from 'lucide-react';
+import { FormEvent, useActionState, useEffect, useLayoutEffect, useState } from 'react';
 
 import { Input } from '@/components/ui/Input';
 import { useUserStore } from '@/store/userStore';
-import { useActionState, useEffect, useState } from 'react';
 import { UpdateUserAction } from '@/actions/updateUserAction';
-import { OnlyNumbers } from '@/functions/OnlyNumbers';
 import { formatPhoneNumber } from '@/functions/formatPhoneNumber';
 import { formatPassportNumber } from '@/functions/formatPassportNumber';
 
 export function SettingsInfo() {
   const { back } = useRouter();
-  const { user } = useUserStore();
+  const { user, setUserData } = useUserStore();
 
   const [values, setValues] = useState({
     maxDate: '',
-    phone: user?.phone ? user.phone : '',
-    passport: user?.passport_number ? user.passport_number : '',
-    date: user?.date ? user.date.toISOString() : '',
+    phone: '',
+    passport: '',
+    date: '',
   });
   const [state, action, isPending] = useActionState(UpdateUserAction, {});
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setValues((prev) => ({ ...prev, maxDate: new Date().toISOString().split('T')[0] }));
   }, []);
+
+  useEffect(() => {
+    if (!user) return;
+    setValues((prev) => ({
+      ...prev,
+      phone: user.phone ? formatPhoneNumber(user.phone, '') : '',
+      passport: user.passport_number ? formatPassportNumber(user.passport_number, '') : '',
+      date: user.date ? user.date.toISOString() : '',
+    }));
+  }, [user]);
 
   return (
     <form
@@ -41,14 +50,12 @@ export function SettingsInfo() {
           <ArrowLeft className='w-5 h-5' />
         </button>
         <h1 className='font-bold text-center text-2xl'>Change User data</h1>
+        {state.error?.global && (
+          <div className='bg-black/10 mb-2 text-red-500 p-2 rounded-lg mt-2.5 text-center'>
+            <p>{state.error.global.message} asdfasdf</p>
+          </div>
+        )}
       </div>
-      <Input
-        placeholder='Add username'
-        label='Username'
-        id='usernameval'
-        name='usernameval'
-        defaultValue={user?.name}
-      />
       <div className='flex gap-3 w-full'>
         <Input
           placeholder='Add firstname'
@@ -57,6 +64,7 @@ export function SettingsInfo() {
           id='firstname'
           name='firstname'
           defaultValue={user?.fullname?.split(' ')[0]}
+          error={state.error?.firstname ?? ''}
         />
         <Input
           placeholder='Add lastname'
@@ -65,6 +73,7 @@ export function SettingsInfo() {
           id='lastname'
           name='lastname'
           defaultValue={user?.fullname?.split(' ')[0]}
+          error={state.error?.lastname ?? ''}
         />
       </div>
       <Input
@@ -79,6 +88,7 @@ export function SettingsInfo() {
             passport: formatPassportNumber(e.target.value, prev.passport),
           }))
         }
+        error={state.error?.passport_number ?? ''}
       />
       <Input
         placeholder='Add phone'
@@ -92,6 +102,7 @@ export function SettingsInfo() {
             phone: formatPhoneNumber(e.target.value, prev.phone),
           }))
         }
+        error={state.error?.phone ?? ''}
       />
       <Input
         type='date'
@@ -100,6 +111,7 @@ export function SettingsInfo() {
         label='Birth date'
         max={values.maxDate}
         defaultValue={values.date}
+        error={state.error?.date ?? ''}
       />
       <button className='dark:bg-white/20 gap-2 flex justify-center max-sm:w-full bg-black/10 py-2 rounded-lg transition-colors hover:bg-black/15 dark:hover:bg-white/15'>
         {isPending ? (

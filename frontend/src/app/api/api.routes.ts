@@ -99,7 +99,9 @@ class ApiClient {
         method: 'PUT',
         body: JSON.stringify(body)
       }
-    )
+    ),
+    getReviews: () => this.request<any>(this.user.DEFAULT_URL + '/review', {method: "GET"}),
+    getBookings: () => this.request<any>(this.user.DEFAULT_URL + '/booking', {method: "GET"}),
   }
 }
 

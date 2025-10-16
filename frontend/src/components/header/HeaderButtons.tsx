@@ -8,7 +8,7 @@ import { useModal } from '../modal/ModalProvider';
 import { LoginSkeleton } from '../Auth/login/LoginSkeleton';
 import { LanguageSkeleton } from '../language/LanguageSkeleton';
 import { useUserStore } from '@/store/userStore';
-import Link from 'next/link';
+import { UserButton } from './UserButton';
 
 const Language = lazy(() => import('../language/Language'));
 const Login = lazy(() => import('@/components/Auth/login/Login'));
@@ -22,13 +22,7 @@ export function HeaderButtons() {
   return (
     <div className='flex gap-3 font-bold max-md:hidden'>
       {user ? (
-        <Link
-          href='/account'
-          className='transition-colors dark:hover:bg-white/10 hover:bg-black/10 rounded-lg flex gap-2 px-2 justify-center items-center'
-        >
-          <CircleUser />
-          <p>{user ? (user.name ? user.name : user.email.split('@')[0]) : t('ASIDE.Account')}</p>
-        </Link>
+        <UserButton user={user} />
       ) : (
         <button
           className='transition-colors dark:hover:bg-white/10 hover:bg-black/10 rounded-lg flex gap-2 px-2 justify-center items-center'

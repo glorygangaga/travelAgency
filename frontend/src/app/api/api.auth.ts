@@ -7,3 +7,4 @@ export async function checkTokenCookie() {
 
   return token ? true : false;
 }
+

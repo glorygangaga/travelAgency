@@ -22,4 +22,16 @@ export class UserController {
     const {password, ...user} = await this.userService.update(dto, id);
     return user;
   }
+
+  @Get('booking')
+  @Auth()
+  async getTripHistory(@CurrentUser('user_id') id: number) {
+    return this.getTripHistory(id);
+  }
+
+  @Get('review')
+  @Auth()
+  async getReview(@CurrentUser('user_id') id: number) {
+    return this.getReview(id);
+  }
 }

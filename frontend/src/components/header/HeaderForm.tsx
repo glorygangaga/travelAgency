@@ -26,7 +26,14 @@ export function HeaderForm() {
   }, [isOpen]);
 
   return (
-    <form className='relative cursor-pointer h-10' onClick={() => open(<Finder />)}>
+    <form
+      className='relative cursor-pointer h-10'
+      onClick={() => open(<Finder />)}
+      onSubmit={(e) => {
+        e.preventDefault();
+        open(<Finder />);
+      }}
+    >
       <div className='absolute left-1.5 top-1/2 -translate-y-1/2 text-sm flex gap-3 items-center font-bold z-0'>
         <Search className='w-5 h-5' />
         <span>{t('FINDER')}</span>

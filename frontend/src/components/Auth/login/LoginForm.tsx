@@ -4,7 +4,7 @@ import { useActionState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { Input } from '@/components/ui/Input';
-import { LoaderCircle } from 'lucide-react';
+import { Loader, LoaderCircle } from 'lucide-react';
 import { LoginAction } from '@/actions/loginAction';
 import { useRouter } from 'next/navigation';
 import { useModal } from '@/components/modal/ModalProvider';
@@ -61,12 +61,10 @@ export function LoginForm() {
       <button
         disabled={isPending}
         type='submit'
-        className='dark:bg-white/20 flex gap-2 max-sm:w-full bg-black/10 px-25 py-2 rounded-lg transition-colors hover:bg-black/15 dark:hover:bg-white/15'
+        className='dark:bg-white/20 flex gap-2 w-1/2 justify-center max-sm:w-full bg-black/10 px-25 py-2 rounded-lg transition-colors hover:bg-black/15 dark:hover:bg-white/15'
       >
         {isPending ? (
-          <>
-            <LoaderCircle className='transition-transform animate-spin' /> <span>Loading</span>
-          </>
+          <LoaderCircle className='transition-transform animate-spin duration-1000' />
         ) : (
           <>{t('Auth.Login')}</>
         )}

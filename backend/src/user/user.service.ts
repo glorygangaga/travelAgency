@@ -59,4 +59,20 @@ export class UserService {
     
     return response;
   }
+
+  async getTrips(user_id: number) {
+    const response = await this.prisma.user.findFirst({
+      where: {user_id},
+      select: { bookings: true }
+    });
+    return response;
+  }
+
+  async getReviews(user_id: number) {
+    const response = await this.prisma.user.findFirst({
+      where: {user_id},
+      select: {reviews: true}
+    });
+    return response;
+  }
 }

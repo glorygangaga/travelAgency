@@ -7,5 +7,5 @@ import { UserInfo } from './pages/UserInfo';
 export function User() {
   const { user, loading } = useUserStore();
 
-  return <section>{loading ? <UserSkeleton /> : user && <UserInfo user={user} />} </section>;
+  return <>{loading ? <UserSkeleton /> : user && <UserInfo user={user} />}</>;
 }

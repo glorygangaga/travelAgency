@@ -1,39 +1,5 @@
+import { FetchDefault } from "./data";
 
-export async function fetchUser() {
-  const res = await fetch('/api/user/profile', {
-    method: "GET",
-    credentials: 'include',
-    headers: {'Content-type': 'application/json',},
-  });
-  if (!res.ok) return null;
-  const data = await res.json();
-
-  return data;
-}
-
-
-export async function logoutUser() {
-  const res = await fetch('/api/auth/logout', {
-    method: "POST",
-    credentials: 'include',
-    headers: {'Content-type': 'application/json',},
-  });
-
-  if (!res.ok) return null;
-  const data = await res.json();
-
-  return data;
-}
-
-export async function revalidateToken() {
-  const res = await fetch('/api/auth/revalidate', {
-    method: "POST",
-    credentials: 'include',
-    headers: {'Content-type': 'application/json',},
-  });
-  if (!res.ok) return null;
-  const data = await res.json();
-
-  return data;
-
-}
+export const fetchUser = async () => FetchDefault('/api/user/profile', 'GET');
+export const logoutUser = async() => FetchDefault('/api/auth/logout', 'POST');
+export const revalidateToken = async  () => FetchDefault('/api/auth/revalidate', 'POST');

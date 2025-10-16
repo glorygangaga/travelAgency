@@ -13,15 +13,15 @@ export async function UpdateUserAction(_prevState: {}, formData: FormData): Prom
   );
   
   const userData = {
-    firstname: data.firstname as string,
-    lastname: data.lastname as string,
-    passportNumber: GetNumbersFromString(data.passportNumber as string),
-    phone: GetNumbersFromString(data.phoneval as string),
+    firstname: data.firstname as string | undefined,
+    lastname: data.lastname as string | undefined,
+    passportNumber: GetNumbersFromString(data.passportNumber as string | undefined),
+    phone: GetNumbersFromString(data.phoneval as string | undefined),
     dateBirth: data.date ? new Date(data.date as string) : undefined,
   };
 
   const userUpdateSchema = CreateUserUpdateSchema();
-  const validatedFields = userUpdateSchema.safeParse({});
+  const validatedFields = userUpdateSchema.safeParse(userData);
 
   if (!validatedFields.success) {
     const fieldErrors = validatedFields.error.flatten().fieldErrors;
@@ -44,8 +44,10 @@ export async function UpdateUserAction(_prevState: {}, formData: FormData): Prom
     }
 
     const data = await api.user.profileUpdate(body);
+
     return {data};
   } catch(error) {
+
     if (error instanceof ApiError) return {...userData, error: {global: {message: error.message, status: error.status}},};
     else return {...userData, error: {global: {message: "Internal Server Error", status: 500}}};
   }

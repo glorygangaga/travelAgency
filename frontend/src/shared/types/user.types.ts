@@ -49,5 +49,5 @@ export type updateUserActionType = {
       message: string;
       status: number;
     },
-  } & UserTypeUpdateRequest
+  } & UserTypeUpdateRequest & {date?: string}
 } & UserTypeUpdateRequest;

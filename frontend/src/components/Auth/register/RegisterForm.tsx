@@ -73,12 +73,10 @@ export function RegisterForm() {
       <button
         disabled={isPending}
         type='submit'
-        className='dark:bg-white/20 flex gap-2 bg-black/10 px-25 py-2 rounded-lg transition-colors hover:bg-black/15 dark:hover:bg-white/15 max-lg:text-sm'
+        className='dark:bg-white/20 flex gap-2 w-1/2 justify-center max-sm:w-full bg-black/10 px-25 py-2 rounded-lg transition-colors hover:bg-black/15 dark:hover:bg-white/15'
       >
         {isPending ? (
-          <>
-            <LoaderCircle className='transition-transform animate-spin' /> <span>Loading</span>
-          </>
+          <LoaderCircle className='transition-transform animate-spin duration-1000' />
         ) : (
           <>{t('Auth.Register')}</>
         )}

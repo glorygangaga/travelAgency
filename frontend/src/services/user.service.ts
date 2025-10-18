@@ -16,12 +16,12 @@ class UserService {
 
   async getBookings() {
     const response = await axiosWithAuth.get<getBookingsTypeResponse>('/user/booking');
-    return response;
+    return response.data;
   }
 
   async getReviews() {
     const response = await axiosWithAuth.get<getReviewsTypeResponse>('/user/review');
-    return response;
+    return response.data;
   }
 };
 

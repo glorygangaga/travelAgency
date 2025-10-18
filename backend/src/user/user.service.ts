@@ -40,10 +40,10 @@ export class UserService {
   }
 
   async update(dto: UserDto, id: number) {
-    let data = dto;
+    let data: any = dto;
 
     if (dto.password) data = {...data, password: await hash(dto.password)};
-
+    if (dto.date) data = {...data, date: new Date(dto.date)}
     return this.prisma.user.update({
       where: {user_id: id},
       data

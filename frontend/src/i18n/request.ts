@@ -8,5 +8,5 @@ export default getRequestConfig(async ({requestLocale}) => {
     ? requested
     : routing.defaultLocale;
  
-  return {messages: (await import(`@/messages/${locale}.json`)).default, locale};
+  return {messages: (await import(`@/shared/lib/messages/${locale}.json`)).default, locale};
 });

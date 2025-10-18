@@ -4,8 +4,8 @@ import type { FC } from 'react';
 import type { AsideElementType } from '../../../shared/types/aside.types';
 import { iconMap } from '../../../shared/data/aside.data';
 import AsideElemModal from './Extentions/AsideElemModal';
-import { useAsideContext } from '@/hook/useAsideContext';
 import { AsideSpanFramer } from './Extentions/AsideSpanFramer';
+import { useAsideContext } from '@/shared/lib/hook/useAsideContext';
 
 interface Props {
   lists: AsideElementType;

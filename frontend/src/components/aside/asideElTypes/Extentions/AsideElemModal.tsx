@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import type { AsideElementType } from '../../../../shared/types/aside.types';
-import { useModal } from '../../../../components/modal/ModalProvider';
+import { useModal } from '../../../ui/modal/ModalProvider';
 import { iconMap } from '../../../../shared/data/aside.data';
 import { AsideSpanFramer } from './AsideSpanFramer';
 

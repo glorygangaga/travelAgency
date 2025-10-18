@@ -1,4 +1,4 @@
-import { User } from '@/components/user/User';
+import { UserInfo } from '@/components/routes/user/pages/UserInfo';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <User />;
+  return <UserInfo />;
 }

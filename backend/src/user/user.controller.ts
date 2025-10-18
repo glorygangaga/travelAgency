@@ -26,12 +26,18 @@ export class UserController {
   @Get('booking')
   @Auth()
   async getTripHistory(@CurrentUser('user_id') id: number) {
-    return this.getTripHistory(id);
+    return this.userService.getTrips(id);
   }
 
   @Get('review')
   @Auth()
   async getReview(@CurrentUser('user_id') id: number) {
-    return this.getReview(id);
+    return this.userService.getReviews(id);
+  }
+
+  @Get('role')
+  @Auth()
+  async getRole(@CurrentUser('user_id') id: number) {
+    return this.userService.getUserRole(id);
   }
 }

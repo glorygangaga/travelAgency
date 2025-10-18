@@ -4,13 +4,13 @@ import { CircleUser, Languages } from 'lucide-react';
 import { lazy, Suspense } from 'react';
 import { useTranslations } from 'next-intl';
 
-import { useModal } from '../modal/ModalProvider';
+import { useModal } from '../ui/modal/ModalProvider';
 import { LoginSkeleton } from '../Auth/login/LoginSkeleton';
-import { LanguageSkeleton } from '../language/LanguageSkeleton';
+import { LanguageSkeleton } from '../ui/language/LanguageSkeleton';
 import { useUserStore } from '@/store/userStore';
 import { UserButton } from './UserButton';
 
-const Language = lazy(() => import('../language/Language'));
+const Language = lazy(() => import('../ui/language/Language'));
 const Login = lazy(() => import('@/components/Auth/login/Login'));
 
 export function HeaderButtons() {

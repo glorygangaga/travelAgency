@@ -2,7 +2,7 @@ import { Earth } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useAsideContext } from '@/hook/useAsideContext';
+import { useAsideContext } from '@/shared/lib/hook/useAsideContext';
 
 type Props = {
   CloseMenu?: () => void;

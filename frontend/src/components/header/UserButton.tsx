@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { User } from '@/shared/types/user.types';
-import { logoutUser } from '@/lib/auth';
 import { useUserStore } from '@/store/userStore';
+import { authService } from '@/services/auth.service';
 
 type Props = {
   user: User;
@@ -17,8 +17,8 @@ export function UserButton({ user }: Props) {
   const { logout } = useUserStore();
 
   const handleLogout = async () => {
-    const res = await logoutUser();
-    if (res.success) {
+    const res = await authService.logout();
+    if (res) {
       push('/');
       logout();
     }

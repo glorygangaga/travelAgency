@@ -1,21 +1,20 @@
-import { z } from 'zod'
+import { z } from 'zod';
 
-export const CreateUserUpdateSchema = () => {
-
-  return z.object({
+export const createUserUpdateSchema = () =>
+  z.object({
     firstname: z.string()
       .trim()
       .optional(),
     lastname: z.string()
       .trim()
       .optional(),
-    passportNumber: z.string()
-      .length(10)
+    passport_number: z.string()
+      .length(8)
       .optional(),
     phone: z.string()
-      .min(10)
+      .length(10)
       .optional(),
-    dateBirth: z.date()
+    date: z.date()
       .max(new Date())
       .optional(),
   }).refine(data => {
@@ -26,6 +25,6 @@ export const CreateUserUpdateSchema = () => {
     path: ['firstname', 'lastname']
   }).refine(data => Object.values(data).some(v => v !== undefined), {
     message: 'At least one field must be provided'
-  })
-  ;
-}
+  });
+
+export type LoginSchemaType = z.infer<ReturnType<typeof createUserUpdateSchema>>;

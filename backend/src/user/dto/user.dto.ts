@@ -11,8 +11,8 @@ export class UserDto {
   fullname?: string;
 
   @IsOptional()
-  @IsDate()
-  date?: Date;
+  @IsString()
+  date?: string;
 
   @IsOptional()
   @IsString()

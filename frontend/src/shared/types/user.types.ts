@@ -9,7 +9,7 @@ export interface User {
   name: string;
   email: string;
   role_id: ROLE,
-  date: Date | null;
+  date: string | null;
   fullname: string | null;
   passport_number: string | null;
   phone: string | null;
@@ -36,7 +36,7 @@ export type UserTypeUpdateRequest = {
   password?: string;
   firstname?: string;
   lastname?: string;
-  date?: Date;
+  date?: string;
   passport_number?: string;
   phone?: string;
 }

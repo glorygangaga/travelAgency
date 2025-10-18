@@ -2,9 +2,10 @@
 
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, LoaderCircle } from 'lucide-react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, Resolver, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
 import { Input } from '@/components/ui/Input';
 import { useUserStore } from '@/store/userStore';
@@ -25,17 +26,11 @@ export function SettingsInfo() {
     control,
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<UserTypeUpdateRequest>({
-    defaultValues: {
-      firstname: user?.fullname?.split(' ')[0],
-      lastname: user?.fullname?.split(' ')[1],
-      date: user?.date || undefined,
-      passport_number: user?.passport_number || undefined,
-      phone: user?.phone || undefined,
-    },
     mode: 'onSubmit',
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schema) as Resolver<UserTypeUpdateRequest>,
   });
 
   const { isPending, mutate } = useMutation({
@@ -52,20 +47,49 @@ export function SettingsInfo() {
   });
 
   const OnSubmit: SubmitHandler<UserTypeUpdateRequest> = (data) => {
-    const newData: UserTypeUpdateRequest = {
-      ...data,
+    if (!Object.values(data).some((v) => v !== undefined && v !== '')) {
+      setError('root', { message: 'At least one field must be provided' });
+      return;
+    } else if ((!data.firstname && data.lastname) || (data.firstname && !data.lastname)) {
+      if (!data.firstname)
+        setError('firstname', {
+          message: "Firstname or lastname can't be empty if one of them filled",
+        });
+      else
+        setError('lastname', {
+          message: "Firstname or lastname can't be empty if one of them filled",
+        });
+      return;
+    }
+
+    const fullname = data.firstname + ' ' + data.lastname;
+    console.log(data.date);
+
+    const newData = {
+      fullname: fullname.trim() ? fullname : undefined,
       passport_number: GetNumbersFromString(data.passport_number),
       phone: GetNumbersFromString(data.phone),
+      date: data.date ? new Date(data.date).toISOString().split('T')[0] : undefined,
     };
-    console.log(newData);
 
     mutate(newData);
   };
 
+  useEffect(() => {
+    if (!user) return;
+    reset({
+      firstname: user.fullname?.split(' ')[0] || '',
+      lastname: user.fullname?.split(' ')[1] || '',
+      date: user.date ? new Date(user.date).toISOString().split('T')[0] : undefined,
+      passport_number: user.passport_number ? formatPassportNumber(user.passport_number, '') : '',
+      phone: user.phone ? formatPhoneNumber(user.phone, '') : '',
+    });
+  }, [user]);
+
   return (
     <form
       onSubmit={handleSubmit(OnSubmit)}
-      className='grid gap-7 max-w-2xl mt-10 mx-auto p-7 rounded-md bg-black/5 dark:bg-black/60'
+      className='grid gap-7 max-w-2xl mt-10 mx-auto p-7 rounded-md border border-black/15 bg-white dark:bg-black/60 shadow-[5px_5px_15px_0px_rgba(0,0,0,0.10)]'
     >
       <div className='relative'>
         <button
@@ -78,7 +102,7 @@ export function SettingsInfo() {
         <h1 className='font-bold text-center text-2xl'>Change User data</h1>
         {errors.root && (
           <div className='bg-black/10 mb-2 text-red-500 p-2 rounded-lg mt-2.5 text-center'>
-            <p>{errors.root.message} asdfasdf</p>
+            <p>{errors.root.message}</p>
           </div>
         )}
       </div>

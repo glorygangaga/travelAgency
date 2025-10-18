@@ -1,4 +1,4 @@
-import { SettingsInfo } from '@/components/user/settings/SettingsInfo';
+import { SettingsInfo } from '@/components/routes/user/settings/SettingsInfo';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {

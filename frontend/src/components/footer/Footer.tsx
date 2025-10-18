@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Theme } from '../Theme/Theme';
+import { Theme } from '../ui/Theme/Theme';
 import { useTranslations } from 'next-intl';
 
 export function FooterElement() {

@@ -1,3 +1,4 @@
+import { Faq } from '@/components/routes/faq/Faq';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
@@ -14,5 +15,5 @@ export async function generateMetadata({
 }
 
 export default function Page() {
-  return <div>FAQ</div>;
+  return <Faq />;
 }

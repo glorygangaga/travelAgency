@@ -2,8 +2,8 @@ import type { AsideTypes } from '../types/aside.types';
 import { lazy, Suspense } from 'react';
 
 const Login = lazy(() => import('@/components/Auth/login/Login'));
-const Language = lazy(() => import('@/components/language/Language'));
-import { Theme } from '@/components/Theme/Theme';
+const Language = lazy(() => import('@/components/ui/language/Language'));
+import { Theme } from '@/components/ui/Theme/Theme';
 
 import {
   CircleQuestionMark,
@@ -15,7 +15,7 @@ import {
   GalleryVerticalEnd,
 } from 'lucide-react';
 import { LoginSkeleton } from '@/components/Auth/login/LoginSkeleton';
-import { LanguageSkeleton } from '@/components/language/LanguageSkeleton';
+import { LanguageSkeleton } from '@/components/ui/language/LanguageSkeleton';
 
 export const iconMap: Record<string, LucideIcon> = {
   Compass,

@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import type { AsideTypesExtentionsData } from '../../../../shared/types/aside.types';
-import { useModal } from '../../../../components/modal/ModalProvider';
-import { useAsideContext } from '@/hook/useAsideContext';
+import { useModal } from '../../../ui/modal/ModalProvider';
 import { AsideSpanFramer } from './AsideSpanFramer';
+import { useAsideContext } from '@/shared/lib/hook/useAsideContext';
 
 const AsideExtent: FC<AsideTypesExtentionsData> = ({ element, data }) => {
   const { CloseMenu } = useAsideContext();

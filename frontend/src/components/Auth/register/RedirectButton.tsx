@@ -2,7 +2,7 @@
 
 import { lazy, Suspense } from 'react';
 import { useTranslations } from 'next-intl';
-import { useModal } from '@/components/modal/ModalProvider';
+import { useModal } from '@/components/ui/modal/ModalProvider';
 import { LoginSkeleton } from '../login/LoginSkeleton';
 
 const Login = lazy(() => import('../login/Login'));

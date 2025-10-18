@@ -108,6 +108,7 @@
 - Язык: TypeScript
 - State management: Zustand
 - Маршрутизация: React Router
+- REST API: Tanstack query, axios
 - Вспомогательные библиотеки:
   - lucide icons
   - zod

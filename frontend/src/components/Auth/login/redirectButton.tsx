@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { lazy, Suspense } from 'react';
 
-import { useModal } from '@/components/modal/ModalProvider';
+import { useModal } from '@/components/ui/modal/ModalProvider';
 import { RegisterSkeleton } from '../register/RegisterSkeleton';
 const Register = lazy(() => import('../register/Register'));
 

@@ -1,9 +1,14 @@
 import { User } from "./user.types";
 
 export type AuthTypeRequest = {
-  login: string;
+  email: string;
   password: string;
 }
+
+export type AuthRegisterTypeRequest = {
+  confPassword: string;
+} & AuthTypeRequest;
+
 
 export type LoginActionType = {
   login?: string;
@@ -38,9 +43,4 @@ export type RegisterActionType = {
 export type AuthRegisterResponse = {
   user: User;
   accessToken: string;
-}
-
-export enum EnumTokens {
-  "ACCESS_TOKEN" = 'accessToken',
-  "REFRESH_TOKEN" = 'refreshToken'
 }

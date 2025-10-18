@@ -23,7 +23,6 @@ export class AuthController {
   async register(@Body() dto: AuthDto, @Res({passthrough: true}) res: Response) {
     const { refreshToken, ...response } = await this.authService.register(dto);
     this.authService.addRefreshTokenResponse(res, refreshToken);
-
     return response;
   }
 
@@ -31,6 +30,7 @@ export class AuthController {
   @Post('login/access-token')
   async getNewTokens(@Req() req: Request, @Res({passthrough: true}) res: Response) {
     const refreshTokenFromCookies = req.cookies?.[this.authService.REFRESH_TOKEN_NAME];
+    console.log(refreshTokenFromCookies);
     if (!refreshTokenFromCookies) {
       this.authService.removeRefreshTokenResponse(res);
       throw new UnauthorizedException("Refresh token not passed");

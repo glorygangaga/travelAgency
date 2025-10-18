@@ -1,5 +1,5 @@
-import { useAsideContext } from '@/hook/useAsideContext';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useAsideContext } from '@/shared/lib/hook/useAsideContext';
 
 type Props = {
   text: string;

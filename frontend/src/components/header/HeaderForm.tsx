@@ -3,8 +3,8 @@
 import { Search } from 'lucide-react';
 import { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { useModal } from '../modal/ModalProvider';
-import { Finder } from '../Finder/Finder';
+import { useModal } from '../ui/modal/ModalProvider';
+import { Finder } from './Finder/Finder';
 
 export function HeaderForm() {
   const t = useTranslations();

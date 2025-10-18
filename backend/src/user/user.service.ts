@@ -65,6 +65,10 @@ export class UserService {
       where: {user_id},
       select: { bookings: true }
     });
+    if (response) {
+      const {bookings} = response;
+      return bookings;
+    }
     return response;
   }
 
@@ -73,6 +77,22 @@ export class UserService {
       where: {user_id},
       select: {reviews: true}
     });
+    if (response) {
+      const {reviews} = response;
+      return reviews;
+    }
+    return response;
+  }
+
+  async getUserRole(user_id: number) {
+    const response = await this.prisma.user.findFirst({
+      where: {user_id},
+      select: {role: true}
+    });
+    if (response) {
+      const {role} = response;
+      return role.role_name;
+    }
     return response;
   }
 }

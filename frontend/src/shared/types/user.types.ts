@@ -1,4 +1,4 @@
-enum ROLE {
+export enum ROLE {
   USER,
   MODERATOR,
   ADMIN
@@ -20,7 +20,6 @@ export interface UserStore {
   user: User | null;
   loading: boolean;
   error: string | null;
-  fetchUserData: () => Promise<void>;
   setUserData: (user: User) => void;
   logout: () => void;
 }
@@ -51,3 +50,22 @@ export type updateUserActionType = {
     },
   } & UserTypeUpdateRequest & {date?: string}
 } & UserTypeUpdateRequest;
+
+export type getBookingsTypeResponse = {
+  user_id: number;
+  booking_id: number;
+  tour_id: number;
+  booking_date: Date;
+  num_people: number;
+  total_price: number;
+}[];
+
+export type getReviewsTypeResponse = {
+  user_id: number;
+  created_at: Date;
+  tour_id: number;
+  review_id: number;
+  rating: number;
+  comment: string;
+  is_approved: boolean;
+}[];

@@ -5,7 +5,7 @@ import { createContext, useState, type FC } from 'react';
 
 import { AsideHeader } from './AsideHeader';
 import AsideItems from './AsideItems';
-import { AppContextType } from '@/hook/useAsideContext';
+import { AppContextType } from '@/shared/lib/hook/useAsideContext';
 
 export const AsideContext = createContext<null | AppContextType>(null);
 
@@ -21,6 +21,7 @@ export const textVariants = {
 
 const Aside: FC<Props> = ({ CloseMenu }) => {
   const [hovered, setHovered] = useState<boolean>(false);
+
   return (
     <AsideContext.Provider value={{ hovered, CloseMenu }}>
       <motion.aside

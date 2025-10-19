@@ -1,0 +1,38 @@
+import { FoodEnum } from "@prisma/client";
+import { isDate, IsDateString, IsEnum, IsNumber, IsString } from "class-validator";
+
+export class TourDto {
+  @IsNumber()
+  hotel_id: number;
+
+  @IsNumber()
+  country_id: number;
+
+  @IsString()
+  title: string;
+
+  @IsDateString()
+  start_date: string;
+
+  @IsDateString()
+  end_date: string;
+
+  @IsNumber()
+  duration_days: number;
+
+  @IsString()
+  tour_type: string;
+
+  @IsEnum(FoodEnum)
+  food_type: FoodEnum;
+
+  @IsNumber()
+  price_person: number;
+
+  @IsNumber()
+  available_slots: number;
+
+  @IsString()
+  description: string;
+}
+

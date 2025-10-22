@@ -2,15 +2,15 @@
 
 import { useQuery } from '@tanstack/react-query';
 
-import { userService } from '@/services/user.service';
-import { getBookingsTypeResponse } from '@/shared/types/user.types';
 import { TripSkeleton } from './TripSkeleton';
 import { TripItems } from './TripItems';
+import { bookingService } from '@/services/booking.service';
+import { getBookingsTypeResponse } from '@/shared/types/booking.types';
 
 export default function TripHistory() {
   const { data, isLoading, isError } = useQuery<getBookingsTypeResponse>({
     queryKey: ['booking'],
-    queryFn: () => userService.getBookings(),
+    queryFn: () => bookingService.getUserBookings(),
   });
 
   return (

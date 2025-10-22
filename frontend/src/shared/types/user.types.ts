@@ -1,14 +1,20 @@
 export enum ROLE {
   USER = "user",
-  MODERATOR = "moderator",
+  MODERATOR = "manager",
   ADMIN = "admin"
+}
+
+export enum ROLE_ID {
+  USER = 1,
+  ADMIN,
+  MODERATOR,
 }
 
 export interface User {
   user_id: string;
   name: string;
   email: string;
-  role_id: ROLE,
+  role_id: ROLE_ID,
   date: string | null;
   fullname: string | null;
   passport_number: string | null;
@@ -50,15 +56,6 @@ export type updateUserActionType = {
     },
   } & UserTypeUpdateRequest & {date?: string}
 } & UserTypeUpdateRequest;
-
-export type getBookingsTypeResponse = {
-  user_id: number;
-  booking_id: number;
-  tour_id: number;
-  booking_date: Date;
-  num_people: number;
-  total_price: number;
-}[];
 
 export type getReviewsTypeResponse = {
   user_id: number;

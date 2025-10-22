@@ -3,18 +3,14 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { User } from '@/shared/types/user.types';
+import { ROLE_ID, User } from '@/shared/types/user.types';
 import { useUserStore } from '@/store/userStore';
 import { authService } from '@/services/auth.service';
 
-type Props = {
-  user: User;
-};
-
-export function UserButton({ user }: Props) {
+export function UserButton() {
   const t = useTranslations();
   const { push } = useRouter();
-  const { logout } = useUserStore();
+  const { logout, user } = useUserStore();
 
   const handleLogout = async () => {
     const res = await authService.logout();
@@ -26,7 +22,18 @@ export function UserButton({ user }: Props) {
 
   return (
     <div className='transition-colors dark:hover:bg-white/10 hover:bg-black/10 rounded-lg group relative flex items-center'>
-      <Link href='/account' className='flex gap-2 justify-center items-center p-2'>
+      <Link
+        href={
+          user?.role_id === ROLE_ID.USER
+            ? '/account'
+            : user?.role_id === ROLE_ID.MODERATOR
+            ? '/moderator/dashboard'
+            : user?.role_id === ROLE_ID.ADMIN
+            ? '/admin/dashboard'
+            : ''
+        }
+        className='flex gap-2 justify-center items-center p-2'
+      >
         <CircleUser />
         <div className='flex gap-2'>
           <p>{user ? (user.name ? user.name : user.email.split('@')[0]) : t('ASIDE.Account')}</p>
@@ -35,7 +42,15 @@ export function UserButton({ user }: Props) {
       </Link>
       <div className='opacity-0 -translate-y-5 invisible transition-all group-hover:translate-y-0 group-hover:opacity-100 group-hover:visible absolute -right-1/2 top-[105%] border border-black/20 dark:border-white/20 rounded-lg p-2 w-[200%] bg-white dark:bg-black'>
         <Link
-          href='/account'
+          href={
+            user?.role_id === ROLE_ID.USER
+              ? '/account'
+              : user?.role_id === ROLE_ID.MODERATOR
+              ? '/moderator/dashboard'
+              : user?.role_id === ROLE_ID.ADMIN
+              ? '/admin/dashboard'
+              : ''
+          }
           className='p-2 rounded-lg dark:bg-black/20 bg-white transition-colors hover:dark:bg-white/10 hover:bg-black/10 flex gap-2 justify-between w-full'
         >
           <p>Account</p>

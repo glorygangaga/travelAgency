@@ -22,7 +22,7 @@ export function HeaderButtons() {
   return (
     <div className='flex gap-3 font-bold max-md:hidden'>
       {user ? (
-        <UserButton user={user} />
+        <UserButton />
       ) : (
         <button
           className='transition-colors dark:hover:bg-white/10 hover:bg-black/10 rounded-lg flex gap-2 px-2 justify-center items-center'

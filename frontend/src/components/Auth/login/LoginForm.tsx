@@ -13,6 +13,7 @@ import { useUserStore } from '@/store/userStore';
 import { AuthTypeRequest } from '@/shared/types/auth.types';
 import { authService } from '@/services/auth.service';
 import { createLoginSchema } from '@/shared/schemas/auth.schema';
+import { ROLE, ROLE_ID } from '@/shared/types/user.types';
 
 export function LoginForm() {
   const t = useTranslations();
@@ -40,7 +41,10 @@ export function LoginForm() {
       setUserData(data.user);
       reset();
       close();
-      push('/account');
+
+      if (data.user.role_id === ROLE_ID.USER) push('/account');
+      else if (data.user.role_id === ROLE_ID.ADMIN) push('/admin/dashboard');
+      else if (data.user.role_id === ROLE_ID.MODERATOR) push('/moderator/dashboard');
     },
     onError(error: any) {
       setError('root', {

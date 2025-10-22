@@ -8,7 +8,7 @@ import { ROLE } from './shared/types/user.types';
 
 const intlMiddleware = createMiddleware(routing);
 
-async function checkRole(accessToken: string): Promise<"admin" | 'user' | 'moderator' | null> {
+async function checkRole(accessToken: string): Promise<"admin" | 'user' | 'manager' | null> {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/role`, {
       headers: {
@@ -20,7 +20,7 @@ async function checkRole(accessToken: string): Promise<"admin" | 'user' | 'moder
     });
 
     if (!res.ok) return null;
-    const data = await res.text() as 'admin' | 'user' | 'moderator';
+    const data = await res.text() as 'admin' | 'user' | 'manager';
     return data;
   } catch(error) {
     console.error(error);

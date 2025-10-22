@@ -1,5 +1,5 @@
 import { axiosWithAuth } from "@/api/interseptors";
-import { getBookingsTypeResponse, getReviewsTypeResponse, ROLE, User, UserTypeUpdateRequest } from "@/shared/types/user.types";
+import { getReviewsTypeResponse,  User, UserTypeUpdateRequest } from "@/shared/types/user.types";
 
 class UserService {
   private BASE_URL = '/user/profile';
@@ -11,11 +11,6 @@ class UserService {
 
   async update(data: UserTypeUpdateRequest) {
     const response = await axiosWithAuth.put<User>(this.BASE_URL, data);
-    return response.data;
-  }
-
-  async getBookings() {
-    const response = await axiosWithAuth.get<getBookingsTypeResponse>('/user/booking');
     return response.data;
   }
 

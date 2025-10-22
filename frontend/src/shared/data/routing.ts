@@ -13,3 +13,25 @@ export function isAdminRoute(path: string): boolean {
 export function isModeratorRoute(path: string): boolean {
   return moderatorRotes.some(route => path.startsWith(route));
 }
+
+export const NO_INDEX_PAGE = {
+  robots: {
+    index: false,
+    follow: false,
+    nosnippet: true,
+    noarchive: true,
+    nocache: true,
+    noimageindex: true,
+    nositelinkssearchbox: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+      nocache: true,
+      noarchive: true,
+      nosnippet: true,
+      nositelinkssearchbox: true,
+    },
+  },
+
+}

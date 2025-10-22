@@ -1,0 +1,33 @@
+import { axiosClassic, axiosWithAuth } from "@/api/interseptors";
+import { createHotelType, getHotelTypeResponse, hotelType, updateHotelType } from "@/shared/types/hotel.types";
+
+class HotelService {
+  private BASE_URL = "/hotel";
+
+  async getHotels(pages: {pageNumber: number, pageSize: number}) {
+    const response = await axiosClassic.get<getHotelTypeResponse>(this.BASE_URL, {params: pages});
+    return response.data;
+  }
+
+  async getHotel(hotel_id: number) {
+    const response = await axiosClassic.get<hotelType>(this.BASE_URL + `/${hotel_id}`);
+    return response.data;
+  }
+
+  async createHotel(hotel: createHotelType) {
+    const response = await axiosWithAuth.post<hotelType>(this.BASE_URL, hotel);
+    return response.data;
+  }
+
+  async updateHotel(hotel: updateHotelType) {
+    const response = await axiosWithAuth.put<hotelType>(this.BASE_URL, hotel);
+    return response.data;
+  }
+
+  async deleteHotel(hotel_id: number) {
+    const response = await axiosWithAuth.delete<hotelType>(this.BASE_URL + `/${hotel_id}`);
+    return response.data;
+  }
+}
+
+export const hotelService = new HotelService();

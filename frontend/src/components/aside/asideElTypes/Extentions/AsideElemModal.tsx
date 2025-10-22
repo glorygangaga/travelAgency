@@ -6,6 +6,7 @@ import { iconMap } from '@/shared/data/aside.data';
 import { useModal } from '@/components/ui/modal/ModalProvider';
 import { AsideSpanFramer } from './AsideSpanFramer';
 import { AsideElementType } from '@/shared/types/aside.types';
+import { ROLE_ID } from '@/shared/types/user.types';
 
 type Props = {
   list: AsideElementType;
@@ -20,7 +21,15 @@ const AsideElemModal: FC<Props> = ({ list }) => {
   return user && list.text === 'Account' ? (
     <Link
       className='flex items-center cursor-pointer justify-center gap-2 max-md:gap-2 max-md:justify-start group-hover:justify-start px-4 rounded-md py-2 transition-colors hover:bg-black/15 dark:hover:bg-white/10'
-      href='/account'
+      href={
+        user?.role_id === ROLE_ID.USER
+          ? '/account'
+          : user?.role_id === ROLE_ID.MODERATOR
+          ? '/moderator/dashboard'
+          : user?.role_id === ROLE_ID.ADMIN
+          ? '/admin/dashboard'
+          : ''
+      }
     >
       <Icon className='w-5' />
       <AsideSpanFramer text={list.text} />

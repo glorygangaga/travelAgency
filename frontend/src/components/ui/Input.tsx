@@ -56,7 +56,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             <input
               ref={ref}
               type={inputType}
-              className={`${inputClassname} w-full rounded-xl border border-black/40 dark:border-white/40 text-black dark:text-white transition-all hover:border-blue-400 bg-transparent py-2 px-3 text-sm outline-none placeholder:text-black dark:placeholder:text-white ${
+              className={`${inputClassname} w-full rounded-xl border border-black/40 dark:border-white/40 text-black dark:text-white transition-all hover:border-blue-400 bg-transparent py-2 px-3 text-sm outline-none placeholder:text-black/60 dark:placeholder:text-white/60 ${
                 leftIcon ? 'pl-8' : ''
               } ${rightIcon ? 'pr-8' : ''}`}
               {...props}

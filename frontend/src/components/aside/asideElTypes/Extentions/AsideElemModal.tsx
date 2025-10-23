@@ -25,9 +25,9 @@ const AsideElemModal: FC<Props> = ({ list }) => {
         user?.role_id === ROLE_ID.USER
           ? '/account'
           : user?.role_id === ROLE_ID.MODERATOR
-          ? '/moderator/dashboard'
+          ? '/moderator'
           : user?.role_id === ROLE_ID.ADMIN
-          ? '/admin/dashboard'
+          ? '/admin'
           : ''
       }
     >

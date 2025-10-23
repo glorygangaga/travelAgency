@@ -11,4 +11,10 @@ export class RoleService {
       where: { role_name: role },
     })
   }
+
+  async getRoleByRoleId(role_id: number) {
+    return this.prisma.role.findUnique({
+      where: {role_id}
+    });
+  }
 }

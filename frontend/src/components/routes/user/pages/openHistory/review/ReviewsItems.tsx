@@ -1,7 +1,7 @@
-import { getReviewsTypeResponse } from '@/shared/types/user.types';
+import { ReviewType } from '@/shared/types/reviews.types';
 
 interface Props {
-  data: getReviewsTypeResponse;
+  data: ReviewType[];
 }
 
 export function ReviewsItems({ data }: Props) {

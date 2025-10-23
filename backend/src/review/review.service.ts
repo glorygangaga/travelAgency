@@ -15,15 +15,19 @@ export class ReviewService {
 
   async getReviewsByTour(tour_id: number, pageNumber: number, pageSize: number) {
     const skip = pageSize * (pageNumber - 1);
-    return this.prisma.review.findMany({where: {tour_id, is_approved: true},
+    const tours = await this.prisma.review.findMany({where: {tour_id, is_approved: true},
       orderBy: {created_at: 'desc'},
       take: pageSize, skip
     });
+    const total = await this.prisma.tour.count();
+    return {tours, total};
   }
 
   async getReviewsByUser(user_id: number, pageNumber: number, pageSize: number) {
     const skip = pageSize * (pageNumber - 1);
-    return this.prisma.review.findMany({where: {user_id}, take: pageSize, skip});
+    const tours = await this.prisma.review.findMany({where: {user_id}, take: pageSize, skip});
+    const total = await this.prisma.tour.count();
+    return {tours, total};
   }
 
   async getReviewByUser(user_id: number, review_id: number) {

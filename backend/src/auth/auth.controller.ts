@@ -2,6 +2,8 @@ import { Body, Controller, HttpCode, Post, Req, Res, UnauthorizedException, UseP
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';
 import type { Response, Request } from 'express';
+import { AuthRole } from 'src/decorators/role.decorator';
+import { craeteUserByAdminDto } from './dto/createByAdmin.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -46,7 +48,13 @@ export class AuthController {
   @Post('logout')
   async logout(@Res({passthrough: true}) res: Response) {
     this.authService.removeRefreshTokenResponse(res);
-
     return true;
+  }
+
+  @HttpCode(200)
+  @Post('/adminCreate')
+  @AuthRole('admin')
+  async createUserByAdmin(@Body() dto: craeteUserByAdminDto) {
+    return this.authService.craeteUserByAdmin(dto);
   }
 }

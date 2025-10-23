@@ -27,9 +27,9 @@ export function UserButton() {
           user?.role_id === ROLE_ID.USER
             ? '/account'
             : user?.role_id === ROLE_ID.MODERATOR
-            ? '/moderator/dashboard'
+            ? '/moderator'
             : user?.role_id === ROLE_ID.ADMIN
-            ? '/admin/dashboard'
+            ? '/admin'
             : ''
         }
         className='flex gap-2 justify-center items-center p-2'
@@ -46,9 +46,9 @@ export function UserButton() {
             user?.role_id === ROLE_ID.USER
               ? '/account'
               : user?.role_id === ROLE_ID.MODERATOR
-              ? '/moderator/dashboard'
+              ? '/moderator'
               : user?.role_id === ROLE_ID.ADMIN
-              ? '/admin/dashboard'
+              ? '/admin'
               : ''
           }
           className='p-2 rounded-lg dark:bg-black/20 bg-white transition-colors hover:dark:bg-white/10 hover:bg-black/10 flex gap-2 justify-between w-full'

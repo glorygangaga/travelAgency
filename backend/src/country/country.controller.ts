@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, HttpCode, Param, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CountryService } from './country.service';
 import { CountryDto } from './dto/county.dto';
 import { UpdateCountryDto } from './dto/update.dto';
@@ -32,5 +32,12 @@ export class CountryController {
   @AuthRole('admin')
   async updateCountry(@Body() dto: UpdateCountryDto) {
     return this.countryService.update(dto);
+  }
+
+  @UsePipes(new ValidationPipe())
+  @Delete(':country_id')
+  @AuthRole('admin')
+  async deleteCountry(@Param('country_id') country_id: string) {
+    return this.countryService.deleteCountry(+country_id);
   }
 }

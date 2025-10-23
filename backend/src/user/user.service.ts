@@ -4,6 +4,7 @@ import { AuthDto } from 'src/auth/dto/auth.dto';
 import { PrismaService } from 'src/prisma.service';
 import { RoleService } from 'src/role/role.service';
 import { UserDto } from './dto/user.dto';
+import { craeteUserByAdminDto } from '../auth/dto/createByAdmin.dto';
 
 @Injectable()
 export class UserService {
@@ -60,30 +61,6 @@ export class UserService {
     return response;
   }
 
-  async getTrips(user_id: number) {
-    const response = await this.prisma.user.findFirst({
-      where: {user_id},
-      select: { bookings: true }
-    });
-    if (response) {
-      const {bookings} = response;
-      return bookings;
-    }
-    return response;
-  }
-
-  async getReviews(user_id: number) {
-    const response = await this.prisma.user.findFirst({
-      where: {user_id},
-      select: {reviews: true}
-    });
-    if (response) {
-      const {reviews} = response;
-      return reviews;
-    }
-    return response;
-  }
-
   async getUserRole(user_id: number) {
     const response = await this.prisma.user.findFirst({
       where: {user_id},
@@ -95,4 +72,41 @@ export class UserService {
     }
     return response;
   }
+
+  async getAllUsers(pageNumber: number, pageSize: number) {
+    const skip = pageSize * (pageNumber - 1);
+
+    const users = await this.prisma.user.findMany({
+      take: pageSize,
+      skip,
+      select: {
+        user_id: true,
+        email: true,
+        fullname: true,
+        date: true,
+        phone: true,
+        created_at: true,
+        updated_at: true,
+        role_id: true
+      }
+    });
+
+    const total = await this.prisma.user.count();
+
+    return {users, total};
+  }
+
+  async adminCreate(dto: craeteUserByAdminDto) {
+    const role = await this.roleService.getRoleByName(dto.role_id);
+    if (!role) throw new BadRequestException("can't craete new user. Role is not valid.");
+    const user = {
+      email: dto.email,
+      password: await hash(dto.password),
+      role_id: role.role_id 
+    }
+    return this.prisma.user.create({
+      data: user,
+    })
+  }
+
 }

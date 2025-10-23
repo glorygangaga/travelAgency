@@ -10,6 +10,13 @@ export enum ROLE_ID {
   MODERATOR,
 }
 
+export const RoleNames: Record<ROLE_ID, string> = {
+  [ROLE_ID.USER]: 'User',
+  [ROLE_ID.ADMIN]: 'Admin',
+  [ROLE_ID.MODERATOR]: 'Manager',
+};
+
+
 export interface User {
   user_id: string;
   name: string;
@@ -47,6 +54,18 @@ export type UserTypeUpdateRequest = {
   phone?: string;
 }
 
+export type UserTypeResponse = {
+  user_id: number;
+  role_id: number;
+  email: string;
+  fullname: string | null;
+  date: Date | null;
+  passport_number: string | null;
+  phone: string | null;
+  created_at: Date;
+  updated_at: Date;
+}
+
 export type updateUserActionType = {
   data?: User;
   error?: {
@@ -57,12 +76,24 @@ export type updateUserActionType = {
   } & UserTypeUpdateRequest & {date?: string}
 } & UserTypeUpdateRequest;
 
-export type getReviewsTypeResponse = {
+export type GetUserByAdmin = {
   user_id: number;
-  created_at: Date;
-  tour_id: number;
-  review_id: number;
-  rating: number;
-  comment: string;
-  is_approved: boolean;
-}[];
+  role_id: ROLE_ID;
+  email: string;
+  fullname: string | null;
+  date: Date | null;
+  phone: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export type getAllUsersType = {
+  users: GetUserByAdmin[],
+  total: number
+}
+
+export type createUserByAdminType = {
+  email: string;
+  password: string;
+  role_id: ROLE_ID;
+}

@@ -11,9 +11,11 @@ export class CountryService {
 
   async getCountries(pageNumber: number, pageSize: number) {
     const skip = pageSize * (pageNumber - 1);
-    return this.prisma.counry.findMany({
-      take: pageSize, skip
+    const countries = await this.prisma.counry.findMany({
+      take: pageSize, skip,
     });
+    const total = await this.prisma.counry.count();
+    return {countries, total};
   }
 
   async getCountry(country_id: number) {
@@ -26,5 +28,9 @@ export class CountryService {
 
   async update(dto: UpdateCountryDto) {
     return this.prisma.counry.update({where: {country_id: dto.country_id}, data: dto});
+  }
+
+  async deleteCountry(country_id: number) {
+    return this.prisma.counry.delete({where: {country_id}});
   }
 }

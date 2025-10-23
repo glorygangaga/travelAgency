@@ -26,3 +26,8 @@ export type approveReviewType = {
   review_id: number;
   is_approved: boolean;
 }
+
+export type getReviewsListType = {
+  reviews: ReviewType[];
+  total: number;
+}

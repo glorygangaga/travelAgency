@@ -4,6 +4,7 @@ import { UserService } from 'src/user/user.service';
 import { AuthDto } from './dto/auth.dto';
 import { verify } from 'argon2';
 import { type Response } from 'express';
+import { craeteUserByAdminDto } from './dto/createByAdmin.dto';
 
 @Injectable()
 export class AuthService {
@@ -70,6 +71,14 @@ export class AuthService {
     if (!user) throw new NotFoundException('User not found');
     return user;
   }
+
+  async craeteUserByAdmin(dto: craeteUserByAdminDto) {
+    const oldUser = await this.userService.getByEmail(dto.email);
+    if (oldUser) throw new BadRequestException('user already exists');
+    const {password, ...user} = await this.userService.adminCreate(dto);
+    return user;
+  }
+
 
   addRefreshTokenResponse(res: Response, refreshToken: string) {
     const expiresIn = new Date();

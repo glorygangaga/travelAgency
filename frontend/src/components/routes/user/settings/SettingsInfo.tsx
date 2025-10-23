@@ -63,7 +63,6 @@ export function SettingsInfo() {
     }
 
     const fullname = data.firstname + ' ' + data.lastname;
-    console.log(data.date);
 
     const newData = {
       fullname: fullname.trim() ? fullname : undefined,

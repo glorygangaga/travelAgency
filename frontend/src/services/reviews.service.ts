@@ -1,18 +1,18 @@
 import { axiosClassic, axiosWithAuth } from "@/api/interseptors";
-import { approveReviewType, createReviewType, getReviewTypeResponse, ReviewType, updateReviewType } from "@/shared/types/reviews.types";
+import { approveReviewType, createReviewType, getReviewsListType, getReviewTypeResponse, ReviewType, updateReviewType } from "@/shared/types/reviews.types";
 
 class ReviewService {
   private BASE_URL = '/review';
 
   async getReviewsByTour(tour_id: number, pages: {pageNumber: number, pageSize: number}) {
-    const response = await axiosClassic.get<getReviewTypeResponse>(this.BASE_URL + `/${tour_id}`, {params: {
+    const response = await axiosClassic.get<getReviewsListType>(this.BASE_URL + `/${tour_id}`, {params: {
       ...pages
     }});
     return response.data;
   }
 
   async getReviewsByUser(pages: {pageNumber: number, pageSize: number}) {
-    const response = await axiosWithAuth.get(this.BASE_URL, {params: pages});
+    const response = await axiosWithAuth.get<getReviewsListType>(this.BASE_URL, {params: pages});
     return response.data;
   }
 

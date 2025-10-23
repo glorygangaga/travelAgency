@@ -11,10 +11,12 @@ export class HotelService {
 
   async getHotels(pageNumber: number, pageSize: number) {
     const skip = pageSize * (pageNumber - 1);
-    return this.prisma.hotel.findMany({
+    const hotel = await this.prisma.hotel.findMany({
       take: pageSize,
       skip
     });
+    const total = await this.prisma.hotel.count();
+    return { hotel, total };
   }
 
   async getHotel(hotel_id: number) {

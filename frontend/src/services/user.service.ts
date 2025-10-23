@@ -1,21 +1,21 @@
 import { axiosWithAuth } from "@/api/interseptors";
-import { getReviewsTypeResponse,  User, UserTypeUpdateRequest } from "@/shared/types/user.types";
+import { getAllUsersType,  UserTypeResponse, UserTypeUpdateRequest } from "@/shared/types/user.types";
 
 class UserService {
   private BASE_URL = '/user/profile';
 
   async getProfile() {
-    const response = await axiosWithAuth.get<User>(this.BASE_URL);
+    const response = await axiosWithAuth.get<UserTypeResponse>(this.BASE_URL);
     return response.data;
   }
 
   async update(data: UserTypeUpdateRequest) {
-    const response = await axiosWithAuth.put<User>(this.BASE_URL, data);
+    const response = await axiosWithAuth.put<UserTypeResponse>(this.BASE_URL, data);
     return response.data;
   }
 
-  async getReviews() {
-    const response = await axiosWithAuth.get<getReviewsTypeResponse>('/user/review');
+  async getAllUsers(pages: {pageNumber: number, pageSize: number}) {
+    const response = await axiosWithAuth.get<getAllUsersType>('/user/all', {params: pages});
     return response.data;
   }
 };

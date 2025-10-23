@@ -6,7 +6,10 @@ export type hotelType = {
   description: string;
 };
 
-export type getHotelTypeResponse = hotelType[];
+export type getHotelTypeResponse = {
+  hotel: hotelType[],
+  total: number
+};
 
 export type createHotelType = {
   country_id: number

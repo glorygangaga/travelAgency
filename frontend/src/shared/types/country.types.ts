@@ -4,7 +4,12 @@ export type countryType = {
   description: string;
 }
 
-export type getCountryTypeResponse = countryType[];
+export type countriesListType = countryType[];
+
+export type getCountryTypeResponse = {
+  countries: countriesListType,
+  total: number
+}
 
 export type createCountryType = {
   country_name: string;

@@ -1,6 +1,7 @@
-import { axiosClassic } from "@/api/interseptors";
+import { axiosClassic, axiosWithAuth } from "@/api/interseptors";
 import { AuthRegisterResponse, AuthTypeRequest } from "@/shared/types/auth.types";
 import { removeAccessToken, saveAccessToken } from "./auth-token.service";
+import { createUserByAdminType, UserTypeResponse } from "@/shared/types/user.types";
 
 class AuthService {
   async main(type: 'login' | 'register', data: AuthTypeRequest) {
@@ -24,6 +25,11 @@ class AuthService {
     const response = await axiosClassic.post<boolean>(`/auth/logout`);
     if (response) removeAccessToken();
     return response;
+  }
+
+  async createUserByAdmin(user: createUserByAdminType) {
+    const response = await axiosWithAuth.post<UserTypeResponse>('/user/craete', user);
+    return response.data;
   }
 };
 

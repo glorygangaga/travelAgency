@@ -9,6 +9,7 @@ import Pagination from '@/components/ui/pagination/Pagination';
 import { CountryList } from './CountryList';
 import { useModal } from '@/components/ui/modal/ModalProvider';
 import { CountryCreate } from './CountryCreate';
+import { TableSkeleton } from '@/components/ui/table/TableSkeleton';
 
 export function Country() {
   const { open } = useModal();
@@ -22,11 +23,10 @@ export function Country() {
   return (
     <section className='px-4'>
       {isLoading ? (
-        <div className='flex gap-3 text-4xl font-bold items-center justify-center pt-20'>
-          <h1>Loading</h1>
-          <LoaderCircle
-            strokeWidth={4}
-            className='transition-transform animate-spin duration-1000'
+        <div className='max-w-5xl mx-auto'>
+          <TableSkeleton
+            skeleton={{ isLoading, countRows: 5 }}
+            names={['Name', 'discription', '']}
           />
         </div>
       ) : data && data.countries && data.countries.length > 0 ? (

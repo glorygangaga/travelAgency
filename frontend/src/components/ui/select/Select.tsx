@@ -1,20 +1,31 @@
 'use client';
 
 import { Dispatch, SetStateAction, useState, useEffect, useRef, useMemo } from 'react';
-import { X } from 'lucide-react';
+import { LoaderCircle, X } from 'lucide-react';
 
 import { Input } from '../Input';
 import { SelectList } from './SelectList';
+import { options } from '@/shared/types/user.types';
 
 type Props = {
-  options: { id: string; value: string }[];
+  options: options[] | undefined;
   value: string;
   onChange: Dispatch<SetStateAction<string>>;
   placeholder?: string;
   isFull?: boolean;
+  isLoading?: boolean;
+  onClick?: () => void;
 };
 
-export function Select({ options, value, onChange, placeholder, isFull }: Props) {
+export function Select({
+  options,
+  value = '',
+  onChange,
+  placeholder,
+  isFull,
+  isLoading,
+  onClick,
+}: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -34,7 +45,7 @@ export function Select({ options, value, onChange, placeholder, isFull }: Props)
   const [find, setFind] = useState<string>('');
 
   const sortedData = useMemo(() => {
-    return options.filter((post) => post.value.toLowerCase().includes(find.toLowerCase()));
+    return options?.filter((post) => post.value.toLowerCase().includes(find.toLowerCase()));
   }, [find, options]);
 
   return (
@@ -42,9 +53,12 @@ export function Select({ options, value, onChange, placeholder, isFull }: Props)
       <button
         className='w-full border border-white/40 p-2 rounded-xl text-start'
         type='button'
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={() => {
+          setIsOpen((prev) => !prev);
+          onClick && onClick();
+        }}
       >
-        {value || placeholder}
+        {options?.find((option) => option.exitValue === value)?.value || placeholder}
       </button>
       <div
         className={`absolute z-50 overflow-y-auto bg-black text-white left-0 transition-all p-3 border border-white/20 w-full rounded-lg ${
@@ -65,23 +79,27 @@ export function Select({ options, value, onChange, placeholder, isFull }: Props)
           </button>
         </div>
         <ul className='grid gap-1'>
-          {sortedData
-            ? sortedData.map((option) => (
-                <SelectList
-                  key={option.id}
-                  value={option.value}
-                  onChange={onChange}
-                  setIsOpen={setIsOpen}
-                />
-              ))
-            : options.map((option) => (
-                <SelectList
-                  key={option.id}
-                  value={option.value}
-                  onChange={onChange}
-                  setIsOpen={setIsOpen}
-                />
-              ))}
+          {isLoading ? (
+            <LoaderCircle className='absolute left-1/2 top-1/2 -translate-1/2 transition-transform animate-spin duration-1000' />
+          ) : sortedData ? (
+            sortedData.map((option) => (
+              <SelectList
+                key={option.id}
+                option={option}
+                onChange={onChange}
+                setIsOpen={setIsOpen}
+              />
+            ))
+          ) : (
+            options?.map((option) => (
+              <SelectList
+                key={option.id}
+                option={option}
+                onChange={onChange}
+                setIsOpen={setIsOpen}
+              />
+            ))
+          )}
         </ul>
       </div>
     </div>

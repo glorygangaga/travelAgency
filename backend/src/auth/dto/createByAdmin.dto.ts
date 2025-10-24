@@ -1,5 +1,4 @@
-import { RoleEnum } from "@prisma/client";
-import { IsEnum, IsString, Min } from "class-validator";
+import {  IsNumber, IsString, Min } from "class-validator";
 
 export class craeteUserByAdminDto {
   @IsString()
@@ -9,6 +8,6 @@ export class craeteUserByAdminDto {
   @Min(6)
   password: string;
 
-  @IsEnum(RoleEnum)
-  role_id: RoleEnum;
+  @IsNumber()
+  role_id: number;
 }

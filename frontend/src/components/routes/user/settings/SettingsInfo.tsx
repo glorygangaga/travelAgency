@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import { Input } from '@/components/ui/Input';
 import { useUserStore } from '@/store/userStore';
 import { createUserUpdateSchema } from '@/shared/schemas/user.schema';
-import { User, UserTypeUpdateRequest } from '@/shared/types/user.types';
+import { User, UserTypeResponse, UserTypeUpdateRequest } from '@/shared/types/user.types';
 import { userService } from '@/services/user.service';
 import { formatPassportNumber } from '@/shared/lib/functions/formatPassportNumber';
 import { formatPhoneNumber } from '@/shared/lib/functions/formatPhoneNumber';
@@ -33,7 +33,7 @@ export function SettingsInfo() {
     resolver: zodResolver(schema) as Resolver<UserTypeUpdateRequest>,
   });
 
-  const { isPending, mutate } = useMutation({
+  const { isPending, mutate } = useMutation<User, any, UserTypeUpdateRequest>({
     mutationKey: ['update'],
     mutationFn: (data: UserTypeUpdateRequest) => userService.update(data),
     onSuccess(data: User) {
@@ -172,7 +172,7 @@ export function SettingsInfo() {
         disabled={isSubmitting || isPending}
         className='dark:bg-white/20 gap-2 flex justify-center max-sm:w-full bg-black/10 py-2 rounded-lg transition-colors hover:bg-black/15 dark:hover:bg-white/15'
       >
-        {isPending ? <LoaderCircle className='transition-transform animate-spin' /> : <>Save</>}
+        {isPending ? <LoaderCircle className='transition-transform animate-spin' /> : 'Save'}
       </button>
     </form>
   );

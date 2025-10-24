@@ -1,5 +1,5 @@
-export const adminRoutes = ['/admin/dashboard'] as const;
-export const moderatorRotes = ['/moderator/dashboard'] as const;
+export const adminRoutes = ['/admin'] as const;
+export const moderatorRotes = ['/moderator'] as const;
 export const protectedRoutes = ['/account', ...adminRoutes, ...moderatorRotes] as const;
 
 export function isProtectedRoute(path: string): boolean {

@@ -81,7 +81,7 @@ export type GetUserByAdmin = {
   role_id: ROLE_ID;
   email: string;
   fullname: string | null;
-  date: Date | null;
+  date: string | null;
   phone: string | null;
   created_at: string;
   updated_at: string;
@@ -95,5 +95,11 @@ export type getAllUsersType = {
 export type createUserByAdminType = {
   email: string;
   password: string;
-  role_id: ROLE_ID;
+  role_id: ROLE;
+}
+
+export type options = {
+  id: number,
+  value: string,
+  exitValue: any
 }

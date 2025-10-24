@@ -28,7 +28,7 @@ class AuthService {
   }
 
   async createUserByAdmin(user: createUserByAdminType) {
-    const response = await axiosWithAuth.post<UserTypeResponse>('/user/craete', user);
+    const response = await axiosWithAuth.post<UserTypeResponse>('/auth/adminCreate', user);
     return response.data;
   }
 };

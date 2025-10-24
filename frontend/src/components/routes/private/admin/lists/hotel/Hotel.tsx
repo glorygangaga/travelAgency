@@ -1,6 +1,5 @@
 'use client';
 
-import { LoaderCircle } from 'lucide-react';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
@@ -9,6 +8,7 @@ import { hotelService } from '@/services/hotel.service';
 import { HotelList } from './HotelList';
 import { useModal } from '@/components/ui/modal/ModalProvider';
 import { HotelCreate } from './HotelCreate';
+import { TableSkeleton } from '@/components/ui/table/TableSkeleton';
 
 export function Hotel() {
   const { open } = useModal();
@@ -22,13 +22,10 @@ export function Hotel() {
   return (
     <section>
       {isLoading ? (
-        <div className='flex gap-3 text-4xl font-bold items-center justify-center pt-20'>
-          <h1>Loading</h1>
-          <LoaderCircle
-            strokeWidth={4}
-            className='transition-transform animate-spin duration-1000'
-          />
-        </div>
+        <TableSkeleton
+          skeleton={{ isLoading, countRows: 5 }}
+          names={['Hotel', 'Category', 'Description', 'Country', '']}
+        />
       ) : data && data.hotel.length > 0 ? (
         <>
           <HotelList data={data.hotel} />

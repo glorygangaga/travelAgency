@@ -50,6 +50,7 @@ export default async function middleware(req: NextRequest) {
     const accessToken = req.cookies.get(EnumTokens.ACCESS_TOKEN)?.value || '';
     const data = await checkRole(accessToken);
 
+    console.log(isModerator, isAdmin);
     if (isAdmin && data !== ROLE.ADMIN) return returnNotFoundPage(locale, req.url);
     else if (isModerator && data !== ROLE.MODERATOR) return returnNotFoundPage(locale, req.url);
   }

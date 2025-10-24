@@ -8,5 +8,6 @@ import { UserModule } from 'src/user/user.module';
   imports: [UserModule],
   controllers: [CountryController],
   providers: [CountryService, PrismaService],
+  exports: [CountryService]
 })
 export class CountryModule {}

@@ -1,0 +1,123 @@
+.table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+
+  & thead {
+    background-color: #000000;
+  }
+
+  & tbody tr {
+    transition: all .3s ease-in-out;
+  }
+
+  & tbody tr:nth-child(odd) {
+    background-color: #1c1f25;
+    &:hover {
+      background-color: #24272c;
+    }
+  }
+
+  & tbody tr:nth-child(even) {
+    background-color: #272e3a;
+    &:hover {
+      background-color: #2a3038;
+    }
+  }
+
+  & th, & td {
+    padding: 10px;
+    text-align: center;
+    word-wrap: break-word;
+  }
+
+  & th {
+    padding: 15px 10px;
+  }
+
+  &.active {
+    & th:nth-child(1),
+    & th:nth-child(2),
+    & th:nth-child(4),
+    & th:nth-child(7),
+    & th:nth-child(11),
+    & th:nth-child(12) {
+      width: 6%;
+    }
+
+    & th:nth-child(3) {
+      width: 4%;
+    }
+
+    & th:nth-child(5) {
+      width: 9%;
+    }
+    & th:nth-child(6) {
+      width: 7%;
+    }
+  
+    & th:nth-child(8) {
+      width: 10%;
+    }
+  }
+}
+
+.skeleton {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+
+  & th,
+  & td {
+    padding: 15px 10px;
+  }
+
+  & td {
+    text-align: center;
+    word-wrap: break-word;
+  }
+
+  & > thead {
+    background-color: #000000;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+
+  & > tbody {
+    cursor: pointer;
+  }
+
+  & tbody tr {
+    width: 100%;
+    height: 48px;
+    animation-duration: 5s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    text-align: center;
+    & p {
+      width: 100%;
+      height: 15px;
+      background-color: #78839b33;
+    }
+  }
+  & tbody tr:nth-child(odd) {
+    background: linear-gradient(to right, #1c1f25 8%, #222429 18%, #1c1f25 33%);
+  }
+
+  & tbody tr:nth-child(even) {
+    background: linear-gradient(to left, #272e3a 8%, #303947 18%, #272e3a 33%);
+  }
+}
+
+@keyframes placeHolderShimmer {
+  0% {
+    background-position: -302px 0
+  }
+  100% {
+    background-position: 302px 0
+  }
+}

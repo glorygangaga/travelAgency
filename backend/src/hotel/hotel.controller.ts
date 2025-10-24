@@ -41,4 +41,9 @@ export class HotelController {
   async deleteHotel(@Param('hotel_id') hotel_id: string) {
     return this.hotelService.deleteHotel(+hotel_id);
   }
+
+  @Get('/list/countires')
+  async getCountriesForHotels() {
+    return this.hotelService.getAllCountriesForHotelType();
+  }
 }

@@ -27,7 +27,7 @@ class CountryService {
   async deleteCountry(country_id: number) {
     const response = await axiosWithAuth.delete<countryType>(this.BASE_URL + `/${country_id}`);
     return response.data;
-  } 
+  }
 }
 
 export const countryService = new CountryService();

@@ -1,5 +1,5 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
 import { hash } from 'argon2';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { AuthDto } from 'src/auth/dto/auth.dto';
 import { PrismaService } from 'src/prisma.service';
 import { RoleService } from 'src/role/role.service';
@@ -97,7 +97,7 @@ export class UserService {
   }
 
   async adminCreate(dto: craeteUserByAdminDto) {
-    const role = await this.roleService.getRoleByName(dto.role_id);
+    const role = await this.roleService.getRoleByRoleId(dto.role_id);
     if (!role) throw new BadRequestException("can't craete new user. Role is not valid.");
     const user = {
       email: dto.email,

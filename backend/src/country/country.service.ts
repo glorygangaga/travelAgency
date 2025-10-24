@@ -33,4 +33,17 @@ export class CountryService {
   async deleteCountry(country_id: number) {
     return this.prisma.counry.delete({where: {country_id}});
   }
+
+  async getCountriesSelect() {
+    const countries = await this.prisma.counry.findMany({select: {
+      country_id: true,
+      country_name: true,
+    }});
+
+    return countries.map(c => ({
+      id: c.country_id,
+      value: c.country_name,
+      exitValue: c.country_id
+    }))
+  }
 }

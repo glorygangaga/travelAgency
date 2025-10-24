@@ -1,37 +1,42 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { FormEvent, useState } from 'react';
 
-import { countryService } from '@/services/country.service';
-import { countryType } from '@/shared/types/country.types';
+import { hotelService } from '@/services/hotel.service';
+import { hotelWithCountry } from '@/shared/types/hotel.types';
 import { useModal } from '@/components/ui/modal/ModalProvider';
 
 interface Props {
-  country: countryType;
+  hotel: hotelWithCountry;
 }
 
-export function CountryDelete({ country }: Props) {
+export function HotelDelete({ hotel }: Props) {
+  const queryClient = useQueryClient();
   const { close } = useModal();
+
   const [error, setError] = useState('');
 
-  const { isPending, mutate } = useMutation({
-    mutationKey: ['country', country.country_id],
-    mutationFn: () => countryService.deleteCountry(country.country_id),
+  const { mutate, isPending } = useMutation({
+    mutationKey: ['hotels', hotel.hotel_id],
+    mutationFn: () => hotelService.deleteHotel(hotel.hotel_id),
     onSuccess() {
       close();
+      queryClient.invalidateQueries({
+        queryKey: ['hotels'],
+      });
     },
     onError(error: any) {
       setError(error?.response?.data?.message);
     },
   });
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     mutate();
   };
   return (
-    <form className='grid justify-items-center gap-3' onSubmit={(e) => handleSubmit(e)}>
-      <h1 className='text-2xl font-bold'>You want to delete {country.country_name}?</h1>
+    <form onSubmit={(e) => handleSubmit(e)} className='grid gap-3 w-96'>
+      <h1 className='text-2xl font-bold text-center'>You want to delete {hotel.hotel_name}?</h1>
       {error && (
         <div className='bg-black/10 mb-2 text-red-500 p-2 rounded-lg dark:bg-white/10 text-center'>
           <p>{error}</p>

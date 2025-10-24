@@ -1,5 +1,5 @@
 import { axiosWithAuth } from "@/api/interseptors";
-import { getAllUsersType,  UserTypeResponse, UserTypeUpdateRequest } from "@/shared/types/user.types";
+import { getAllUsersType,  User,  UserTypeResponse, UserTypeUpdateRequest } from "@/shared/types/user.types";
 
 class UserService {
   private BASE_URL = '/user/profile';
@@ -10,7 +10,7 @@ class UserService {
   }
 
   async update(data: UserTypeUpdateRequest) {
-    const response = await axiosWithAuth.put<UserTypeResponse>(this.BASE_URL, data);
+    const response = await axiosWithAuth.put<User>(this.BASE_URL, data);
     return response.data;
   }
 

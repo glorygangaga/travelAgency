@@ -1,9 +1,21 @@
 export type hotelType = {
   hotel_id: number;
-  country_id: number;
+  country_id: string;
   hotel_name: string;
   category: string;
   description: string;
+};
+
+export type hotelWithCountry = {
+  country: {
+    country_name: string,
+  } 
+} & hotelType;
+
+export type getHotelWithCountryType = {
+  hotel:  hotelWithCountry[]
+  total: number
+
 };
 
 export type getHotelTypeResponse = {
@@ -12,7 +24,7 @@ export type getHotelTypeResponse = {
 };
 
 export type createHotelType = {
-  country_id: number
+  country_id: string
   hotel_name: string
   category: string
   description: string

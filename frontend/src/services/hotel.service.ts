@@ -1,11 +1,12 @@
 import { axiosClassic, axiosWithAuth } from "@/api/interseptors";
-import { createHotelType, getHotelTypeResponse, hotelType, updateHotelType } from "@/shared/types/hotel.types";
+import { createHotelType, getHotelWithCountryType, hotelType, updateHotelType } from "@/shared/types/hotel.types";
+import { options } from "@/shared/types/user.types";
 
 class HotelService {
   private BASE_URL = "/hotel";
 
   async getHotels(pages: {pageNumber: number, pageSize: number}) {
-    const response = await axiosClassic.get<getHotelTypeResponse>(this.BASE_URL, {params: pages});
+    const response = await axiosClassic.get<getHotelWithCountryType>(this.BASE_URL, {params: pages});
     return response.data;
   }
 
@@ -26,6 +27,11 @@ class HotelService {
 
   async deleteHotel(hotel_id: number) {
     const response = await axiosWithAuth.delete<hotelType>(this.BASE_URL + `/${hotel_id}`);
+    return response.data;
+  }
+
+  async getCountriesForSelect() {
+    const response = await axiosClassic.get<options[]>(this.BASE_URL + '/list/countires');
     return response.data;
   }
 }

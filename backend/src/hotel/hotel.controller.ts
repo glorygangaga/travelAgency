@@ -46,4 +46,9 @@ export class HotelController {
   async getCountriesForHotels() {
     return this.hotelService.getAllCountriesForHotelType();
   }
+
+  @Get('/country/:country_id')
+  async getHotelsByCountries(@Param('country_id') country_id: string) {
+    return this.hotelService.getHotelsByCountry(+country_id);
+  }
 }

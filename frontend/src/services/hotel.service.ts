@@ -34,6 +34,11 @@ class HotelService {
     const response = await axiosClassic.get<options[]>(this.BASE_URL + '/list/countires');
     return response.data;
   }
+
+  async getHotelsByCountriesOptions(county_id: number) {
+    const response = await axiosClassic.get<options[]>(this.BASE_URL + `/country/${county_id}`);
+    return response.data;
+  }
 }
 
 export const hotelService = new HotelService();

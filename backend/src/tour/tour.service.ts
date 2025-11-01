@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { TourDto } from './dto/tour.dto';
 import { HotelService } from 'src/hotel/hotel.service';
+import { UpdateTourDto } from './dto/update.dto';
 
 @Injectable()
 export class TourService {
@@ -55,8 +56,8 @@ export class TourService {
     }});
   }
 
-  async updateTour(tour_id: number, dto: TourDto) {
-    return this.prisma.tour.update({where: {tour_id}, data: {...dto,
+  async updateTour(dto: UpdateTourDto) {
+    return this.prisma.tour.update({where: {tour_id: dto.tour_id}, data: {...dto,
       start_date: new Date(dto.start_date),
       end_date: new Date(dto.end_date),
     }});
@@ -81,6 +82,12 @@ export class TourService {
 
     return this.prisma.counry.findMany({
       where: { country_id: { in: ids } },
+    });
+  }
+
+  async getToursByCountry(country_id: number) {
+    return this.prisma.tour.findMany({
+      where: {country: {country_id}}
     });
   }
 }

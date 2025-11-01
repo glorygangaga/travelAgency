@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, UsePi
 import { TourService } from './tour.service';
 import { AuthRole } from 'src/decorators/role.decorator';
 import { TourDto } from './dto/tour.dto';
+import { UpdateTourDto } from './dto/update.dto';
 
 @Controller('tour')
 export class TourController {
@@ -25,12 +26,12 @@ export class TourController {
     return this.tourService.createTour(dto);
   }
 
-  @Put("/:tour_id")
+  @Put()
   @HttpCode(200)
   @UsePipes(new ValidationPipe())
   @AuthRole('admin')
-  async updateTour(@Param('tour_id') tour_id: string, @Body() dto: TourDto) {
-    return this.tourService.updateTour(+tour_id, dto);
+  async updateTour(@Body() dto: UpdateTourDto) {
+    return this.tourService.updateTour(dto);
   }
 
   @Delete('/:tour_id')
@@ -49,5 +50,10 @@ export class TourController {
   @Get('/list/country/most/:total')
   async getCountiesByDesc(@Param('total') total: string) {
     return this.tourService.getMostCountry(+total);
+  }
+
+  @Get('/country/:country_id')
+  async getToursByCountry(@Param('country_id') country_id: string) {
+    return this.tourService.getToursByCountry(+country_id);
   }
 }

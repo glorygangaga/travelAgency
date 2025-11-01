@@ -51,7 +51,8 @@ export function Select({
   const [find, setFind] = useState<string>('');
 
   const sortedData = useMemo(() => {
-    return options?.filter((post) => post.value.toLowerCase().includes(find.toLowerCase()));
+    if (!options) return [];
+    return options.filter((post) => post.value.toLowerCase().includes(find.toLowerCase()));
   }, [find, options]);
 
   return (

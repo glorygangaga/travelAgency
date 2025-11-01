@@ -1,6 +1,6 @@
 import { isEqual } from 'lodash';
-import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useMutation, useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import { useModal } from '@/components/ui/modal/ModalProvider';
@@ -35,10 +35,6 @@ export function TourUpdate({ tourId }: Props) {
   const queries = useQueries({
     queries: [
       {
-        queryKey: ['hotels'],
-        queryFn: () => tourService.getHotelsForSelect(),
-      },
-      {
         queryKey: ['countries'],
         queryFn: () => hotelService.getCountriesForSelect(),
       },
@@ -47,6 +43,12 @@ export function TourUpdate({ tourId }: Props) {
         queryFn: () => tourService.getTour(tourId),
       },
     ],
+  });
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['hotels', watch('country_id')],
+    queryFn: () => hotelService.getHotelsByCountriesOptions(+watch('country_id')),
+    enabled: !!watch('country_id'),
   });
 
   const { mutate, isPending } = useMutation({
@@ -68,19 +70,20 @@ export function TourUpdate({ tourId }: Props) {
   const onSubmit: SubmitHandler<TourType> = (UpdateData) => {
     const data = queries[1].data;
     if (!data || isEqual(data, UpdateData)) return;
+
     mutate(UpdateData);
   };
 
   useEffect(() => {
-    if (!queries[2].data) return;
-    const data = queries[2].data;
+    if (!queries[1].data) return;
+    const { reviews, ...data } = queries[1].data;
 
     reset({
       ...data,
       start_date: new Date(data.start_date).toISOString().split('T')[0],
       end_date: new Date(data.end_date).toISOString().split('T')[0],
     });
-  }, [queries[2].data]);
+  }, [queries[1].data]);
 
   return (
     <form className='grid gap-3 min-w-80' onSubmit={handleSubmit(onSubmit)}>
@@ -171,8 +174,8 @@ export function TourUpdate({ tourId }: Props) {
         render={({ field }) => (
           <Select
             placeholder='Country select'
-            options={queries[1].data}
-            isLoading={queries[1].isLoading}
+            options={queries[0].data}
+            isLoading={queries[0].isLoading}
             isFull={true}
             {...field}
             value={field.value}
@@ -187,8 +190,8 @@ export function TourUpdate({ tourId }: Props) {
         render={({ field }) => (
           <Select
             placeholder='Hotel select'
-            options={queries[0].data}
-            isLoading={queries[0].isLoading}
+            options={data}
+            isLoading={isLoading}
             {...field}
             value={field.value}
             isFull={true}

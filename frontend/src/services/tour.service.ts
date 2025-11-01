@@ -11,7 +11,7 @@ class TourService {
   }
 
   async getTour(tour_id: number) {
-    const response = await axiosClassic.get<TourType>(this.BASE_URL + `/${tour_id}`);
+    const response = await axiosClassic.get<TourType & {reviews: any[]}>(this.BASE_URL + `/${tour_id}`);
     return response.data;
   }
 
@@ -21,7 +21,7 @@ class TourService {
   }
 
   async updateTour(tour: TourType) {
-    const response = await axiosWithAuth.put<TourType>(this.BASE_URL + `/${tour.tour_id}`, tour);
+    const response = await axiosWithAuth.put<TourType>(this.BASE_URL, tour);
     return response.data;
   }
 
@@ -39,6 +39,12 @@ class TourService {
     const response = await axiosClassic.get<TourListCountriesDesc>(this.BASE_URL + `/list/country/most/${total}`);
     return response.data;
   }
+
+  async getToursByCountry(country_id: number) {
+    const response = await axiosClassic.get<TourType[]>(this.BASE_URL + `/country/${country_id}`);
+    return response.data;
+  }
+
 }
 
 export const tourService = new TourService();

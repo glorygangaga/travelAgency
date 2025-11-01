@@ -1,4 +1,4 @@
-import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
 import { SubmitHandler, useForm, Controller } from 'react-hook-form';
 import { useState } from 'react';
 
@@ -18,21 +18,6 @@ export function TourCreate() {
   const [enabled, setEnabled] = useState({ hotels: false, countries: false });
   const queryClient = useQueryClient();
 
-  const queries = useQueries({
-    queries: [
-      {
-        queryKey: ['hotels'],
-        queryFn: () => tourService.getHotelsForSelect(),
-        enabled: enabled.hotels && enabled.countries,
-      },
-      {
-        queryKey: ['countries'],
-        queryFn: () => hotelService.getCountriesForSelect(),
-        enabled: enabled.countries,
-      },
-    ],
-  });
-
   const {
     register,
     handleSubmit,
@@ -41,6 +26,18 @@ export function TourCreate() {
     setError,
     formState: { errors },
   } = useForm<TourCreateType>({ mode: 'onSubmit' });
+
+  const { data: countries, isLoading: loadingCountries } = useQuery({
+    queryKey: ['countries'],
+    queryFn: () => hotelService.getCountriesForSelect(),
+    enabled: enabled.countries,
+  });
+
+  const { data: hotels, isLoading: loadingHotels } = useQuery({
+    queryKey: ['hotels', watch('country_id')],
+    queryFn: () => hotelService.getHotelsByCountriesOptions(+watch('country_id')),
+    enabled: enabled.hotels && !!countries?.length && !!watch('country_id'),
+  });
 
   const { isPending, mutate } = useMutation({
     mutationKey: ['tours'],
@@ -157,8 +154,8 @@ export function TourCreate() {
         render={({ field }) => (
           <Select
             placeholder='Country select'
-            options={queries[1].data}
-            isLoading={queries[1].isLoading}
+            options={countries}
+            isLoading={loadingCountries}
             isFull={true}
             {...field}
             onClick={() => setEnabled((prev) => ({ ...prev, countries: true }))}
@@ -174,8 +171,8 @@ export function TourCreate() {
         render={({ field }) => (
           <Select
             placeholder='Hotel select'
-            options={queries[0].data}
-            isLoading={queries[0].isLoading}
+            options={hotels}
+            isLoading={loadingHotels}
             onClick={() => {
               setEnabled((prev) => ({ ...prev, hotels: true }));
             }}

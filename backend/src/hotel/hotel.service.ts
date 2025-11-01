@@ -57,4 +57,18 @@ export class HotelService {
       exitValue: h.hotel_id
     }));
   }
+
+  async getHotelsByCountry(country_id: number) {
+    const hotels = await this.prisma.hotel.findMany({
+      where: {country: {country_id}},
+      select: {hotel_id: true, hotel_name: true},
+      take: 5
+    });
+
+    return hotels.map(h => ({
+      id: h.hotel_id,
+      value: h.hotel_name,
+      exitValue: h.hotel_id
+    }));
+  }
 }

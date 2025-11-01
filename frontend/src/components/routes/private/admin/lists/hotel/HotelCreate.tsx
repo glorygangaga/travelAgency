@@ -77,7 +77,7 @@ export function HotelCreate() {
       />
       <textarea
         id='description'
-        placeholder='Country description'
+        placeholder='Hotel description'
         className='resize-y border border-white/30 rounded-lg min-h-28 p-2 outline-none max-h-[300px]'
         {...register('description', { required: true })}
       />

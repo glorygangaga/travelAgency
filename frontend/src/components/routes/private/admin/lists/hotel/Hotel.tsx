@@ -26,7 +26,7 @@ export function Hotel() {
           skeleton={{ isLoading, countRows: 5 }}
           names={['Hotel', 'Category', 'Description', 'Country', '']}
         />
-      ) : data && data.hotel.length > 0 ? (
+      ) : data && data.hotel && data.hotel.length > 0 ? (
         <>
           <HotelList data={data.hotel} />
           <Pagination pages={pages} setPages={setPages} total={data.total} />

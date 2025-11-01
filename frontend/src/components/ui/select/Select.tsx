@@ -15,6 +15,9 @@ type Props = {
   isFull?: boolean;
   isLoading?: boolean;
   onClick?: () => void;
+  disabled?: boolean;
+  error?: string;
+  showError?: boolean;
 };
 
 export function Select({
@@ -25,6 +28,9 @@ export function Select({
   isFull,
   isLoading,
   onClick,
+  error = '',
+  disabled = false,
+  showError = false,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -49,12 +55,15 @@ export function Select({
   }, [find, options]);
 
   return (
-    <div ref={ref}>
+    <div ref={ref} className={isFull ? '' : ''}>
+      {showError && <p className='text-red-500 text-sm'>{error}</p>}
       <button
-        className='w-full border border-white/40 p-2 rounded-xl text-start'
+        className={`w-full border border-white/40 p-2 rounded-xl text-start ${
+          placeholder && value.length === 0 ? 'text-white/60' : ''
+        }`}
         type='button'
         onClick={() => {
-          setIsOpen((prev) => !prev);
+          setIsOpen((prev) => (disabled ? false : !prev));
           onClick && onClick();
         }}
       >
@@ -68,7 +77,8 @@ export function Select({
       >
         <div className='flex gap-1 items-center mb-2'>
           <Input
-            id='find'
+            type='input'
+            id={`find ${placeholder}`}
             placeholder='find options'
             className='w-full'
             value={find}

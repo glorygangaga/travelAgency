@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { LoaderCircle } from 'lucide-react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { Input } from '@/components/ui/Input';
 import { useModal } from '@/components/ui/modal/ModalProvider';
 import { countryService } from '@/services/country.service';
 import { createCountryType } from '@/shared/types/country.types';
+import { ButtonSubmit } from '@/components/ui/button/ButtonSubmit';
 
 export function CountryCreate() {
   const queryClient = useQueryClient();
@@ -61,13 +61,7 @@ export function CountryCreate() {
         className='resize border border-white/30 rounded-lg p-2 outline-none max-h-[300px] min-h-[150px] min-w-[288px] max-w-[400px]'
         {...register('description', { required: true })}
       />
-      <button disabled={isPending} type='submit' className='bg-white text-black p-2 rounded-lg'>
-        {isPending ? (
-          <LoaderCircle className='transition-transform animate-spin duration-1000' />
-        ) : (
-          'Create country'
-        )}
-      </button>
+      <ButtonSubmit text='Create country' isPending={isPending} />
     </form>
   );
 }

@@ -5,6 +5,7 @@ import { FormEvent, useState } from 'react';
 import { countryService } from '@/services/country.service';
 import { countryType } from '@/shared/types/country.types';
 import { useModal } from '@/components/ui/modal/ModalProvider';
+import { ButtonSubmit } from '@/components/ui/button/ButtonSubmit';
 
 interface Props {
   country: countryType;
@@ -37,18 +38,7 @@ export function CountryDelete({ country }: Props) {
           <p>{error}</p>
         </div>
       )}
-
-      <button
-        disabled={isPending}
-        className='bg-white text-black w-full py-2 rounded-lg'
-        type='submit'
-      >
-        {isPending ? (
-          <LoaderCircle className='transition-transform animate-spin duration-1000' />
-        ) : (
-          'Yes'
-        )}
-      </button>
+      <ButtonSubmit isPending={isPending} text='Yes' />
     </form>
   );
 }

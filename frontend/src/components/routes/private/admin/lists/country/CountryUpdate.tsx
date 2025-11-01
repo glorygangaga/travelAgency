@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/Input';
 import { countryService } from '@/services/country.service';
 import { useModal } from '@/components/ui/modal/ModalProvider';
 import { countryType } from '@/shared/types/country.types';
+import { ButtonSubmit } from '@/components/ui/button/ButtonSubmit';
 
 interface Props {
   countryId: number;
@@ -79,13 +80,7 @@ export function CountryUpdate({ countryId }: Props) {
         className='resize border border-white/30 rounded-lg p-2 outline-none max-h-[300px] min-h-[150px] min-w-[288px] max-w-[400px]'
         {...register('description', { required: true })}
       />
-      <button disabled={isPending} type='submit' className='bg-white text-black p-2 rounded-lg'>
-        {isPending ? (
-          <LoaderCircle className='transition-transform animate-spin duration-1000' />
-        ) : (
-          'Update country'
-        )}
-      </button>
+      <ButtonSubmit isPending={isPending} text='Update country' />
     </form>
   ) : (
     isError && <h1>Something went wrong</h1>

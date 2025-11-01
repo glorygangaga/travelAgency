@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { TourService } from './tour.service';
 import { AuthRole } from 'src/decorators/role.decorator';
 import { TourDto } from './dto/tour.dto';
@@ -31,5 +31,23 @@ export class TourController {
   @AuthRole('admin')
   async updateTour(@Param('tour_id') tour_id: string, @Body() dto: TourDto) {
     return this.tourService.updateTour(+tour_id, dto);
+  }
+
+  @Delete('/:tour_id')
+  @HttpCode(200)
+  @UsePipes(new ValidationPipe())
+  @AuthRole('admin')
+  async deleteTour(@Param('tour_id') tour_id: string) {
+    return this.tourService.deleteTour(+tour_id);
+  }
+
+  @Get('/list/hotels')
+  async getHotelsForTours() {
+    return this.tourService.getHotelsForTours();
+  }
+
+  @Get('/list/country/most/:total')
+  async getCountiesByDesc(@Param('total') total: string) {
+    return this.tourService.getMostCountry(+total);
   }
 }

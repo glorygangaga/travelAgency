@@ -15,7 +15,6 @@ export type hotelWithCountry = {
 export type getHotelWithCountryType = {
   hotel:  hotelWithCountry[]
   total: number
-
 };
 
 export type getHotelTypeResponse = {

@@ -15,6 +15,7 @@ import { userService } from '@/services/user.service';
 import { formatPassportNumber } from '@/shared/lib/functions/formatPassportNumber';
 import { formatPhoneNumber } from '@/shared/lib/functions/formatPhoneNumber';
 import { GetNumbersFromString } from '@/shared/lib/functions/OnlyNumbers';
+import { ButtonSubmit } from '@/components/ui/button/ButtonSubmit';
 
 export function SettingsInfo() {
   const { back } = useRouter();
@@ -168,12 +169,11 @@ export function SettingsInfo() {
         {...register('date')}
         error={errors.date?.message}
       />
-      <button
-        disabled={isSubmitting || isPending}
+      <ButtonSubmit
+        isPending={isSubmitting || isPending}
         className='dark:bg-white/20 gap-2 flex justify-center max-sm:w-full bg-black/10 py-2 rounded-lg transition-colors hover:bg-black/15 dark:hover:bg-white/15'
-      >
-        {isPending ? <LoaderCircle className='transition-transform animate-spin' /> : 'Save'}
-      </button>
+        text='Save'
+      />
     </form>
   );
 }

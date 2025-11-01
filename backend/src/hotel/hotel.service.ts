@@ -47,4 +47,14 @@ export class HotelService {
   async getAllCountriesForHotelType() {
     return this.countryService.getCountriesSelect();
   }
+
+  async getHotelsSelect() {
+    const hotels = await this.prisma.hotel.findMany({select: {hotel_id: true, hotel_name: true}});
+
+    return hotels.map(h => ({
+      id: h.hotel_id,
+      value: h.hotel_name,
+      exitValue: h.hotel_id
+    }));
+  }
 }

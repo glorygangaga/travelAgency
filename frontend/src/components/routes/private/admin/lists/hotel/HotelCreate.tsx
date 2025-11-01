@@ -1,6 +1,5 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { LoaderCircle } from 'lucide-react';
 import { useState } from 'react';
 
 import { Input } from '@/components/ui/Input';
@@ -8,6 +7,7 @@ import { createHotelType } from '@/shared/types/hotel.types';
 import { useModal } from '@/components/ui/modal/ModalProvider';
 import { hotelService } from '@/services/hotel.service';
 import { Select } from '@/components/ui/select/Select';
+import { ButtonSubmit } from '@/components/ui/button/ButtonSubmit';
 
 export function HotelCreate() {
   const [countriesEnabled, setCountriesEnabled] = useState(false);
@@ -81,13 +81,7 @@ export function HotelCreate() {
         className='resize-y border border-white/30 rounded-lg min-h-28 p-2 outline-none max-h-[300px]'
         {...register('description', { required: true })}
       />
-      <button disabled={isPending} type='submit' className='bg-white text-black p-2 rounded-lg'>
-        {isPending ? (
-          <LoaderCircle className='transition-transform animate-spin duration-1000' />
-        ) : (
-          'Create hotel'
-        )}
-      </button>
+      <ButtonSubmit text='Create hotel' isPending={isPending} />
     </form>
   );
 }

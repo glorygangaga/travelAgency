@@ -1,7 +1,6 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { LoaderCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
@@ -14,6 +13,7 @@ import { AuthTypeRequest } from '@/shared/types/auth.types';
 import { authService } from '@/services/auth.service';
 import { createLoginSchema } from '@/shared/schemas/auth.schema';
 import { ROLE_ID } from '@/shared/types/user.types';
+import { ButtonSubmit } from '@/components/ui/button/ButtonSubmit';
 
 export function LoginForm() {
   const t = useTranslations();
@@ -92,17 +92,11 @@ export function LoginForm() {
         error={errors.password?.message}
         {...register('password', { required: 'password is required' })}
       />
-      <button
-        disabled={isSubmitting || isPending}
-        type='submit'
-        className='dark:bg-white/20 flex gap-2 w-1/2 justify-center max-sm:w-full bg-black/10 px-25 py-2 rounded-lg transition-colors hover:bg-black/15 dark:hover:bg-white/15'
-      >
-        {isPending ? (
-          <LoaderCircle className='transition-transform animate-spin duration-1000' />
-        ) : (
-          <>{t('Auth.Login')}</>
-        )}
-      </button>
+      <ButtonSubmit
+        isPending={isSubmitting || isPending}
+        text={t('Auth.Login')}
+        className='dark:bg-white dark:text-black flex gap-2 w-1/2 justify-center max-sm:w-full bg-black/80 text-white px-25 py-2 rounded-lg'
+      />
     </form>
   );
 }

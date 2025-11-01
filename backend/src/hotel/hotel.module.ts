@@ -9,5 +9,6 @@ import { CountryModule } from 'src/country/country.module';
   imports: [UserModule, CountryModule],
   controllers: [HotelController],
   providers: [HotelService, PrismaService],
+  exports: [HotelService]
 })
 export class HotelModule {}

@@ -1,18 +1,18 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { LoaderCircle } from 'lucide-react';
-
-import { Input } from '@/components/ui/Input';
-import { useUserStore } from '@/store/userStore';
 import { useRouter } from 'next/navigation';
-import { useModal } from '@/components/ui/modal/ModalProvider';
-import { createRegisterSchema } from '@/shared/schemas/auth.schema';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
+
+import { Input } from '@/components/ui/Input';
+import { useUserStore } from '@/store/userStore';
+import { useModal } from '@/components/ui/modal/ModalProvider';
+import { createRegisterSchema } from '@/shared/schemas/auth.schema';
 import { authService } from '@/services/auth.service';
 import { AuthRegisterTypeRequest } from '@/shared/types/auth.types';
+import { ButtonSubmit } from '@/components/ui/button/ButtonSubmit';
 
 export function RegisterForm() {
   const t = useTranslations();
@@ -99,17 +99,11 @@ export function RegisterForm() {
         {...register('confPassword', { required: 'confirm password is required' })}
         required
       />
-      <button
-        disabled={isSubmitting}
-        type='submit'
-        className='dark:bg-white/20 flex gap-2 w-1/2 justify-center max-sm:w-full bg-black/10 px-25 py-2 rounded-lg transition-colors hover:bg-black/15 dark:hover:bg-white/15'
-      >
-        {isPending ? (
-          <LoaderCircle className='transition-transform animate-spin duration-1000' />
-        ) : (
-          <>{t('Auth.Register')}</>
-        )}
-      </button>
+      <ButtonSubmit
+        isPending={isSubmitting || isPending}
+        text={t('Auth.Register')}
+        className='dark:bg-white dark:text-black flex gap-2 w-1/2 justify-center max-sm:w-full bg-black/80 text-white px-25 py-2 rounded-lg'
+      />
     </form>
   );
 }

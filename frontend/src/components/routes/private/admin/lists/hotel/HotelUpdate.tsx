@@ -1,5 +1,4 @@
 import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
-import { LoaderCircle } from 'lucide-react';
 import { useEffect } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { isEqual } from 'lodash';
@@ -9,6 +8,7 @@ import { Select } from '@/components/ui/select/Select';
 import { hotelService } from '@/services/hotel.service';
 import { updateHotelType } from '@/shared/types/hotel.types';
 import { useModal } from '@/components/ui/modal/ModalProvider';
+import { ButtonSubmit } from '@/components/ui/button/ButtonSubmit';
 
 interface Props {
   hotelId: number;
@@ -106,13 +106,7 @@ export function HotelUpdate({ hotelId }: Props) {
         className='resize-y border border-white/30 rounded-lg min-h-28 p-2 outline-none max-h-[300px]'
         {...register('description', { required: true })}
       />
-      <button disabled={isPending} type='submit' className='bg-white text-black p-2 rounded-lg'>
-        {isPending ? (
-          <LoaderCircle className='transition-transform animate-spin duration-1000' />
-        ) : (
-          'Update hotel'
-        )}
-      </button>
+      <ButtonSubmit text='Update hotel' isPending={isPending} />
     </form>
   );
 }

@@ -1,12 +1,12 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
-import { LoaderCircle } from 'lucide-react';
 
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/select/Select';
 import { authService } from '@/services/auth.service';
 import { createUserByAdminType, ROLE_ID } from '@/shared/types/user.types';
 import { useModal } from '@/components/ui/modal/ModalProvider';
+import { ButtonSubmit } from '@/components/ui/button/ButtonSubmit';
 
 const options = [
   { value: 'User', id: 1, exitValue: ROLE_ID.USER },
@@ -79,12 +79,7 @@ export function UsersCreate() {
           />
         )}
       />
-      <button
-        disabled={isPending}
-        className='gap-2 flex justify-center max-sm:w-full bg-white py-2 rounded-lg transition-colors text-black'
-      >
-        {isPending ? <LoaderCircle className='transition-transform animate-spin' /> : 'Save'}
-      </button>
+      <ButtonSubmit text='User create' isPending={isPending} />
     </form>
   );
 }

@@ -1,5 +1,5 @@
 import { FoodEnum } from "@prisma/client";
-import { isDate, IsDateString, IsEnum, IsNumber, IsString } from "class-validator";
+import { IsDateString, IsEnum, IsNumber, IsString } from "class-validator";
 
 export class TourDto {
   @IsNumber()
@@ -16,9 +16,6 @@ export class TourDto {
 
   @IsDateString()
   end_date: string;
-
-  @IsNumber()
-  duration_days: number;
 
   @IsString()
   tour_type: string;

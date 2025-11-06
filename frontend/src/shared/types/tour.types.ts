@@ -1,3 +1,6 @@
+import { countryType } from "./country.types";
+import { hotelType } from "./hotel.types";
+
 export enum FoodEnum {
   RO = "RO",
   BB = "BB",
@@ -59,3 +62,8 @@ export type TourListCountriesDesc = {
   description: string;
   country_name: string;
 }[];
+
+export type FullTourData = {
+  country: countryType;
+  hotel: hotelType;
+} & TourType;

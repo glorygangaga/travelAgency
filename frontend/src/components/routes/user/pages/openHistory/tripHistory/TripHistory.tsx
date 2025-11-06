@@ -6,6 +6,7 @@ import { TripSkeleton } from './TripSkeleton';
 import { TripItems } from './TripItems';
 import { bookingService } from '@/services/booking.service';
 import { getBookingsTypeResponse } from '@/shared/types/booking.types';
+import Link from 'next/link';
 
 export default function TripHistory() {
   const { data, isLoading, isError } = useQuery<getBookingsTypeResponse>({
@@ -24,7 +25,12 @@ export default function TripHistory() {
       ) : (
         <div className='flex flex-col gap-2 items-center'>
           <h1 className='font-bold text-2xl text-center'>There is not bookings in your account</h1>
-          <button className='px-5 py-2 rounded-md bg-black/20 dark:bg-white/20'>book a tour</button>
+          <Link
+            className='px-5 py-2 rounded-md bg-black text-white dark:bg-white dark:text-black'
+            href={'/tours'}
+          >
+            book a tour
+          </Link>
         </div>
       )}
     </div>

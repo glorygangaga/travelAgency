@@ -27,7 +27,7 @@ const Pagination: FC<PaginationProps> = ({ pages, setPages, total }) => {
   );
   return (
     buttons.length > 1 && (
-      <article className='flex gap-4 mt-4 justify-center w-fit bg-black mx-auto p-4 rounded-4xl'>
+      <article className='flex gap-4 mt-4 justify-center w-fit dark:bg-black bg-white border border-black/10 mx-auto p-4 rounded-4xl'>
         <button
           disabled={pages.pageNumber === 1}
           className={`transition-colors ${

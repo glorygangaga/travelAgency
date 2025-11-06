@@ -6,29 +6,36 @@ import { FinderForm } from './FinderForm';
 import { tourService } from '@/services/tour.service';
 import { Loading } from '@/components/ui/loading/Loading';
 import { useModal } from '@/components/ui/modal/ModalProvider';
+import { TourCard } from './TourCard';
+import { useDebounce } from '@/shared/lib/hook/useDebounce';
 
 export function Finder() {
+  const [query, setQuery] = useState<{ country_id: number; query: string }>({
+    country_id: -1,
+    query: '',
+  });
+  const debouncedQuery = useDebounce(query, 300);
+
   const { close } = useModal();
-  const [part, setPart] = useState<number>(-1);
 
   const { data: countryData, isLoading: countryLoading } = useQuery({
     queryKey: ['toursList'],
     queryFn: () => tourService.getCountiesByDesc(5),
   });
 
-  const { data: toursData, isLoading: toursLoading } = useQuery({
-    queryKey: ['tours', part],
-    queryFn: () => tourService.getToursByCountry(part),
-    enabled: part >= 0,
+  const { data: searchData, isLoading: searchLoading } = useQuery({
+    queryKey: ['tours', debouncedQuery],
+    queryFn: () => tourService.getToursByQuery(debouncedQuery),
+    enabled: !!debouncedQuery.query || debouncedQuery.country_id !== -1,
   });
 
   return (
-    <div className='grid gap-2 min-xl:w-2xl min-lg:w-lg min-md:max-w-md'>
-      <FinderForm />
-      <div className='overflow-x-auto pb-4'>
-        <ul className='flex gap-2'>
+    <div className='grid gap-2 min-xl:w-2xl min-lg:w-lg min-md:max-w-md relative'>
+      <FinderForm value={query} onChange={setQuery} />
+      <div className='overflow-x-auto mb-2 relative'>
+        <ul className='flex gap-2 flex-wrap'>
           {countryLoading ? (
-            <div className='flex justify-center w-full'>
+            <div className='flex justify-center w-full absolute left-1/2 -translate-x-1/2 bottom-4'>
               <Loading />
             </div>
           ) : (
@@ -37,10 +44,13 @@ export function Finder() {
               <li key={country.country_id}>
                 <button
                   className={`p-2 min-w-12 rounded-lg border border-black/20 dark:border-white/20 transition-colors hover:bg-black/10 dark:hover:bg-white/20 ${
-                    part === country.country_id ? 'bg-black/10 dark:bg-white/20' : ''
+                    query.country_id === country.country_id ? 'bg-black/10 dark:bg-white/20' : ''
                   }`}
                   onClick={() =>
-                    setPart((prev) => (country.country_id === prev ? -1 : country.country_id))
+                    setQuery((prev) => ({
+                      ...prev,
+                      country_id: country.country_id === prev.country_id ? -1 : country.country_id,
+                    }))
                   }
                 >
                   {country.country_name}
@@ -51,43 +61,26 @@ export function Finder() {
         </ul>
       </div>
       <div>
-        {toursLoading ? (
-          <div className='flex justify-center w-full'>
-            <Loading />
-          </div>
-        ) : (
-          toursData && (
-            <>
-              <ul className='mb-3'>
-                {toursData.map((tour) => (
-                  <li
-                    key={tour.tour_id}
-                    className='relative p-2 rounded-lg border border-black/20 dark:border-white/20 flex justify-between items-center'
-                  >
-                    <Link
-                      href={`/tour/${tour.tour_id}`}
-                      onClick={() => close()}
-                      className='absolute left-0 top-0 w-full h-full'
-                    />
-                    <div>
-                      <h1 className='text-2xl font-bold'>{tour.title}</h1>
-                      <p className='text-sm line-clamp-3'>{tour.description}</p>
-                    </div>
-                    <div>
-                      <p>{tour.price_person} &#8381;</p>
-                      <p>Slots: {tour.available_slots}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-              <div className='flex justify-end'>
-                <Link className='p-1 border-b' href={'/tours'} onClick={() => close()}>
-                  See all tours
-                </Link>
-              </div>
-            </>
-          )
-        )}
+        <div className='overflow-y-auto overflow-x-hidden max-h-[450px] relative'>
+          {searchLoading ? (
+            <div className='flex justify-center w-full absolute bottom-5 left-1/2 -translate-x-1/2'>
+              <Loading />
+            </div>
+          ) : searchData && searchData.length > 0 ? (
+            <ul className='mb-3 grid gap-2'>
+              {searchData.map((tour) => (
+                <TourCard key={tour.tour_id} tour={tour} />
+              ))}
+            </ul>
+          ) : (
+            searchData && <h1 className='text-center font-bold text-2xl'>Nothing found...</h1>
+          )}
+        </div>
+        <div className='flex justify-end'>
+          <Link className='p-1 border-b' href={'/tours'} onClick={() => close()}>
+            See all tours
+          </Link>
+        </div>
       </div>
     </div>
   );

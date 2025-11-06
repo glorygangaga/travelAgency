@@ -35,7 +35,7 @@ export class TourService {
   }
 
   async getTour(tour_id: number) {
-    return this.prisma.tour.findFirst({
+    return this.prisma.tour.findUnique({
       where: {tour_id}, include: {reviews: true}
     });
   }
@@ -89,5 +89,34 @@ export class TourService {
     return this.prisma.tour.findMany({
       where: {country: {country_id}}
     });
+  }
+
+  async findByQuery(query: string, country_id?: string) {
+    return this.prisma.tour.findMany({
+      where: {
+        OR: [
+          {title: {contains: query, mode: 'insensitive'}},
+          {description: {contains: query, mode: 'insensitive'}},
+          {country: {country_name: {contains: query, mode: 'insensitive'}}},
+          {hotel: {hotel_name: {contains: query, mode: 'insensitive'}}},
+        ],
+        AND: [
+          {country_id: country_id ? +country_id : undefined}
+        ]
+      },
+      include: {
+        hotel: true,
+        country: true,
+      },
+      take: 10
+    });
+  }
+
+  async getFullTour(tour_id: number) {
+    return this.prisma.tour.findUnique({where: {tour_id}, include: {
+      hotel: true,
+      country: true,
+      reviews: true
+    }})
   }
 }

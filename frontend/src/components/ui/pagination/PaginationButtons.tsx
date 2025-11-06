@@ -21,8 +21,8 @@ const PaginationButtons: FC<PaginationButtonsProps> = ({ pageTo, pages, setPages
       {pageTo === end && end - pages.pageNumber > 3 && <p className=''>. . .</p>}
       {(Math.abs(pages.pageNumber - pageTo) < 3 || pageTo === end || pageTo === 1) && (
         <button
-          className={`px-3 py-1 rounded-full transition-colors hover:bg-white/30 ${
-            pages.pageNumber === pageTo ? 'bg-white/20' : ''
+          className={`px-3 py-1 rounded-full transition-colors hover:bg-black/20 dark:hover:bg-white/30 ${
+            pages.pageNumber === pageTo ? 'dark:bg-white/20 bg-black/10' : ''
           }`}
           onClick={() =>
             pages.pageNumber !== pageTo &&

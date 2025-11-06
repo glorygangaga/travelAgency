@@ -5,11 +5,11 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   text: string;
 };
 
-export function ButtonSubmit({ isPending, text, ...props }: ButtonProps) {
+export function ButtonSubmit({ isPending, text, className, ...props }: ButtonProps) {
   return (
     <button
-      className='bg-white text-black p-2 rounded-lg flex justify-center'
       {...props}
+      className={`${className} dark:bg-white dark:text-black bg-black text-white p-2 rounded-lg flex justify-center`}
       type='submit'
       disabled={isPending}
     >

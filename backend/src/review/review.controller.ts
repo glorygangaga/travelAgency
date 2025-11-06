@@ -16,7 +16,7 @@ export class ReviewController {
     if (isNaN(+tour_id)) throw new BadRequestException('Invalid tour_id parameter');
     return this.reviewService.getReviewsByTour(+tour_id, +pageNumber, +pageSize);
   }
-  
+
   @Get()
   @Auth()
   async getReviewsByUser(@CurrentUser('user_id') id: number, @Query('pageNumber') pageNumber: string, @Query('pageSize') pageSize: string) {

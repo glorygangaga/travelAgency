@@ -9,7 +9,7 @@ import { reviewService } from '@/services/reviews.service';
 import Pagination from '@/components/ui/pagination/Pagination';
 
 export default function UserReviewHistory() {
-  const [pages, setPages] = useState({ pageNumber: 1, pageSize: 20 });
+  const [pages, setPages] = useState({ pageNumber: 1, pageSize: 10 });
   const { data, isLoading, isError } = useQuery({
     queryKey: ['review'],
     queryFn: () => reviewService.getReviewsByUser(pages),

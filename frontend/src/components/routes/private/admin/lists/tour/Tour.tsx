@@ -12,7 +12,7 @@ import { TourCreate } from './TourCreate';
 
 export function Tour() {
   const { open } = useModal();
-  const [pages, setPages] = useState({ pageNumber: 1, pageSize: 30 });
+  const [pages, setPages] = useState({ pageNumber: 1, pageSize: 15 });
 
   const { data, isLoading } = useQuery({
     queryKey: ['tour', pages.pageNumber],

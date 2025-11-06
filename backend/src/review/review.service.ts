@@ -3,7 +3,6 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { ReviewDto } from './dto/review.dto';
 import { UserService } from 'src/user/user.service';
-import { ApproveReviewDto } from './dto/approve.dto';
 import { UpdateReviewDto } from './dto/update.dto';
 
 @Injectable()
@@ -22,9 +21,18 @@ export class ReviewService {
     });
     const rev = reviews.map(review => ({...review, user: {username: review.user.email.split('@')[0]}}));
 
-
     const total = await this.prisma.review.count({where: {tour_id, is_approved: true}});
     return {reviews: rev, total};
+  }
+
+  async getReviewsNotApproved(pageNumber: number, pageSize: number) {
+    const skip = pageSize * (pageNumber - 1);
+    const reviews = await this.prisma.review.findMany({
+      where: {is_approved: false},
+      take: pageSize, skip,
+    });
+    const total = await this.prisma.review.count({where: {is_approved: false}});
+    return {reviews, total};
   }
 
   async getReviewsByUser(user_id: number, pageNumber: number, pageSize: number) {
@@ -69,9 +77,9 @@ export class ReviewService {
     return review;
   }
 
-  async approveReview(dto: ApproveReviewDto) {
-    return this.prisma.review.update({where: {review_id: dto.review_id}, data: {
-      is_approved: dto.is_approved
+  async approveReview(review_id: number) {
+    return this.prisma.review.update({where: {review_id}, data: {
+      is_approved: true
     }});
   }
 }

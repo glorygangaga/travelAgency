@@ -85,10 +85,44 @@ export class TourService {
     });
   }
 
-  async getToursByCountry(country_id: number) {
-    return this.prisma.tour.findMany({
-      where: {country: {country_id}}
+  async getToursByCountry(country_id: number, pageNumber: number, pageSize: number) {
+    const takePage = pageSize * (pageNumber - 1);
+
+    const tours = await this.prisma.tour.findMany({
+      where: {country: {country_id}},
+      take: pageSize,
+      skip: takePage,
+      include: {
+        hotel: {select: {hotel_name: true}},
+        country: {select: {country_name: true}}
+      }
     });
+
+    const total = await this.prisma.tour.count({
+      where: {country_id}
+    })
+
+    return {tours, total};
+  }
+
+  async getToursByHotels(hotel_id: number, pageNumber: number, pageSize: number) {
+    const takePage = pageSize * (pageNumber - 1);
+
+    const tours = await this.prisma.tour.findMany({
+      where: {hotel_id},
+      take: pageSize,
+      skip: takePage,
+      include: {
+        hotel: {select: {hotel_name: true}},
+        country: {select: {country_name: true}}
+      }
+    });
+
+    const total = await this.prisma.tour.count({
+      where: {hotel_id}
+    });
+
+    return {tours, total};
   }
 
   async findByQuery(query: string, country_id?: string) {

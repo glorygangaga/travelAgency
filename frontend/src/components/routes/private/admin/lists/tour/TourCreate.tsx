@@ -101,7 +101,7 @@ export function TourCreate() {
           rules={{ required: true }}
           render={({ field }) => (
             <Input
-              placeholder='Price per person (Rubles)'
+              placeholder='Price per person ($)'
               name='price_person'
               className='w-full'
               value={field.value ?? ''}

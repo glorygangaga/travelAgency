@@ -4,12 +4,18 @@ import { CurrentUser } from 'src/auth/decorators/user.decorator';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { ReviewDto } from './dto/review.dto';
 import { UpdateReviewDto } from './dto/update.dto';
-import { ApproveReviewDto } from './dto/approve.dto';
 import { AuthRole } from 'src/decorators/role.decorator';
 
 @Controller('review')
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
+
+  @Get('/approved')
+  @AuthRole('manager')
+  async getReviewsNotApproved(@Query('pageNumber') pageNumber: string, @Query('pageSize') pageSize: string) {
+    return this.reviewService.getReviewsNotApproved(+pageNumber, +pageSize);
+  }
+
 
   @Get('/:tour_id')
   async getReviewsByTour(@Param('tour_id') tour_id: string, @Query('pageNumber') pageNumber: string, @Query('pageSize') pageSize: string) {
@@ -48,11 +54,11 @@ export class ReviewController {
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
-  @Put('/approve')
+  @Put('/approve/:review_id')
   @Auth()
   @AuthRole('manager')
-  async approveReview(@Body() dto: ApproveReviewDto) {
-    return this.reviewService.approveReview(dto);
+  async approveReview(  @Param('review_id') review_id: string) {
+    return this.reviewService.approveReview(+review_id);
   }
 
   @UsePipes(new ValidationPipe())

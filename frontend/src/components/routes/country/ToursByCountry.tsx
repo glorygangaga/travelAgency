@@ -1,29 +1,37 @@
 'use client';
+
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
+import { TourCard } from '@/components/header/Finder/TourCard';
 import { Loading } from '@/components/ui/loading/Loading';
 import Pagination from '@/components/ui/pagination/Pagination';
 import { tourService } from '@/services/tour.service';
-import { TourCard } from '@/components/header/Finder/TourCard';
 
-export function Tours() {
-  const [pages, setPages] = useState({ pageNumber: 1, pageSize: 12 });
+interface Props {
+  country_id: number;
+}
+
+export function ToursByCountry({ country_id }: Props) {
+  const [pages, setPages] = useState({ pageNumber: 1, pageSize: 9 });
+
   const { isLoading, data } = useQuery({
-    queryKey: ['tours', pages.pageNumber],
-    queryFn: () => tourService.getTours(pages),
+    queryKey: ['tours', pages],
+    queryFn: () => tourService.getToursByCountry({ country_id, ...pages }),
   });
 
   return (
-    <section className='mb-10 max-w-6xl mx-auto'>
-      <h1 className='text-center font-bold text-5xl mb-2'>Tours</h1>
+    <div className='p-4 bg-black rounded-lg max-w-5xl mx-auto'>
+      <h1 className='text-center font-bold text-3xl mb-2'>Tours in this country</h1>
       {isLoading ? (
-        <Loading />
+        <div className='flex justify-center'>
+          <Loading />
+        </div>
       ) : (
         data &&
         data.tours.length > 0 && (
           <>
-            <ul className='grid min-sm:grid-cols-2 min-lg:grid-cols-3 gap-4 relative p-4 bg-black rounded-lg'>
+            <ul className='grid min-sm:grid-cols-2 min-lg:grid-cols-3 gap-4 relative '>
               {data.tours.map((tour) => (
                 <TourCard tour={tour} key={tour.tour_id} />
               ))}
@@ -32,6 +40,6 @@ export function Tours() {
           </>
         )
       )}
-    </section>
+    </div>
   );
 }

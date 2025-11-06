@@ -26,21 +26,17 @@ export function CountryList({ data }: Props) {
       </div>
       <Table
         names={['Name', 'discription', '']}
-        tbodyChild={
-          <>
-            {data.countries.map((country) => (
-              <tr key={country.country_id}>
-                <td>{country.country_name}</td>
-                <td>
-                  <p className='line-clamp-3'>{country.description}</p>
-                </td>
-                <td className='relative'>
-                  <CountryMenu country={country} />
-                </td>
-              </tr>
-            ))}
-          </>
-        }
+        tbodyChild={data.countries.map((country) => (
+          <tr key={country.country_id}>
+            <td>{country.country_name}</td>
+            <td>
+              <p className='line-clamp-3'>{country.description}</p>
+            </td>
+            <td className='relative'>
+              <CountryMenu country={country} />
+            </td>
+          </tr>
+        ))}
       />
     </article>
   );

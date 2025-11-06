@@ -1,5 +1,5 @@
 import { axiosClassic, axiosWithAuth } from "@/api/interseptors";
-import { approveReviewType, createReviewType, getReviewsListType, getReviewTypeResponse, ReviewType, updateReviewType } from "@/shared/types/reviews.types";
+import { approveReviewType, createReviewType, getReviewsListType, getReviewsNotFullListType, getReviewTypeResponse, ReviewType, updateReviewType } from "@/shared/types/reviews.types";
 
 class ReviewService {
   private BASE_URL = '/review';
@@ -31,13 +31,18 @@ class ReviewService {
     return response.data;
   }
 
-  async approveReview(review: approveReviewType) {
-    const response = await axiosWithAuth.put<ReviewType>(this.BASE_URL + '/approve', review);
+  async approveReview(review_id: number) {
+    const response = await axiosWithAuth.put<ReviewType>(this.BASE_URL + `/approve/${review_id}`);
     return response.data;
   }
 
   async deleteReview(review_id: number) {
     const response = await axiosWithAuth.delete<ReviewType>(this.BASE_URL + `/${review_id}`);
+    return response.data;
+  }
+
+  async getReviewsNotApproved(pages: {pageNumber: number, pageSize: number}) {
+    const response = await axiosWithAuth.get<getReviewsNotFullListType>(this.BASE_URL + '/approved', {params: pages});
     return response.data;
   }
 }

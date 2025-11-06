@@ -1,5 +1,5 @@
 import { axiosClassic, axiosWithAuth } from "@/api/interseptors";
-import { createHotelType, getHotelWithCountryType, hotelType, updateHotelType } from "@/shared/types/hotel.types";
+import { createHotelType, getHotelWithCountryType, hotelType, hotelWithCountry, updateHotelType } from "@/shared/types/hotel.types";
 import { options } from "@/shared/types/user.types";
 
 class HotelService {
@@ -11,7 +11,7 @@ class HotelService {
   }
 
   async getHotel(hotel_id: number) {
-    const response = await axiosClassic.get<hotelType>(this.BASE_URL + `/${hotel_id}`);
+    const response = await axiosClassic.get<hotelWithCountry>(this.BASE_URL + `/${hotel_id}`);
     return response.data;
   }
 

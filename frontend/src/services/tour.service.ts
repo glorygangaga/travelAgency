@@ -45,8 +45,8 @@ class TourService {
     return response.data;
   }
 
-  async getToursByCountry(country_id: number) {
-    const response = await axiosClassic.get<TourType[]>(this.BASE_URL + `/country/${country_id}`);
+  async getToursByCountry({country_id, pageNumber, pageSize}: {country_id: number, pageNumber: number, pageSize: number}) {
+    const response = await axiosClassic.get<TourResponseType>(this.BASE_URL + `/country/${country_id}`, {params: {pageNumber, pageSize}});
     return response.data;
   }
 
@@ -58,6 +58,10 @@ class TourService {
     return response.data;
   }
 
+  async getToursByHotelId({hotel_id, pageNumber, pageSize}: {hotel_id: number, pageNumber: number, pageSize: number}) {
+    const response = await axiosClassic.get<TourResponseType>(this.BASE_URL + `/hotel/${hotel_id}`, {params: {pageNumber, pageSize}});
+    return response.data;
+  }
 }
 
 export const tourService = new TourService();

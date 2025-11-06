@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, LoaderCircle } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { Controller, Resolver, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import { Input } from '@/components/ui/Input';
 import { useUserStore } from '@/store/userStore';
 import { createUserUpdateSchema } from '@/shared/schemas/user.schema';
-import { User, UserTypeResponse, UserTypeUpdateRequest } from '@/shared/types/user.types';
+import { User, UserTypeUpdateRequest } from '@/shared/types/user.types';
 import { userService } from '@/services/user.service';
 import { formatPassportNumber } from '@/shared/lib/functions/formatPassportNumber';
 import { formatPhoneNumber } from '@/shared/lib/functions/formatPhoneNumber';
@@ -169,11 +169,7 @@ export function SettingsInfo() {
         {...register('date')}
         error={errors.date?.message}
       />
-      <ButtonSubmit
-        isPending={isSubmitting || isPending}
-        className='dark:bg-white/20 gap-2 flex justify-center max-sm:w-full bg-black/10 py-2 rounded-lg transition-colors hover:bg-black/15 dark:hover:bg-white/15'
-        text='Save'
-      />
+      <ButtonSubmit isPending={isSubmitting || isPending} text='Save' />
     </form>
   );
 }

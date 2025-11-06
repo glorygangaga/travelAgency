@@ -29,7 +29,12 @@ export class HotelService {
 
   async getHotel(hotel_id: number) {
     return this.prisma.hotel.findUnique({
-      where: {hotel_id}
+      where: {hotel_id},
+      include : {country: {
+        select: {
+          country_name: true
+        }
+      }}
     });
   }
 

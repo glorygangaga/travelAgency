@@ -65,7 +65,12 @@ export class TourController {
   }
 
   @Get('/country/:country_id')
-  async getToursByCountry(@Param('country_id') country_id: string) {
-    return this.tourService.getToursByCountry(+country_id);
+  async getToursByCountry(@Param('country_id') country_id: string, @Query('pageNumber') pageNumber: string, @Query('pageSize') pageSize: string) {
+    return this.tourService.getToursByCountry(+country_id, +pageNumber, +pageSize);
+  }
+
+  @Get('/hotel/:hotel_id') 
+  async GetToursByHotels(@Param('hotel_id') hotel_id: string, @Query('pageNumber') pageNumber: string, @Query('pageSize') pageSize: string) {
+    return this.tourService.getToursByHotels(+hotel_id, +pageNumber, +pageSize);
   }
 }

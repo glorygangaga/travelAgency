@@ -31,3 +31,9 @@ export type getReviewsListType = {
   reviews: (ReviewType & {user: {username: string}})[];
   total: number;
 }
+
+export type getReviewsNotFullListType = {
+  reviews: ReviewType[];
+  total: number;
+
+}

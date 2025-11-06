@@ -13,10 +13,22 @@ export class TourController {
     return this.tourService.getTours(+pageNumber, +pageSize);
   }
 
+  @Get('/search')
+  async getToursByQuery(@Query('q') q: string, @Query('country_id') country_id: string) {
+    if (!q && !country_id) return [];
+    return this.tourService.findByQuery(q, country_id);
+  }
+
+  @Get('/full/:tour_id')
+  async getFullTour(@Param('tour_id') tour_id: string) {
+    return this.tourService.getFullTour(+tour_id);
+  }
+  
   @Get('/:tour_id')
   async getTour(@Param('tour_id') tour_id: string) {
     return this.tourService.getTour(+tour_id);
   }
+  
 
   @Post()
   @HttpCode(200)

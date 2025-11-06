@@ -3,6 +3,7 @@ import { PrismaService } from 'src/prisma.service';
 import { CreateHotelDto } from './dto/create.dto';
 import { UpdateHotelDto } from './dto/update.dto';
 import { CountryService } from 'src/country/country.service';
+import { title } from 'process';
 
 @Injectable()
 export class HotelService {

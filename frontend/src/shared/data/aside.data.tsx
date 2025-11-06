@@ -31,7 +31,7 @@ export const getAsideData = (t: (key: string) => string): AsideTypes => [
   {
     icon: 'Compass',
     text: t('ASIDE.Selection'),
-    href: '/find',
+    href: '/tours',
   },
   {
     icon: 'GalleryVerticalEnd',

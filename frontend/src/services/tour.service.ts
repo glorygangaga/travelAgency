@@ -1,5 +1,5 @@
 import { axiosClassic, axiosWithAuth } from "@/api/interseptors";
-import { TourCreateType, TourListCountriesDesc, TourResponseType, TourType } from "@/shared/types/tour.types";
+import { FullTourData, TourCreateType, TourListCountriesDesc, TourResponseType, TourType } from "@/shared/types/tour.types";
 import { options } from "@/shared/types/user.types";
 
 class TourService {
@@ -12,6 +12,11 @@ class TourService {
 
   async getTour(tour_id: number) {
     const response = await axiosClassic.get<TourType & {reviews: any[]}>(this.BASE_URL + `/${tour_id}`);
+    return response.data;
+  }
+
+  async getFullTour(tour_id: number) {
+    const response = await axiosClassic.get<FullTourData>(this.BASE_URL + `/full/${tour_id}`);
     return response.data;
   }
 
@@ -42,6 +47,14 @@ class TourService {
 
   async getToursByCountry(country_id: number) {
     const response = await axiosClassic.get<TourType[]>(this.BASE_URL + `/country/${country_id}`);
+    return response.data;
+  }
+
+  async getToursByQuery({country_id, query}: { country_id: number; query: string }) {
+    let data: { country_id?: number; q?: string } = {q: query, country_id};
+    if (country_id === -1) data.country_id = undefined;
+    if (!query) data.q = undefined;
+    const response = await axiosClassic.get<FullTourData[]>(this.BASE_URL + '/search', {params: data});
     return response.data;
   }
 

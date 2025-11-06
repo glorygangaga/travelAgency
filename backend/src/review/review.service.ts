@@ -15,19 +15,26 @@ export class ReviewService {
 
   async getReviewsByTour(tour_id: number, pageNumber: number, pageSize: number) {
     const skip = pageSize * (pageNumber - 1);
-    const tours = await this.prisma.review.findMany({where: {tour_id, is_approved: true},
+    const reviews = await this.prisma.review.findMany({where: {tour_id, is_approved: true},
       orderBy: {created_at: 'desc'},
-      take: pageSize, skip
+      take: pageSize, skip,
+      include: {user: {select: {email: true}}}
     });
-    const total = await this.prisma.tour.count();
-    return {tours, total};
+    const rev = reviews.map(review => ({...review, user: {username: review.user.email.split('@')[0]}}));
+
+
+    const total = await this.prisma.review.count({where: {tour_id, is_approved: true}});
+    return {reviews: rev, total};
   }
 
   async getReviewsByUser(user_id: number, pageNumber: number, pageSize: number) {
     const skip = pageSize * (pageNumber - 1);
-    const tours = await this.prisma.review.findMany({where: {user_id}, take: pageSize, skip});
-    const total = await this.prisma.tour.count();
-    return {tours, total};
+    const reviews = await this.prisma.review.findMany({where: {user_id}, take: pageSize, skip, include: {user: {select: {email: true}}}});
+    const total = await this.prisma.review.count({where: {user_id}});
+
+    const rev = reviews.map(review => ({...review, user: {username: review.user.email.split('@')[0]}}));
+
+    return {reviews: rev, total};
   }
 
   async getReviewByUser(user_id: number, review_id: number) {
@@ -46,7 +53,7 @@ export class ReviewService {
     if (!review) throw new ForbiddenException('Access denied: not this user try delete review.');
 
     return this.prisma.review.update({where: {review_id: dto.review_id, user_id}, data: {
-      ...dto
+      ...dto, is_approved: false
     }});
   }
 

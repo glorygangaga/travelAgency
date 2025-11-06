@@ -22,7 +22,7 @@ class ReviewService {
   }
 
   async createReview(review: createReviewType) {
-    const response = await axiosWithAuth.post<ReviewType>(this.BASE_URL + '', review);
+    const response = await axiosWithAuth.post<ReviewType>(this.BASE_URL, review);
     return response.data;
   }
 

@@ -12,7 +12,7 @@ import { TableSkeleton } from '@/components/ui/table/TableSkeleton';
 
 export function Hotel() {
   const { open } = useModal();
-  const [pages, setPages] = useState({ pageNumber: 1, pageSize: 30 });
+  const [pages, setPages] = useState({ pageNumber: 1, pageSize: 15 });
 
   const { data, isLoading } = useQuery({
     queryKey: ['hotels', pages.pageNumber],

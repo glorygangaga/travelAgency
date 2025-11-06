@@ -1,10 +1,10 @@
 import Link from 'next/link';
 
 import { useModal } from '@/components/ui/modal/ModalProvider';
-import { FullTourData } from '@/shared/types/tour.types';
+import { FullTourData, TourTypeRes } from '@/shared/types/tour.types';
 
 interface Props {
-  tour: FullTourData;
+  tour: FullTourData | TourTypeRes;
 }
 
 export function TourCard({ tour }: Props) {
@@ -22,7 +22,7 @@ export function TourCard({ tour }: Props) {
           <p className='text-sm line-clamp-2'>{tour.description}</p>
         </div>
         <div className='flex flex-row min-md:flex-col justify-between w-full min-md:w-fit'>
-          <p className='w-max'>{tour.price_person} &#8381;</p>
+          <p className='w-max'>{tour.price_person} $</p>
           <p className='w-max'>Slots: {tour.available_slots}</p>
         </div>
       </div>

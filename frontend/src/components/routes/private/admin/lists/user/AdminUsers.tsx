@@ -2,13 +2,15 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
 
 import { useModal } from '@/components/ui/modal/ModalProvider';
 import Pagination from '@/components/ui/pagination/Pagination';
 import { userService } from '@/services/user.service';
-import { UsersCreate } from './UsersCreate';
-import { UsersList } from './UsersList';
 import { TableSkeleton } from '@/components/ui/table/TableSkeleton';
+
+const UsersList = dynamic(() => import('./UsersList'));
+const UsersCreate = dynamic(() => import('./UsersCreate'));
 
 export function AdminUsers() {
   const { open } = useModal();

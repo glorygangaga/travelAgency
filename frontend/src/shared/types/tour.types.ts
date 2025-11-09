@@ -66,4 +66,6 @@ export type TourListCountriesDesc = {
 export type FullTourData = {
   country: countryType;
   hotel: hotelType;
+  rating: number;
+  reviews_total: number;
 } & TourType;

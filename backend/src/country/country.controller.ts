@@ -22,21 +22,21 @@ export class CountryController {
   @UsePipes(new ValidationPipe())
   @Post()
   @HttpCode(200)
-  @AuthRole('admin')
+  @AuthRole('admin', 'manager')
   async createCountry(@Body() dto: CountryDto) {
     return this.countryService.create(dto);
   }
 
   @UsePipes(new ValidationPipe())
   @Put()
-  @AuthRole('admin')
+  @AuthRole('admin', 'manager')
   async updateCountry(@Body() dto: UpdateCountryDto) {
     return this.countryService.update(dto);
   }
 
   @UsePipes(new ValidationPipe())
   @Delete(':country_id')
-  @AuthRole('admin')
+  @AuthRole('admin', 'manager')
   async deleteCountry(@Param('country_id') country_id: string) {
     return this.countryService.deleteCountry(+country_id);
   }

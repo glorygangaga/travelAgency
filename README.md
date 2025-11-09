@@ -113,6 +113,7 @@
   - lucide icons
   - zod
   - framer-motion
+  - react-hook-form
 
 ## Backend
 

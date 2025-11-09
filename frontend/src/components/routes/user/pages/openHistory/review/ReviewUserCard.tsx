@@ -1,13 +1,17 @@
 import { Check, EllipsisVertical, UserCircle, X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { StarRaiting } from '@/components/ui/StarRaiting/StarRaiting';
 import { ReviewType } from '@/shared/types/reviews.types';
+import { UserReviewMenu } from './UserReviewMenu';
 
 interface Props {
   review: ReviewType & { user: { username: string } };
 }
 
 export function ReviewUserCard({ review }: Props) {
+  const t = useTranslations('USER.REVIEWS');
+
   return (
     <li className='border dark:border-white/20 border-black/20 p-2 rounded-lg'>
       <div className='flex justify-between items-center mb-1.5 border-b border-black/20 dark:border-white/20 pb-1.5'>
@@ -18,7 +22,7 @@ export function ReviewUserCard({ review }: Props) {
         <div className='flex gap-4 items-center'>
           <div>
             <p className='flex gap-1 items-center justify-end'>
-              <span>Approved</span>
+              <span>{t('APPROVED')}</span>
               {review.is_approved ? (
                 <Check className='text-green-600 w-5 h-5' />
               ) : (
@@ -27,9 +31,7 @@ export function ReviewUserCard({ review }: Props) {
             </p>
           </div>
           <StarRaiting rating={review.rating} />
-          <button>
-            <EllipsisVertical width={20} height={20} />
-          </button>
+          <UserReviewMenu review={review} />
         </div>
       </div>
       <p>{review.comment}</p>

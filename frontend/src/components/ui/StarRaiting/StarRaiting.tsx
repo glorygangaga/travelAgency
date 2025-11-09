@@ -14,7 +14,7 @@ export function StarRaiting({ rating }: Props) {
           className={index < rating ? 'fill-yellow-300 text-yellow-300' : 'fill-none text-gray-300'}
         />
       ))}
-      <span className='text-xs'>({rating}/5)</span>
+      <span className='text-xs'>{rating}/5</span>
     </div>
   );
 }

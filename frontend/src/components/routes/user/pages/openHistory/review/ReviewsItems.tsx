@@ -1,6 +1,5 @@
-import { Check, Edit2, Ellipsis, EllipsisVertical, UserCircle, X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
-import { StarRaiting } from '@/components/ui/StarRaiting/StarRaiting';
 import { ReviewType } from '@/shared/types/reviews.types';
 import { ReviewUserCard } from './ReviewUserCard';
 
@@ -9,9 +8,11 @@ interface Props {
 }
 
 export function ReviewsItems({ data }: Props) {
+  const t = useTranslations('USER.REVIEWS');
+
   return (
     <>
-      <h1 className='font-bold text-center text-2xl'>Your reviews</h1>
+      <h1 className='font-bold text-center text-2xl'>{t('YOUR')}</h1>
       <ul>
         {data.map((review) => (
           <ReviewUserCard review={review} key={review.review_id} />

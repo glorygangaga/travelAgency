@@ -35,5 +35,82 @@
   },
   "FINDER_LIST": {
     "Search": "Search"
+  },
+  "TOUR": {
+    "TOURS": "Tours",
+    "SLOTS": "Slots",
+    "HOTEL": "Hotel",
+    "COUNTRY": "Country",
+    "FOOD": "Food",
+    "BUY": "Buy Tour",
+    "NOT_REVIEWS": "No reviews here",
+    "NOT_FOUND": "Tour not found",
+    "INVALID_RESPONSE": "Invalid response from server",
+    "SEE_ALL": "See all tours"
+  },
+  "Calendar": {
+    "weekday_0": "Mon",
+    "weekday_1": "Tue",
+    "weekday_2": "Wed",
+    "weekday_3": "Thu",
+    "weekday_4": "Fri",
+    "weekday_5": "Sat",
+    "weekday_6": "Sun",
+    "DURATION": "Duration",
+    "DAYS": "Days"
+  },
+  "HOTEL": {
+    "Tours": "Tours in this hotel"
+  },
+  "COUNTRY": {
+    "Tours": "Tours in this country"
+  },
+  "REVIEW": {
+    "NOT_REVIEWS": "There is not reviews",
+    "CREATE": "Create review",
+    "WAIT": "Wait while your review will be approved by moderator."
+  },
+  "USER": {
+    "ACCOUNT": "Account",
+    "LOGOUT": "Logout",
+    "SETTINGS": {
+      "CHANGE": "Change user data",
+      "SAVE": "Save",
+      "ERROR": {
+        "FILLED_ERROR": "Firstname or lastname can't be empty if one of them filled"
+      },
+      "PLACEHOLDER": {
+        "FIRSTNAME": "Add firstname",
+        "LASTNAME": "Add lastname",
+        "PASSPORT": "00 00 0000",
+        "PHONE": "+7 123 456 78 90"
+      },
+      "LABEL": {
+        "FIRSTNAME": "Firstname",
+        "LASTNAME": "Lastname",
+        "PASSPORT": "Passport number",
+        "PHONE": "Phone",
+        "DATE": "Birth date"
+      }
+    },
+    "REVIEWS": {
+      "NOT": "There is not reviews in your account",
+      "YOUR": "Your reviews",
+      "APPROVED": "Approved",
+      "EDIT": "Edit review",
+      "SEE": "See a tour",
+      "DELETE": "Delete review",
+      "UPDATE": "Update review",
+      "YES": "Yes",
+      "WANT": "You want to delete review?"
+    },
+    "BOOKINGS": {
+      "NOT": "There is not bookings in your account",
+      "BOOK": "book a tour",
+      "YOUR": "Your bookings"
+    }
+  },
+  "CHECKOUT": {
+    "TITLE": "Checkout"
   }
 }

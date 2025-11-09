@@ -53,14 +53,14 @@ export function UserButton() {
           }
           className='p-2 rounded-lg dark:bg-black/20 bg-white transition-colors hover:dark:bg-white/10 hover:bg-black/10 flex gap-2 justify-between w-full'
         >
-          <p>Account</p>
+          <p>{t('USER.ACCOUNT')}</p>
           <CircleUser className='w-5 h-5' />
         </Link>
         <button
           className='p-2 rounded-lg dark:bg-black/20 bg-white transition-colors hover:dark:bg-white/10 hover:bg-black/10 flex gap-2 justify-between w-full text-red-600'
           onClick={handleLogout}
         >
-          <p>Logout</p>
+          <p>{t('USER.LOGOUT')}</p>
           <LogOut className='w-5 h-5' />
         </button>
       </div>

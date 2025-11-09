@@ -7,7 +7,7 @@ interface Props {
   reviewId: number;
 }
 
-export function ReviewApprove({ reviewId }: Props) {
+export default function ReviewApprove({ reviewId }: Props) {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({

@@ -30,11 +30,15 @@ export interface User {
 }
 
 export interface UserStore {
-  user: User | null;
+  user: User | UserTypeResponse | null;
   loading: boolean;
   error: string | null;
-  setUserData: (user: User) => void;
+  setUserData: (user: User | UserTypeResponse) => void;
   logout: () => void;
+  favorites: number[];
+  getFavorites: () => void;
+
+  handleFavorite: (tour_id: number) => void;
 }
 
 export type UserTypeUpdate = {

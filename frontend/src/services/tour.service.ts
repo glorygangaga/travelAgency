@@ -62,6 +62,11 @@ class TourService {
     const response = await axiosClassic.get<TourResponseType>(this.BASE_URL + `/hotel/${hotel_id}`, {params: {pageNumber, pageSize}});
     return response.data;
   }
+
+  async getToursByIds(tours: number[]) {
+    const response = await axiosWithAuth.get<FullTourData[]>(this.BASE_URL + '/ids', {params: {ids: tours}});
+    return response.data;
+  }
 }
 
 export const tourService = new TourService();

@@ -1,15 +1,19 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import dynamic from 'next/dynamic';
 
 import { FinderForm } from './FinderForm';
 import { tourService } from '@/services/tour.service';
 import { Loading } from '@/components/ui/loading/Loading';
 import { useModal } from '@/components/ui/modal/ModalProvider';
-import { TourCard } from './TourCard';
 import { useDebounce } from '@/shared/lib/hook/useDebounce';
 
+const TourCard = dynamic(() => import('@/components/header/Finder/TourCard'));
+
 export function Finder() {
+  const t = useTranslations('TOUR');
   const [query, setQuery] = useState<{ country_id: number; query: string }>({
     country_id: -1,
     query: '',
@@ -78,7 +82,7 @@ export function Finder() {
         </div>
         <div className='flex justify-end'>
           <Link className='p-1 border-b' href={'/tours'} onClick={() => close()}>
-            See all tours
+            {t('SEE_ALL')}
           </Link>
         </div>
       </div>

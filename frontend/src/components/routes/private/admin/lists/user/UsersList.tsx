@@ -1,16 +1,17 @@
 import { PlusCircle } from 'lucide-react';
+import dynamic from 'next/dynamic';
 
 import { GetUserByAdmin, RoleNames } from '@/shared/types/user.types';
-import { UsersCreate } from './UsersCreate';
 import { useModal } from '@/components/ui/modal/ModalProvider';
-
 import { Table } from '@/components/ui/table/Table';
+
+const UsersCreate = dynamic(() => import('./UsersCreate'));
 
 interface Props {
   data: GetUserByAdmin[];
 }
 
-export function UsersList({ data }: Props) {
+export default function UsersList({ data }: Props) {
   const { open } = useModal();
 
   return (

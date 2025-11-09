@@ -2,6 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 import { ReviewSkeleton } from './ReviewSkeleton';
 import { ReviewsItems } from './ReviewsItems';
@@ -9,6 +10,7 @@ import { reviewService } from '@/services/reviews.service';
 import Pagination from '@/components/ui/pagination/Pagination';
 
 export default function UserReviewHistory() {
+  const t = useTranslations('USER.REVIEWS');
   const [pages, setPages] = useState({ pageNumber: 1, pageSize: 10 });
   const { data, isLoading, isError } = useQuery({
     queryKey: ['review'],
@@ -27,7 +29,7 @@ export default function UserReviewHistory() {
       ) : isError ? (
         <h1 className='font-bold text-2xl text-center text-red-600'>Something went wrong</h1>
       ) : (
-        <h1 className='font-bold text-2xl text-center'>There is not reviews in your account</h1>
+        <h1 className='font-bold text-2xl text-center'>{t('NOT')}</h1>
       )}
     </div>
   );

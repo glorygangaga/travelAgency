@@ -2,13 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import createMiddleware from 'next-intl/middleware';
 import { routing } from './i18n/routing';
-import { isAdminRoute, isModeratorRoute, isProtectedRoute } from './shared/data/routing';
+import { isAdminRoute, isModeratorRoute, isPrivateProtectedRoute, isProtectedRoute } from './shared/data/routing';
 import { EnumTokens } from './services/auth-token.service';
 import { ROLE } from './shared/types/user.types';
 
 const intlMiddleware = createMiddleware(routing);
 
-async function checkRole(accessToken: string): Promise<"admin" | 'user' | 'manager' | null> {
+async function checkRole(accessToken: string): Promise<ROLE | null> {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/role`, {
       headers: {
@@ -20,7 +20,7 @@ async function checkRole(accessToken: string): Promise<"admin" | 'user' | 'manag
     });
 
     if (!res.ok) return null;
-    const data = await res.text() as 'admin' | 'user' | 'manager';
+    const data = await res.text() as ROLE;
     return data;
   } catch(error) {
     console.error(error);
@@ -44,15 +44,17 @@ export default async function middleware(req: NextRequest) {
   if (!isProtected) return response;
   if (!refreshToken) return returnNotFoundPage(locale, req.url);
 
-  const isAdmin = isAdminRoute(pathWithoutLocale);
-  const isModerator = isModeratorRoute(pathWithoutLocale);
-  if (isAdmin || isModerator) {
+  const isPrivate = isPrivateProtectedRoute(pathWithoutLocale);
+  if (isPrivate) {
     const accessToken = req.cookies.get(EnumTokens.ACCESS_TOKEN)?.value || '';
     const data = await checkRole(accessToken);
 
-    console.log(isModerator, isAdmin);
+    const isAdmin = isAdminRoute(pathWithoutLocale);
+    const isModerator = isModeratorRoute(pathWithoutLocale);
+
     if (isAdmin && data !== ROLE.ADMIN) return returnNotFoundPage(locale, req.url);
     else if (isModerator && data !== ROLE.MODERATOR) return returnNotFoundPage(locale, req.url);
+    else if (data !== ROLE.MODERATOR && data !== ROLE.ADMIN) return returnNotFoundPage(locale, req.url);
   }
 
   return response;

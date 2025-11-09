@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 import { useModal } from '@/components/ui/modal/ModalProvider';
 import { FullTourData, TourTypeRes } from '@/shared/types/tour.types';
@@ -7,7 +8,9 @@ interface Props {
   tour: FullTourData | TourTypeRes;
 }
 
-export function TourCard({ tour }: Props) {
+export default function TourCard({ tour }: Props) {
+  const t = useTranslations('TOUR');
+
   const { close } = useModal();
   return (
     <li className='relative p-2 rounded-lg border border-black/20 dark:border-white/20 transition-transform'>
@@ -23,12 +26,16 @@ export function TourCard({ tour }: Props) {
         </div>
         <div className='flex flex-row min-md:flex-col justify-between w-full min-md:w-fit'>
           <p className='w-max'>{tour.price_person} $</p>
-          <p className='w-max'>Slots: {tour.available_slots}</p>
+          <p className='w-max'>
+            {t('SLOTS')}: {tour.available_slots}
+          </p>
         </div>
       </div>
       <div className='flex justify-between pt-0.5 mt-1 border-t dark:border-white/20 border-black/20'>
         <div className='relative transition-transform hover:scale-105 hover:font-bold'>
-          <h1>Country: {tour.country.country_name}</h1>
+          <h1>
+            {t('COUNTRY')}: {tour.country.country_name}
+          </h1>
           <Link
             className='absolute left-0 top-0 w-full h-full'
             href={`/country/${tour.country_id}`}
@@ -36,7 +43,9 @@ export function TourCard({ tour }: Props) {
           />
         </div>
         <div className='relative transition-transform hover:scale-105 hover:font-bold'>
-          <h1>Hotel: {tour.hotel.hotel_name}</h1>
+          <h1>
+            {t('HOTEL')}: {tour.hotel.hotel_name}
+          </h1>
           <Link
             className='absolute left-0 top-0 w-full h-full'
             href={`/hotel/${tour.hotel_id}`}

@@ -1,11 +1,12 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { Controller, Resolver, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 
 import { Input } from '@/components/ui/Input';
 import { useUserStore } from '@/store/userStore';
@@ -18,6 +19,11 @@ import { GetNumbersFromString } from '@/shared/lib/functions/OnlyNumbers';
 import { ButtonSubmit } from '@/components/ui/button/ButtonSubmit';
 
 export function SettingsInfo() {
+  const searchParams = useSearchParams();
+  const error = searchParams.get('error');
+
+  const t = useTranslations('USER.SETTINGS');
+  const router = useRouter();
   const { back } = useRouter();
   const { user, setUserData } = useUserStore();
   const schema = createUserUpdateSchema();
@@ -39,6 +45,7 @@ export function SettingsInfo() {
     mutationFn: (data: UserTypeUpdateRequest) => userService.update(data),
     onSuccess(data: User) {
       setUserData(data);
+      setError('root', { message: '' });
     },
     onError(error: any) {
       setError('root', {
@@ -54,11 +61,11 @@ export function SettingsInfo() {
     } else if ((!data.firstname && data.lastname) || (data.firstname && !data.lastname)) {
       if (!data.firstname)
         setError('firstname', {
-          message: "Firstname or lastname can't be empty if one of them filled",
+          message: t('ERROR.FILLED_ERROR'),
         });
       else
         setError('lastname', {
-          message: "Firstname or lastname can't be empty if one of them filled",
+          message: t('ERROR.FILLED_ERROR'),
         });
       return;
     }
@@ -86,6 +93,15 @@ export function SettingsInfo() {
     });
   }, [user]);
 
+  useEffect(() => {
+    if (!error) return;
+    setError('root', { message: 'Please fill in all fields and save it to book a tour.' });
+    const params = new URLSearchParams(searchParams);
+    params.delete('error');
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    router.replace(newUrl, { scroll: false });
+  }, [error]);
+
   return (
     <form
       onSubmit={handleSubmit(OnSubmit)}
@@ -99,25 +115,25 @@ export function SettingsInfo() {
         >
           <ArrowLeft className='w-5 h-5' />
         </button>
-        <h1 className='font-bold text-center text-2xl'>Change User data</h1>
+        <h1 className='font-bold text-center text-2xl'>{t('CHANGE')}</h1>
         {errors.root && (
-          <div className='bg-black/10 mb-2 text-red-500 p-2 rounded-lg mt-2.5 text-center'>
-            <p>{errors.root.message}</p>
+          <div className='mb-2 text-red-500 p-2 rounded-lg mt-2.5 text-center'>
+            <p className='p-2 bg-black/10 dark:bg-white/10 rounded-lg'>{errors.root.message}</p>
           </div>
         )}
       </div>
       <div className='flex gap-3 w-full'>
         <Input
-          placeholder='Add firstname'
+          placeholder={t('PLACEHOLDER.FIRSTNAME')}
           className='w-full'
-          label='Firstname'
+          label={t('LABEL.FIRSTNAME')}
           id='firstname'
           error={errors.firstname?.message}
           {...register('firstname')}
         />
         <Input
-          placeholder='Add lastname'
-          label='Lastname'
+          placeholder={t('PLACEHOLDER.LASTNAME')}
+          label={t('LABEL.LASTNAME')}
           className='w-full'
           id='lastname'
           error={errors.lastname?.message}
@@ -129,8 +145,8 @@ export function SettingsInfo() {
         control={control}
         render={({ field }) => (
           <Input
-            placeholder='00 00 0000'
-            label='Passport number'
+            placeholder={t('PLACEHOLDER.PASSPORT')}
+            label={t('LABEL.PASSPORT')}
             id='passportNumber'
             {...field}
             error={errors.passport_number?.message}
@@ -147,8 +163,8 @@ export function SettingsInfo() {
         control={control}
         render={({ field }) => (
           <Input
-            placeholder='+7 123 456 78 90'
-            label='Phone'
+            placeholder={t('PLACEHOLDER.PHONE')}
+            label={t('LABEL.PHONE')}
             id='phoneval'
             autoComplete='off'
             error={errors.phone?.message}
@@ -164,12 +180,12 @@ export function SettingsInfo() {
       <Input
         type='date'
         id='date'
-        label='Birth date'
+        label={t('LABEL.DATE')}
         max={new Date().toISOString().split('T')[0]}
         {...register('date')}
         error={errors.date?.message}
       />
-      <ButtonSubmit isPending={isSubmitting || isPending} text='Save' />
+      <ButtonSubmit isPending={isSubmitting || isPending} text={t('SAVE')} />
     </form>
   );
 }

@@ -1,9 +1,14 @@
 export const adminRoutes = ['/admin'] as const;
 export const moderatorRotes = ['/moderator'] as const;
-export const protectedRoutes = ['/account', ...adminRoutes, ...moderatorRotes] as const;
+export const privateProtectedRoue = ['/panel', ...adminRoutes, ...moderatorRotes] as const;
+export const protectedRoutes = ['/account', '/checkout', ...privateProtectedRoue] as const;
 
 export function isProtectedRoute(path: string): boolean {
   return protectedRoutes.some(route => path.startsWith(route));
+}
+
+export function isPrivateProtectedRoute(path: string): boolean {
+  return privateProtectedRoue.some(route => path.startsWith(route));
 }
 
 export function isAdminRoute(path: string): boolean {

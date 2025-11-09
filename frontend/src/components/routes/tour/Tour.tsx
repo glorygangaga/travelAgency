@@ -1,16 +1,26 @@
-import { ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
+import dynamic from 'next/dynamic';
 
 import { FullTourData } from '@/shared/types/tour.types';
 import { FOOD_DATA } from '@/shared/data/Food.data';
 import Calendar from '@/components/ui/calendar/Calendar';
 import { Reviews } from '@/components/reviews/Reviews';
+import { StarRaiting } from '@/components/ui/StarRaiting/StarRaiting';
+import { FavoriteButton } from './FavoriteButton';
+
+const BuyTour = dynamic(() => import('./BuyTour'), {
+  loading: () => (
+    <div className='px-20 py-3 rounded-md dark:bg-white bg-black text-white dark:text-black min-w-[255px] max-md:w-full flex gap-2 justify-center' />
+  ),
+});
 
 interface Props {
   tour_id: string;
 }
 
 export async function Tour({ tour_id }: Props) {
+  const t = await getTranslations('TOUR');
   const res = await fetch(process.env.NEXT_PUBLIC_API_URL + `/tour/full/${tour_id}`, {
     next: { revalidate: 600 },
     method: 'GET',
@@ -20,25 +30,29 @@ export async function Tour({ tour_id }: Props) {
   try {
     tour = await res.json();
   } catch {
-    return <h1 className='text-center text-5xl font-bold pt-10'>Invalid response from server</h1>;
+    return <h1 className='text-center text-5xl font-bold pt-10'>{t('INVALID_RESPONSE')}</h1>;
   }
 
-  if (!tour) return <h1>Tour not found</h1>;
+  if (!tour) return <h1>{t('NOT_FOUND')}</h1>;
 
   const tourAdditionalData = [
     tour.tour_type,
     `${tour.price_person} $`,
-    `Count: ${tour.available_slots}`,
-    `Food: ${FOOD_DATA[tour.food_type]}`,
+    `${t('SLOTS')}: ${tour.available_slots}`,
+    `${t('FOOD')}: ${FOOD_DATA[tour.food_type]}`,
   ];
 
   const tourInfo = [
     {
       text: tour.country.country_name,
       link: `/country/${tour.country_id}`,
-      additional: 'Country: ',
+      additional: `${t('COUNTRY')}: `,
     },
-    { text: tour.hotel.hotel_name, link: `/hotel/${tour.hotel_id}`, additional: 'Hotel: ' },
+    {
+      text: `${tour.hotel.hotel_name} ${tour.hotel.category}`,
+      link: `/hotel/${tour.hotel_id}`,
+      additional: `${t('HOTEL')}: `,
+    },
   ];
 
   return (
@@ -48,6 +62,10 @@ export async function Tour({ tour_id }: Props) {
           <div>
             <h1 className='text-4xl font-bold'>{tour.title}</h1>
             <p>{tour.description}</p>
+            <div className='flex gap-2 items-center'>
+              <StarRaiting rating={Math.round(tour.rating || 0)} />
+              <p className='text-xs'>({tour.reviews_total})</p>
+            </div>
           </div>
           <div className='flex gap-2'>
             {tourInfo.map((tourData) => (
@@ -72,10 +90,10 @@ export async function Tour({ tour_id }: Props) {
               </p>
             ))}
           </div>
-          <button className='px-20 py-3 rounded-md dark:bg-white bg-black text-white dark:text-black w-full min-lg:w-fit flex gap-2 justify-center'>
-            <ShoppingBag />
-            <span>Buy a tour</span>
-          </button>
+          <div className='flex gap-2 w-full'>
+            <BuyTour tour={tour} />
+            <FavoriteButton tour_id={tour.tour_id} />
+          </div>
         </div>
         <Calendar start_date={tour.start_date} end_date={tour.end_date} />
       </article>

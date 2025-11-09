@@ -1,11 +1,14 @@
 'use client';
 
-import { TableSkeleton } from '@/components/ui/table/TableSkeleton';
-import { reviewService } from '@/services/reviews.service';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { ReviewsList } from './ReviewsList';
+import dynamic from 'next/dynamic';
+
+import { TableSkeleton } from '@/components/ui/table/TableSkeleton';
+import { reviewService } from '@/services/reviews.service';
 import Pagination from '@/components/ui/pagination/Pagination';
+
+const ReviewsList = dynamic(() => import('./ReviewsList'));
 
 export function Reviews() {
   const [pages, setPages] = useState({ pageNumber: 1, pageSize: 20 });

@@ -33,6 +33,84 @@
     }
   },
   "FINDER_LIST": {
-    "Search": "Найти"
+    "Search": "Buscar"
+  },
+  "TOUR": {
+    "TOURS": "Tours",
+    "SLOTS": "Plazas",
+    "HOTEL": "Hotel",
+    "COUNTRY": "País",
+    "FOOD": "Comida",
+    "BUY": "Comprar tour",
+    "NOT_REVIEWS": "No hay reseñas aquí",
+    "NOT_FOUND": "Tour no encontrado",
+    "INVALID_RESPONSE": "Respuesta inválida del servidor",
+    "SEE_ALL": "Ver todos los tours"
+  },
+  "Calendar": {
+    "weekday_0": "Lun",
+    "weekday_1": "Mar",
+    "weekday_2": "Mié",
+    "weekday_3": "Jue",
+    "weekday_4": "Vie",
+    "weekday_5": "Sáb",
+    "weekday_6": "Dom",
+    "DURATION": "Duración",
+    "DAYS": "Días"
+  },
+  "HOTEL": {
+    "Tours": "Tours en este hotel"
+  },
+  "COUNTRY": {
+    "Tours": "Tours en este país"
+  }
+  ,
+  "REVIEW": {
+    "NOT_REVIEWS": "No hay reseñas",
+    "CREATE": "Crear reseña",
+    "WAIT": "Espere mientras su reseña sea aprobada por el moderador."
+  },
+  "USER": {
+    "ACCOUNT": "Cuenta",
+    "LOGOUT": "Cerrar sesión",
+    "SETTINGS": {
+      "CHANGE": "Cambiar datos de usuario",
+      "SAVE": "Guardar",
+      "ERROR": {
+        "FILLED_ERROR": "El nombre o el apellido no pueden estar vacíos si uno de ellos está completado"
+      },
+      "PLACEHOLDER": {
+        "FIRSTNAME": "Agregar nombre",
+        "LASTNAME": "Agregar apellido",
+        "PASSPORT": "00 00 0000",
+        "PHONE": "+7 123 456 78 90"
+      },
+      "LABEL": {
+        "FIRSTNAME": "Nombre",
+        "LASTNAME": "Apellido",
+        "PASSPORT": "Número de pasaporte",
+        "PHONE": "Teléfono",
+        "DATE": "Fecha de nacimiento"
+      }
+    },
+    "REVIEWS": {
+      "NOT": "No hay reseñas en su cuenta",
+      "YOUR": "Sus reseñas",
+      "APPROVED": "Aprobadas",
+      "EDIT": "Editar reseña",
+      "SEE": "Ver tour",
+      "DELETE": "Eliminar reseña",
+      "UPDATE": "Actualizar reseña",
+      "YES": "Sí",
+      "WANT": "¿Quieres eliminar la reseña?"
+    },
+    "BOOKINGS": {
+      "NOT": "No hay reservas en su cuenta",
+      "BOOK": "reservar un tour",
+      "YOUR": "Sus reservas"
+    }
+  },
+  "CHECKOUT": {
+    "TITLE": "Pago"
   }
 }

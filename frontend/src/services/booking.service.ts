@@ -1,5 +1,5 @@
 import { axiosWithAuth } from "@/api/interseptors";
-import { BookingType, getBookingsTypeResponse } from "@/shared/types/booking.types";
+import { BookingType, createBookingType, getBookingsTypeResponse } from "@/shared/types/booking.types";
 
 class BookingService {
   private BASE_URL = '/booking';
@@ -12,6 +12,11 @@ class BookingService {
   async getUserBooking(booking_id: number) {
     const response = await axiosWithAuth.get<BookingType>(this.BASE_URL + `/${booking_id}`);
     return response.data;
+  }
+
+  async createBooking(bookingData: createBookingType) {
+    const response = await axiosWithAuth.post<BookingType>(this.BASE_URL, bookingData);
+    return response;
   }
 };
 

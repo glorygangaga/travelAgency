@@ -1,7 +1,7 @@
 import { Ellipsis, Pencil } from 'lucide-react';
+import Link from 'next/link';
 
 import { useUserStore } from '@/store/userStore';
-import Link from 'next/link';
 
 export function UserMainInfo() {
   const { user } = useUserStore();
@@ -9,7 +9,7 @@ export function UserMainInfo() {
   return (
     <div>
       <div className='flex gap-3 mb-3'>
-        <h1 className='text-2xl font-bold'>{user?.name ? user.name : user?.email.split('@')[0]}</h1>
+        <h1 className='text-2xl font-bold'>{user?.email.split('@')[0]}</h1>
         <div className='min-h-full w-[1px] bg-black/20 dark:bg-white/20' />
         <div className='flex gap-2'>
           <Link

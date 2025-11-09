@@ -21,7 +21,7 @@ export class HotelController {
   @Post()
   @HttpCode(200)
   @UsePipes(new ValidationPipe())
-  @AuthRole('admin')
+  @AuthRole('admin', 'manager')
   async createHotel(@Body() dto: CreateHotelDto) {
     return this.hotelService.createHotel(dto);
   }
@@ -29,7 +29,7 @@ export class HotelController {
   @Put()
   @HttpCode(200)
   @UsePipes(new ValidationPipe())
-  @AuthRole('admin')
+  @AuthRole('admin', 'manager')
   async updateHotel(@Body() dto: UpdateHotelDto) {
     return this.hotelService.updateHotel(dto);
   }
@@ -37,7 +37,7 @@ export class HotelController {
   @Delete('/:hotel_id')
   @HttpCode(200)
   @UsePipes(new ValidationPipe())
-  @AuthRole('admin')
+  @AuthRole('admin', 'manager')
   async deleteHotel(@Param('hotel_id') hotel_id: string) {
     return this.hotelService.deleteHotel(+hotel_id);
   }

@@ -8,5 +8,6 @@ import { UserModule } from 'src/user/user.module';
   imports: [UserModule],
   controllers: [ReviewController],
   providers: [ReviewService, PrismaService],
+  exports: [ReviewService]
 })
 export class ReviewModule {}

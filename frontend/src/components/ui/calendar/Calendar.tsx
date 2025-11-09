@@ -1,14 +1,18 @@
 'use client';
 
 import { ArrowRight, MoveLeft, MoveRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import React, { useState, useMemo } from 'react';
 
 interface CalendarProps {
   start_date: string | Date;
   end_date: string | Date;
+  showInfo?: boolean;
 }
 
-export default function Calendar({ start_date, end_date }: CalendarProps) {
+export default function Calendar({ start_date, end_date, showInfo = true }: CalendarProps) {
+  const t = useTranslations('Calendar');
+
   const [currentDate, setCurrentDate] = useState(new Date(start_date));
 
   const start = new Date(start_date);
@@ -17,7 +21,7 @@ export default function Calendar({ start_date, end_date }: CalendarProps) {
   const monthName = currentDate.toLocaleString('default', { month: 'long' });
   const year = currentDate.getFullYear();
 
-  const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const weekdays: string[] = Array.from({ length: 7 }, (_, i) => t(`weekday_${i}`));
 
   const firstDay = new Date(year, currentDate.getMonth(), 1);
   const lastDay = new Date(year, currentDate.getMonth() + 1, 0);
@@ -103,14 +107,18 @@ export default function Calendar({ start_date, end_date }: CalendarProps) {
         })}
       </div>
 
-      <div className='mt-1 text-sm text-gray-500 text-center'>
-        <p className='flex items-center gap-1.5'>
-          <span>{start.toLocaleDateString()}</span>
-          <ArrowRight className='w-4' />
-          <span>{end.toLocaleDateString()}</span>
-        </p>
-        <p>Duration: {(end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)} days</p>
-      </div>
+      {showInfo && (
+        <div className='mt-1 text-sm text-gray-500 text-center'>
+          <p className='flex items-center gap-1.5'>
+            <span>{start.toLocaleDateString()}</span>
+            <ArrowRight className='w-4' />
+            <span>{end.toLocaleDateString()}</span>
+          </p>
+          <p>
+            {t('DURATION')}: {(end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)} {t('DAYS')}
+          </p>
+        </div>
+      )}
     </div>
   );
 }

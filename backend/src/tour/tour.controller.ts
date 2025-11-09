@@ -3,6 +3,7 @@ import { TourService } from './tour.service';
 import { AuthRole } from 'src/decorators/role.decorator';
 import { TourDto } from './dto/tour.dto';
 import { UpdateTourDto } from './dto/update.dto';
+import { Auth } from 'src/auth/decorators/auth.decorator';
 
 @Controller('tour')
 export class TourController {
@@ -19,6 +20,18 @@ export class TourController {
     return this.tourService.findByQuery(q, country_id);
   }
 
+  @Get('/ids')
+  @Auth()
+  async getToursByIds(@Query('ids[]') ids: string[] | string) {
+    console.log(ids);
+    const idsArray = Array.isArray(ids)
+    ? ids.map(Number)
+    : ids.split(',').map(Number);
+    
+
+    return this.tourService.getToursByIds(idsArray);
+  }
+
   @Get('/full/:tour_id')
   async getFullTour(@Param('tour_id') tour_id: string) {
     return this.tourService.getFullTour(+tour_id);
@@ -33,7 +46,7 @@ export class TourController {
   @Post()
   @HttpCode(200)
   @UsePipes(new ValidationPipe())
-  @AuthRole('admin')
+  @AuthRole('admin', 'manager')
   async createTour(@Body() dto: TourDto) {
     return this.tourService.createTour(dto);
   }
@@ -41,7 +54,7 @@ export class TourController {
   @Put()
   @HttpCode(200)
   @UsePipes(new ValidationPipe())
-  @AuthRole('admin')
+  @AuthRole('admin', 'manager')
   async updateTour(@Body() dto: UpdateTourDto) {
     return this.tourService.updateTour(dto);
   }
@@ -49,7 +62,7 @@ export class TourController {
   @Delete('/:tour_id')
   @HttpCode(200)
   @UsePipes(new ValidationPipe())
-  @AuthRole('admin')
+  @AuthRole('admin', 'manager')
   async deleteTour(@Param('tour_id') tour_id: string) {
     return this.tourService.deleteTour(+tour_id);
   }

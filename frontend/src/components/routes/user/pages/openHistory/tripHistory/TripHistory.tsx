@@ -1,14 +1,16 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 import { TripSkeleton } from './TripSkeleton';
 import { TripItems } from './TripItems';
 import { bookingService } from '@/services/booking.service';
 import { getBookingsTypeResponse } from '@/shared/types/booking.types';
-import Link from 'next/link';
 
 export default function TripHistory() {
+  const t = useTranslations('USER.BOOKINGS');
   const { data, isLoading, isError } = useQuery<getBookingsTypeResponse>({
     queryKey: ['booking'],
     queryFn: () => bookingService.getUserBookings(),
@@ -24,12 +26,12 @@ export default function TripHistory() {
         <h1 className='font-bold text-2xl text-center text-red-600'>Something went wrong</h1>
       ) : (
         <div className='flex flex-col gap-2 items-center'>
-          <h1 className='font-bold text-2xl text-center'>There is not bookings in your account</h1>
+          <h1 className='font-bold text-2xl text-center'>{t('NOT')}</h1>
           <Link
             className='px-5 py-2 rounded-md bg-black text-white dark:bg-white dark:text-black'
             href={'/tours'}
           >
-            book a tour
+            {t('BOOK')}
           </Link>
         </div>
       )}

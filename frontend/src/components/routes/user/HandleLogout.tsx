@@ -1,9 +1,10 @@
 'use client';
 
-import { authService } from '@/services/auth.service';
-import { useUserStore } from '@/store/userStore';
 import { LogOut } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+
+import { authService } from '@/services/auth.service';
+import { useUserStore } from '@/store/userStore';
 
 export function HandleLogout() {
   const { push } = useRouter();

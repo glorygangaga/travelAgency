@@ -50,7 +50,7 @@ export class ReviewService {
   }
 
   async createReview(user_id: number, dto: ReviewDto) {
-    return this.prisma.review.create({data: {...dto, user_id: user_id}});
+    return this.prisma.review.create({data: {...dto, user_id}});
   }
 
   async updateReview(user_id: number, dto: UpdateReviewDto) {
@@ -71,9 +71,8 @@ export class ReviewService {
     });
     const role = await this.userService.getUserRole(user_id);
 
-    if (!review || role !== RoleEnum.manager) throw new ForbiddenException('Access denied: not this user try delete review.');
-    
-    await this.prisma.review.delete({where: {review_id, user_id}});
+    if (!review && role !== RoleEnum.manager) throw new ForbiddenException('Access denied: not this user try delete review.');
+    await this.prisma.review.delete({where: {review_id}});
     return review;
   }
 
@@ -81,5 +80,12 @@ export class ReviewService {
     return this.prisma.review.update({where: {review_id}, data: {
       is_approved: true
     }});
+  }
+
+  async getTourRating(tour_id: number) {
+    const reivews = await this.prisma.review.findMany({where: {tour_id, is_approved: true}, select: {rating: true}});
+    const reviews_total = reivews.length;
+    const rating = reivews.reduce((sum, x) => sum + x.rating, 0) / reviews_total;
+    return {rating, reviews_total};
   }
 }

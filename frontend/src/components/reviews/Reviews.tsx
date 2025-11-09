@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { reviewService } from '@/services/reviews.service';
 import { Loading } from '../ui/loading/Loading';
@@ -18,6 +19,8 @@ interface Props {
 }
 
 export function Reviews({ tour_id }: Props) {
+  const t = useTranslations('REVIEW');
+
   const { user } = useUserStore();
   const { open } = useModal();
   const [pages, setPages] = useState({ pageNumber: 1, pageSize: 20 });
@@ -43,7 +46,7 @@ export function Reviews({ tour_id }: Props) {
             <Pagination pages={pages} setPages={setPages} total={data.total} />
           </>
         ) : (
-          <h1 className='text-center text-4xl font-bold'>There is not reviews</h1>
+          <h1 className='text-center text-4xl font-bold'>{t('NOT_REVIEWS')}</h1>
         )}
       </ul>
       {user && user.role_id === ROLE_ID.USER && (
@@ -53,7 +56,7 @@ export function Reviews({ tour_id }: Props) {
             onClick={() => open(<CreateReview tour_id={tour_id} />)}
           >
             <Plus />
-            <span>Create review</span>
+            <span>{t('CREATE')}</span>
           </button>
         </div>
       )}

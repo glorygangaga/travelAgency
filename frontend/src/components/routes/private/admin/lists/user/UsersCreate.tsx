@@ -14,7 +14,7 @@ const options = [
   { value: 'Admin', id: 3, exitValue: ROLE_ID.ADMIN },
 ];
 
-export function UsersCreate() {
+export default function UsersCreate() {
   const { close } = useModal();
 
   const {

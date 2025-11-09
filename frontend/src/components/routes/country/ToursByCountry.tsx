@@ -2,17 +2,22 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
+import dynamic from 'next/dynamic';
 
-import { TourCard } from '@/components/header/Finder/TourCard';
 import { Loading } from '@/components/ui/loading/Loading';
 import Pagination from '@/components/ui/pagination/Pagination';
 import { tourService } from '@/services/tour.service';
+
+const TourCard = dynamic(() => import('@/components/header/Finder/TourCard'));
 
 interface Props {
   country_id: number;
 }
 
 export function ToursByCountry({ country_id }: Props) {
+  const t = useTranslations('COUNTRY');
+
   const [pages, setPages] = useState({ pageNumber: 1, pageSize: 9 });
 
   const { isLoading, data } = useQuery({
@@ -21,8 +26,8 @@ export function ToursByCountry({ country_id }: Props) {
   });
 
   return (
-    <div className='p-4 bg-black rounded-lg max-w-5xl mx-auto'>
-      <h1 className='text-center font-bold text-3xl mb-2'>Tours in this country</h1>
+    <div className='p-4 bg-white border border-black/20 dark:bg-black rounded-lg max-w-5xl mx-auto'>
+      <h1 className='text-center font-bold text-3xl mb-2'>{t('Tours')}</h1>
       {isLoading ? (
         <div className='flex justify-center'>
           <Loading />

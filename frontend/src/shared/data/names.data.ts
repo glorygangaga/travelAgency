@@ -263,3 +263,470 @@ export const FAQ_DATA: {question: string, answer: string[]}[] = [
     ]
   },
 ];
+
+export const FAQ_DATA_EN: { question: string; answer: string[] }[] = [
+  {
+    question: "Why should I book through a travel agency instead of independently?",
+    answer: [
+      "Professional consultation and optimal options selection",
+      "Time-saving on searching and comparing offers",
+      "Access to special prices and exclusive deals",
+      "Full support 24/7",
+      "Assistance in unexpected situations abroad"
+    ]
+  },
+  {
+    question: "How to choose the right tour?",
+    answer: [
+      "Our managers help select a tour based on your budget",
+      "We consider preferences by country and resort",
+      "We select suitable travel dates",
+      "We consider the type of vacation (beach, excursion, active)",
+      "We take into account the group composition (family, couple, solo)"
+    ]
+  },
+  {
+    question: "What additional expenses may arise?",
+    answer: [
+      "Visa and consular fees for visa-required countries",
+      "Tourist tax in some countries",
+      "Additional excursions and activities",
+      "Tips in hotels and restaurants",
+      "Personal expenses and souvenirs"
+    ]
+  },
+  {
+    question: "Is there a refund if I cancel a tour?",
+    answer: [
+      "Refund depends on the tour operator's conditions and time of cancellation",
+      "If cancelled 30+ days in advance — almost full refund",
+      "15-29 days — partial refund according to conditions",
+      "Less than 14 days — only non-refundable fees",
+      "Refund terms are detailed in the contract"
+    ]
+  },
+  {
+    question: "What documents are required to book a tour?",
+    answer: [
+      "Passport (valid at least 6 months after return)",
+      "Internal passport details",
+      "Contact information (phone, email)",
+      "For children — birth certificate",
+      "Details for insurance registration"
+    ]
+  },
+  {
+    question: "Do I need a visa for the chosen country?",
+    answer: [
+      "Depends on the destination country and the traveler's citizenship",
+      "Visa-free countries: Turkey, Egypt, UAE, Thailand (for a limited period)",
+      "Visa-required countries: Schengen countries, USA, Canada, UK",
+      "We provide full visa support and consultations",
+      "We assist with preparing all necessary documents"
+    ]
+  },
+  {
+    question: "How long does it take to get a visa?",
+    answer: [
+      "Time depends on the destination country",
+      "Schengen visa: 7-14 business days",
+      "USA: 2-3 weeks (including interview)",
+      "UK: 15-20 business days",
+      "China: 5-7 business days",
+      "We recommend starting 1-2 months before the trip"
+    ]
+  },
+  {
+    question: "How to choose the right hotel?",
+    answer: [
+      "Consider hotel category (3*, 4*, 5*, boutique)",
+      "Pay attention to meal plan (BB, HB, FB, AI, UAI)",
+      "Consider location (first line, city center, quiet area)",
+      "Check infrastructure (pool, spa, kids club)",
+      "Read reviews from previous guests",
+      "Our managers help you select the optimal option"
+    ]
+  },
+  {
+    question: "What do hotel meal plans mean?",
+    answer: [
+      "BB (Bed & Breakfast) — breakfast only",
+      "HB (Half Board) — breakfast + dinner",
+      "FB (Full Board) — breakfast + lunch + dinner",
+      "AI (All Inclusive) — all inclusive (meals + drinks)",
+      "UAI (Ultra All Inclusive) — extended all inclusive (premium drinks, extra services)"
+    ]
+  },
+  {
+    question: "How does airport transfer work?",
+    answer: [
+      "Meet-and-greet at the arrival area with a sign",
+      "Comfortable transport to the hotel",
+      "Return transfer at the designated time",
+      "Option to book individual transfer",
+      "Group transfers according to schedule",
+      "24/7 driver support service"
+    ]
+  },
+  {
+    question: "What types of tours do you offer?",
+    answer: [
+      "Beach holidays — Turkey, Egypt, Thailand, UAE resorts",
+      "Excursion tours — Europe, Asia, historical routes",
+      "Ski tours — Alps, Andorra, Bulgaria, Austria",
+      "Family vacations — hotels with kids infrastructure",
+      "Honeymoon trips — romantic destinations",
+      "Gastronomic tours — Italy, France, Spain",
+      "Active holidays — safari, diving, trekking, rafting"
+    ]
+  },
+  {
+    question: "Are there tours for people with disabilities?",
+    answer: [
+      "Yes, we specialize in accessible tourism",
+      "We select hotels with accessibility and convenience",
+      "We organize specialized transport",
+      "We design routes considering mobility",
+      "We provide assistance if needed",
+      "We consult on specifics of each country"
+    ]
+  },
+  {
+    question: "What are the conditions for children in hotels?",
+    answer: [
+      "Children discounts (often up to 12 years free when staying with parents)",
+      "Kids clubs and animation programs",
+      "Special menu in restaurants",
+      "Children pools and playgrounds",
+      "Nanny services (upon request)",
+      "Baby cots and chairs in rooms"
+    ]
+  },
+  {
+    question: "Are documents needed for children traveling abroad?",
+    answer: [
+      "Passport for each child (mandatory)",
+      "Notarized consent from both parents (if traveling with one parent)",
+      "Birth certificate (to confirm relationship)",
+      "Authorization for accompanying person (if not parents)",
+      "Translated documents in English (for some countries)"
+    ]
+  },
+  {
+    question: "What support is provided during the tour?",
+    answer: [
+      "24/7 phone support in Russian",
+      "Assistance of Russian-speaking guide on site",
+      "Communication with tour operator representative at destination",
+      "Emergency assistance if needed",
+      "Consultations on any issues during the trip",
+      "Help resolving conflict situations"
+    ]
+  },
+  {
+    question: "What to do if documents are lost?",
+    answer: [
+      "Immediately notify our representative at the resort",
+      "Contact local police for a loss report",
+      "Contact the embassy for temporary documents",
+      "Notify the insurance company",
+      "Follow instructions of our staff",
+      "Keep copies of documents electronically"
+    ]
+  },
+  {
+    question: "Is medical insurance included?",
+    answer: [
+      "Yes, standard medical insurance is included in the price",
+      "Accident coverage up to $50,000",
+      "Medical expenses coverage up to $100,000",
+      "Evacuation and repatriation if needed",
+      "Dental emergency assistance",
+      "Optional extended coverage for extra payment"
+    ]
+  },
+  {
+    question: "Which countries are the most popular?",
+    answer: [
+      "Europe: Italy (Rome, Venice), Spain (Barcelona, Costa Brava), France (Paris, Côte d'Azur), Greece (Crete, Rhodes)",
+      "Asia: Thailand (Phuket, Pattaya), Vietnam (Nha Trang, Phu Quoc), UAE (Dubai, Abu Dhabi), Maldives",
+      "America: USA (New York, California), Mexico (Cancun), Dominican Republic (Punta Cana)",
+      "Russia: Crimea, Sochi, Karelia, Altai, Baikal",
+      "Exotic: Seychelles, Mauritius, Cuba, Japan"
+    ]
+  },
+  {
+    question: "When is it better to book a tour?",
+    answer: [
+      "Early booking (6-9 months) — best prices and hotel choice",
+      "High season (July-August) — book 3-4 months in advance",
+      "Ski trips — book from September to November",
+      "Exotic destinations — 2-3 months before trip",
+      "Last minute — 1-14 days before departure (limited choice)",
+      "New Year trips — 4-6 months in advance"
+    ]
+  },
+  {
+    question: "What is early booking and its advantages?",
+    answer: [
+      "Booking tours 6-9 months before departure",
+      "Prices 20-40% lower than peak season",
+      "Best hotel rooms and choices",
+      "Ability to select convenient dates and flights",
+      "Installment payment for longer periods",
+      "Guaranteed spot for popular destinations"
+    ]
+  },
+  {
+    question: "How to prepare for travel?",
+    answer: [
+      "Check passport validity",
+      "Make copies of documents and save online",
+      "Check visa requirements for destination",
+      "Get local currency and travel card",
+      "Check airline baggage rules",
+      "Pack a first-aid kit with necessary medicine",
+      "Study cultural features of the country"
+    ]
+  },
+  {
+    question: "What is prohibited in luggage?",
+    answer: [
+      "Sharp objects and weapons (in hand luggage)",
+      "Liquids over 100ml in hand luggage",
+      "Explosives and flammable substances",
+      "Perishable products",
+      "Plants and animals without documents",
+      "Narcotic drugs and medications without prescription",
+      "Valuables and large sums of money (declaration required)"
+    ]
+  },
+  {
+    question: "How to behave in Islamic countries?",
+    answer: [
+      "Follow dress code (covered shoulders and knees)",
+      "Respect local traditions and religious feelings",
+      "Do not consume alcohol in public places",
+      "Avoid public displays of affection",
+      "Follow rules in mosques",
+      "Observe Ramadan schedule if visiting",
+      "Follow guide's and representative's recommendations"
+    ]
+  },
+  {
+    question: "What is all inclusive and what does it include?",
+    answer: [
+      "Accommodation in selected hotel category",
+      "Meals: breakfast, lunch, dinner + snacks",
+      "Alcoholic and non-alcoholic drinks",
+      "Entertainment and animation programs",
+      "Sports and non-motorized water activities",
+      "Kids club and mini-disco",
+      "Tennis, gym, and other activities"
+    ]
+  },
+];
+
+export const FAQ_DATA_ES: { question: string; answer: string[] }[] = [
+  {
+    question: "¿Por qué reservar a través de una agencia de viajes en lugar de hacerlo por cuenta propia?",
+    answer: [
+      "Consulta profesional y selección de opciones óptimas",
+      "Ahorro de tiempo en búsqueda y comparación de ofertas",
+      "Acceso a precios especiales y promociones exclusivas",
+      "Soporte completo 24/7",
+      "Asistencia en situaciones imprevistas en el extranjero"
+    ]
+  },
+  {
+    question: "¿Cómo elegir el tour adecuado?",
+    answer: [
+      "Nuestros gestores ayudan a seleccionar un tour según su presupuesto",
+      "Consideramos preferencias por país y destino",
+      "Seleccionamos fechas de viaje adecuadas",
+      "Consideramos el tipo de vacaciones (playa, excursión, activo)",
+      "Tomamos en cuenta la composición del grupo (familia, pareja, solo)"
+    ]
+  },
+  {
+    question: "¿Qué gastos adicionales pueden surgir?",
+    answer: [
+      "Visa y tasas consulares para países que lo requieran",
+      "Impuesto turístico en algunos países",
+      "Excursiones y actividades adicionales",
+      "Propinas en hoteles y restaurantes",
+      "Gastos personales y souvenirs"
+    ]
+  },
+  {
+    question: "¿Se devuelve el dinero si cancelo el tour?",
+    answer: [
+      "El reembolso depende de las condiciones del operador turístico y del momento de la cancelación",
+      "Si se cancela con más de 30 días de antelación — casi reembolso completo",
+      "15-29 días — reembolso parcial según condiciones",
+      "Menos de 14 días — solo tarifas no reembolsables",
+      "Los términos de reembolso están detallados en el contrato"
+    ]
+  },
+  {
+    question: "¿Qué documentos se requieren para reservar un tour?",
+    answer: [
+      "Pasaporte (válido al menos 6 meses después del regreso)",
+      "Datos del pasaporte interno",
+      "Información de contacto (teléfono, correo electrónico)",
+      "Para niños — certificado de nacimiento",
+      "Datos para el seguro de viaje"
+    ]
+  },
+  {
+    question: "¿Necesito visa para el país elegido?",
+    answer: [
+      "Depende del país de destino y la ciudadanía del viajero",
+      "Países sin visa: Turquía, Egipto, EAU, Tailandia (por tiempo limitado)",
+      "Países con visa: países Schengen, EE. UU., Canadá, Reino Unido",
+      "Proporcionamos soporte completo de visa y consultas",
+      "Ayudamos a preparar todos los documentos necesarios"
+    ]
+  },
+  {
+    question: "¿Cuánto tiempo tarda en tramitarse la visa?",
+    answer: [
+      "El tiempo depende del país de destino",
+      "Visa Schengen: 7-14 días hábiles",
+      "EE. UU.: 2-3 semanas (incluyendo entrevista)",
+      "Reino Unido: 15-20 días hábiles",
+      "China: 5-7 días hábiles",
+      "Recomendamos comenzar 1-2 meses antes del viaje"
+    ]
+  },
+  {
+    question: "¿Cómo elegir el hotel adecuado?",
+    answer: [
+      "Considera la categoría del hotel (3*, 4*, 5*, boutique)",
+      "Presta atención al tipo de comida (BB, HB, FB, AI, UAI)",
+      "Considera la ubicación (primera línea, centro, zona tranquila)",
+      "Verifica infraestructura (piscina, spa, club infantil)",
+      "Lee opiniones de huéspedes anteriores",
+      "Nuestros gestores te ayudan a elegir la mejor opción"
+    ]
+  },
+  {
+    question: "¿Qué significan los tipos de comida en los hoteles?",
+    answer: [
+      "BB (Bed & Breakfast) — solo desayuno",
+      "HB (Half Board) — desayuno + cena",
+      "FB (Full Board) — desayuno + almuerzo + cena",
+      "AI (All Inclusive) — todo incluido (comida + bebidas)",
+      "UAI (Ultra All Inclusive) — todo incluido ampliado (bebidas premium, servicios adicionales)"
+    ]
+  },
+  {
+    question: "¿Cómo funciona el traslado desde el aeropuerto?",
+    answer: [
+      "Encuentro con cartel en la zona de llegadas",
+      "Transporte cómodo hasta el hotel",
+      "Traslado de regreso a la hora indicada",
+      "Posibilidad de traslado individual",
+      "Traslados grupales según horario",
+      "Servicio de soporte de conductores 24/7"
+    ]
+  },
+  {
+    question: "¿Qué tipos de tours ofrecen?",
+    answer: [
+      "Vacaciones de playa — Turquía, Egipto, Tailandia, EAU",
+      "Tours de excursión — Europa, Asia, rutas históricas",
+      "Tours de esquí — Alpes, Andorra, Bulgaria, Austria",
+      "Vacaciones familiares — hoteles con infraestructura infantil",
+      "Viajes de luna de miel — destinos románticos",
+      "Tours gastronómicos — Italia, Francia, España",
+      "Vacaciones activas — safari, buceo, trekking, rafting"
+    ]
+  },
+  {
+    question: "¿Hay tours para personas con discapacidades?",
+    answer: [
+      "Sí, nos especializamos en turismo accesible",
+      "Seleccionamos hoteles con accesibilidad y comodidad",
+      "Organizamos transporte especializado",
+      "Diseñamos rutas considerando movilidad",
+      "Proporcionamos asistencia si es necesario",
+      "Asesoramos sobre especificidades de cada país"
+    ]
+  },
+  {
+    question: "¿Cuáles son las condiciones para los niños en los hoteles?",
+    answer: [
+      "Descuentos para niños (a menudo hasta 12 años gratis al alojarse con padres)",
+      "Clubes infantiles y programas de animación",
+      "Menú especial en restaurantes",
+      "Piscinas y áreas de juegos para niños",
+      "Servicios de niñera (previa solicitud)",
+      "Cunas y sillas para niños en habitaciones"
+    ]
+  },
+  {
+    question: "¿Se necesitan documentos para los niños al viajar al extranjero?",
+    answer: [
+      "Pasaporte para cada niño (obligatorio)",
+      "Consentimiento notariado de ambos padres (si viaja con uno solo)",
+      "Certificado de nacimiento (para confirmar parentesco)",
+      "Autorización para acompañante (si no son los padres)",
+      "Documentos traducidos al inglés (para algunos países)"
+    ]
+  },
+  {
+    question: "¿Qué soporte se proporciona durante el tour?",
+    answer: [
+      "Soporte telefónico 24/7 en ruso",
+      "Asistencia de guía de habla rusa en el lugar",
+      "Comunicación con representante del operador turístico",
+      "Asistencia de emergencia si es necesario",
+      "Consultas sobre cualquier tema durante el viaje",
+      "Ayuda en la resolución de conflictos"
+    ]
+  },
+  {
+    question: "¿Qué hacer si se pierden documentos?",
+    answer: [
+      "Notificar inmediatamente a nuestro representante en el resort",
+      "Contactar a la policía local para obtener un informe de pérdida",
+      "Contactar la embajada para obtener documentos temporales",
+      "Notificar a la aseguradora",
+      "Seguir las instrucciones de nuestro personal",
+      "Mantener copias electrónicas de los documentos"
+    ]
+  },
+  {
+    question: "¿Está incluido el seguro médico?",
+    answer: [
+      "Sí, el seguro médico estándar está incluido en el precio",
+      "Cobertura de accidentes hasta $50,000",
+      "Cobertura de gastos médicos hasta $100,000",
+      "Evacuación y repatriación si es necesario",
+      "Asistencia dental de emergencia",
+      "Cobertura ampliada opcional con pago adicional"
+    ]
+  },
+  {
+    question: "¿Cuáles son los países más populares?",
+    answer: [
+      "Europa: Italia (Roma, Venecia), España (Barcelona, Costa Brava), Francia (París, Costa Azul), Grecia (Creta, Rodas)",
+      "Asia: Tailandia (Phuket, Pattaya), Vietnam (Nha Trang, Phu Quoc), EAU (Dubái, Abu Dhabi), Maldivas",
+      "América: EE. UU. (Nueva York, California), México (Cancún), República Dominicana (Punta Cana)",
+      "Rusia: Crimea, Sochi, Carelia, Altái, Baikal",
+      "Exótico: Seychelles, Mauricio, Cuba, Japón"
+    ]
+  },
+  {
+    question: "¿Cuándo es mejor reservar un tour?",
+    answer: [
+      "Reserva anticipada (6-9 meses) — mejores precios y elección de hotel",
+      "Temporada alta (julio-agosto) — reservar 3-4 meses antes",
+      "Tours de esquí — reservar de septiembre a noviembre",
+      "Destinos exóticos — reservar 2-3 meses antes del viaje",
+      "Last minute — 1-14 días antes de la salida (opciones limitadas)",
+      "Viajes de Año Nuevo — reservar con 4-6 meses de antelación"
+    ]
+  }
+]

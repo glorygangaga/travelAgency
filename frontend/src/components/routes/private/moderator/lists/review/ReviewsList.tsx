@@ -1,14 +1,16 @@
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 
 import { Table } from '@/components/ui/table/Table';
 import { ReviewType } from '@/shared/types/reviews.types';
-import { ReviewApprove } from './ReviewApprove';
+
+const ReviewApprove = dynamic(() => import('./ReviewApprove'));
 
 interface Props {
   data: ReviewType[];
 }
 
-export function ReviewsList({ data }: Props) {
+export default function ReviewsList({ data }: Props) {
   return (
     <article className='grid gap-3 max-w-5xl mx-auto'>
       <Table

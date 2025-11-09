@@ -9,17 +9,19 @@ import { EnumTokens } from '@/services/auth-token.service';
 export function useProfile() {
   const token = typeof window !== 'undefined' ? Cookies.get(EnumTokens.ACCESS_TOKEN) : null;
 
-  const setUserData = useUserStore((state) => state.setUserData);
+  const { setUserData, getFavorites } = useUserStore();
 
-  const values = useQuery({
+  const { data } = useQuery({
     queryKey: ['profile'],
     queryFn: async () => await userService.getProfile(),
     enabled: !!token,
   });
 
   useEffect(() => {
-    if (values.data) setUserData(values.data);
-  }, [values.data]);
+    if (!data) return;
+    setUserData(data);
+    getFavorites();
+  }, [data]);
 
-  return values;
+  return null;
 }

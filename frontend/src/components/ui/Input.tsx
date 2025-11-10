@@ -35,7 +35,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       passwordToggle && type === 'password' ? (showPassword ? 'text' : 'password') : type;
 
     return (
-      <div className={`relative ${className ? className : ''}`}>
+      <div className={`w-full relative ${className ? className : ''}`}>
         {label && (
           <label
             className={`${inputClassname} mb-1 block text-xs font-medium text-black dark:text-white absolute -top-4`}

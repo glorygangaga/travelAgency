@@ -1,41 +1,68 @@
 'use client';
-import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
-import { useTranslations } from 'next-intl';
 
-import Pagination from '@/components/ui/pagination/Pagination';
-import { tourService } from '@/services/tour.service';
-import { ToursSkeleton } from './ToursSkeleton';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import dynamic from 'next/dynamic';
 
-const TourCard = dynamic(() => import('@/components/header/Finder/TourCard'));
+import { tourService } from '@/services/tour.service';
+import { ToursSkeleton } from './ToursSkeleton';
+import { TourFilterType } from '@/shared/types/tour.types';
+import { useDebounce } from '@/shared/lib/hook/useDebounce';
+import { useModal } from '@/components/ui/modal/ModalProvider';
+
+const ToursList = dynamic(() => import('./ToursList'));
+const FilterMain = dynamic(() => import('./filter/filterMain'));
+const Filter = dynamic(() => import('./filter/Filter'));
 
 export function Tours() {
-  const t = useTranslations('TOUR');
+  const { open } = useModal();
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [pages, setPages] = useState({ pageNumber: 1, pageSize: 12 });
-  const { isLoading, data } = useQuery({
-    queryKey: ['tours', pages.pageNumber],
-    queryFn: () => tourService.getTours(pages),
+  const { register, watch, control, reset } = useForm<TourFilterType>({
+    mode: 'onSubmit',
   });
 
+  const watched = watch();
+  const filters = useMemo(() => {
+    setPages((prev) => ({ ...prev, pageNumber: 1 }));
+    return watched;
+  }, [JSON.stringify(watched)]);
+
+  const debouncedData = useDebounce(filters, 500);
+
+  const { isLoading, data } = useQuery({
+    queryKey: ['tours', pages, debouncedData],
+    queryFn: () => tourService.getAllToursByQuery({ ...debouncedData, ...pages }),
+  });
+
+  useEffect(() => {
+    if (isOpen && window.window.innerWidth < 1280) {
+      open(<Filter register={register} control={control} filters={filters} reset={reset} />);
+      setIsOpen(false);
+    }
+  }, [isOpen]);
+
   return (
-    <section className='mb-10 max-w-6xl mx-auto'>
-      <h1 className='text-center font-bold text-5xl mb-2'>{t('TOURS')}</h1>
-      {isLoading ? (
-        <ToursSkeleton />
-      ) : (
-        data &&
-        data.tours.length > 0 && (
-          <>
-            <ul className='grid min-sm:grid-cols-2 min-lg:grid-cols-3 gap-4 relative p-4 bg-white border border-black/20 dark:bg-black rounded-lg'>
-              {data.tours.map((tour) => (
-                <TourCard tour={tour} key={tour.tour_id} />
-              ))}
-            </ul>
-            <Pagination pages={pages} setPages={setPages} total={data.total} />
-          </>
-        )
-      )}
+    <section className='mb-10'>
+      <div className='w-full flex gap-5'>
+        <FilterMain
+          register={register}
+          control={control}
+          filters={filters}
+          reset={reset}
+          isOpen={isOpen}
+        />
+        {isLoading ? (
+          <ToursSkeleton />
+        ) : (
+          data &&
+          data.tours.length > 0 && (
+            <ToursList data={data} pages={pages} setPages={setPages} setIsOpen={setIsOpen} />
+          )
+        )}
+      </div>
     </section>
   );
 }

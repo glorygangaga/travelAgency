@@ -16,7 +16,6 @@ class AuthService {
 
   async getNewTokens() {
     const response = await axiosClassic.post<AuthRegisterResponse>(`/auth/login/access-token`);
-
     if (response.data.accessToken) saveAccessToken(response.data.accessToken);
     return response;
   }

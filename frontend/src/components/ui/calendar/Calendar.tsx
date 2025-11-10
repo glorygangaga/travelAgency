@@ -57,7 +57,7 @@ export default function Calendar({ start_date, end_date, showInfo = true }: Cale
   }
 
   return (
-    <div className='flex flex-col items-center w-[320px] p-4 bg-white border border-black/20 dark:bg-zinc-900 rounded-2xl shadow'>
+    <div className='flex flex-col items-center w-fit max-w-[320px] p-4 bg-white border border-black/20 dark:bg-zinc-900 rounded-2xl shadow'>
       <div className='flex justify-between items-center w-full mb-3'>
         <button onClick={() => changeMonth(-1)} className='px-2 text-xl'>
           <MoveLeft />
@@ -92,7 +92,7 @@ export default function Calendar({ start_date, end_date, showInfo = true }: Cale
             d.getMonth() === today.getMonth() &&
             d.getFullYear() === today.getFullYear();
 
-          let classes = 'p-2 rounded-md text-center transition select-none ';
+          let classes = 'p-1 rounded-md text-center transition select-none ';
 
           if (inRange || isStart) classes += 'bg-blue-100 dark:bg-blue-900/40 ';
           if (isToday && !inRange) classes += 'border border-blue-600 text-blue-600 ';

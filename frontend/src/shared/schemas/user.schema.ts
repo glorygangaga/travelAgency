@@ -2,6 +2,10 @@ import { z } from 'zod';
 
 export const createUserUpdateSchema = () =>
   z.object({
+    username: z.string()
+      .trim()
+      .regex(/^\S+$/, "Username must not contain spaces")
+      .optional(),
     firstname: z.string()
       .trim()
       .optional(),
@@ -9,10 +13,8 @@ export const createUserUpdateSchema = () =>
       .trim()
       .optional(),
     passport_number: z.string()
-      .length(12)
       .optional(),
     phone: z.string()
-      .length(18)
       .optional(),
       date: z.preprocess(arg => {
         if (!arg) return undefined;

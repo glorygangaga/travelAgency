@@ -14,21 +14,39 @@ model Role {
 }
 
 model User {
-  user_id         Int            @id @default(autoincrement())
+  user_id         Int       @id @default(autoincrement())
   role_id         Int
-  email           String         @unique
+  username        String?
+  email           String    @unique
   password        String
   fullname        String?
   date            DateTime?
   passport_number String?
   phone           String?
-  created_at      DateTime       @default(now())
-  updated_at      DateTime       @updatedAt
-  blogPosts       BlogPost[]
-  bookings        Booking[]
-  reviews         Review[]
-  subscriptions   Subscription[]
-  role            Role           @relation(fields: [role_id], references: [role_id])
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updatedAt
+
+  image         Image[]
+  blogPosts     BlogPost[]
+  bookings      Booking[]
+  reviews       Review[]
+  subscriptions Subscription[]
+  role          Role           @relation(fields: [role_id], references: [role_id])
+}
+
+model Image {
+  image_id   Int      @id @default(autoincrement())
+  url        String
+  tour_id    Int?
+  hotel_id   Int?
+  country_id Int?
+  user_id    Int?
+  created_at DateTime @default(now())
+
+  tour    Tour?    @relation(fields: [tour_id], references: [tour_id])
+  hotel   Hotel?   @relation(fields: [hotel_id], references: [hotel_id])
+  country Country? @relation(fields: [country_id], references: [country_id])
+  user    User?    @relation(fields: [user_id], references: [user_id])
 }
 
 model BlogPost {
@@ -76,26 +94,29 @@ model Tour {
   description     String
   bookings        Booking[]
   reviews         Review[]
-  country         Counry    @relation(fields: [country_id], references: [country_id])
+  country         Country   @relation(fields: [country_id], references: [country_id])
   hotel           Hotel     @relation(fields: [hotel_id], references: [hotel_id])
+  Image           Image[]
 }
 
 model Hotel {
-  hotel_id    Int    @id @default(autoincrement())
+  hotel_id    Int     @id @default(autoincrement())
   country_id  Int
   hotel_name  String
   category    String
   description String
-  country     Counry @relation(fields: [country_id], references: [country_id])
+  country     Country @relation(fields: [country_id], references: [country_id])
   tours       Tour[]
+  Image       Image[]
 }
 
-model Counry {
+model Country {
   country_id   Int     @id @default(autoincrement())
   country_name String
   description  String
   hotels       Hotel[]
   tours        Tour[]
+  Image        Image[]
 }
 
 model Booking {

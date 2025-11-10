@@ -3,6 +3,10 @@ import { IsOptional, IsString, MinLength } from "class-validator";
 export class UserDto {
   @IsOptional()
   @IsString()
+  username?: string;
+
+  @IsOptional()
+  @IsString()
   @MinLength(6, {message: 'password must be at least 6 characters logn'})
   password?: string;
 

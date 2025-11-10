@@ -69,3 +69,17 @@ export type FullTourData = {
   rating: number;
   reviews_total: number;
 } & TourType;
+
+export type TourFilterType = {
+  hotel_id?: number;
+  country_id?: number;
+  food?: FoodEnum;
+  maxPrice?: number;
+  minPrice?: number;
+  minDateStart?: string;
+  maxDateEnd?: string;
+  minSlots?: number;
+  q?: string;
+  filterByPriceMax?: boolean;
+  filterByPriceMin?: boolean;
+}

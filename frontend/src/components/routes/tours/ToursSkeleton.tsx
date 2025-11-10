@@ -4,7 +4,7 @@ const lists = Array(9)
 
 export function ToursSkeleton() {
   return (
-    <div className='grid min-sm:grid-cols-2 min-lg:grid-cols-3 gap-4 relative p-4 bg-white border border-black/20 dark:bg-black rounded-lg'>
+    <div className='w-full max-w-6xl mx-auto grid min-sm:grid-cols-2 min-lg:grid-cols-3 gap-4 relative p-4 bg-white border border-black/20 dark:bg-black rounded-lg'>
       {lists.map((list) => (
         <div
           key={list}

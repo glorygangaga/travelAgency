@@ -4,6 +4,7 @@ import { AuthRole } from 'src/decorators/role.decorator';
 import { TourDto } from './dto/tour.dto';
 import { UpdateTourDto } from './dto/update.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';
+import { TourQueryDto } from './dto/query.dto';
 
 @Controller('tour')
 export class TourController {
@@ -15,7 +16,7 @@ export class TourController {
   }
 
   @Get('/search')
-  async getToursByQuery(@Query('q') q: string, @Query('country_id') country_id: string) {
+  async getToursByQueryFinder(@Query('q') q: string, @Query('country_id') country_id: string) {
     if (!q && !country_id) return [];
     return this.tourService.findByQuery(q, country_id);
   }
@@ -35,6 +36,11 @@ export class TourController {
   @Get('/full/:tour_id')
   async getFullTour(@Param('tour_id') tour_id: string) {
     return this.tourService.getFullTour(+tour_id);
+  }
+
+  @Get('/find')
+  async getToursByQuery(@Query() dto: TourQueryDto) {
+    return this.tourService.getToursByQuery(dto);
   }
   
   @Get('/:tour_id')

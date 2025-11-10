@@ -73,6 +73,7 @@ export function SettingsInfo() {
     const fullname = data.firstname + ' ' + data.lastname;
 
     const newData = {
+      username: data.username ? data.username.trim() : undefined,
       fullname: fullname.trim() ? fullname : undefined,
       passport_number: GetNumbersFromString(data.passport_number),
       phone: GetNumbersFromString(data.phone),
@@ -85,6 +86,7 @@ export function SettingsInfo() {
   useEffect(() => {
     if (!user) return;
     reset({
+      username: user.username || '',
       firstname: user.fullname?.split(' ')[0] || '',
       lastname: user.fullname?.split(' ')[1] || '',
       date: user.date ? new Date(user.date).toISOString().split('T')[0] : undefined,
@@ -95,7 +97,9 @@ export function SettingsInfo() {
 
   useEffect(() => {
     if (!error) return;
-    setError('root', { message: 'Please fill in all fields and save it to book a tour.' });
+    setError('root', {
+      message: 'Please fill in all user data fields and save it to book a tour.',
+    });
     const params = new URLSearchParams(searchParams);
     params.delete('error');
     const newUrl = `${window.location.pathname}?${params.toString()}`;
@@ -122,6 +126,15 @@ export function SettingsInfo() {
           </div>
         )}
       </div>
+      <Input
+        placeholder={t('PLACEHOLDER.USERNAME')}
+        className='w-full'
+        id='username'
+        label={t('LABEL.USERNAME')}
+        error={errors.username?.message}
+        autoComplete='off'
+        {...register('username')}
+      />
       <div className='flex gap-3 w-full'>
         <Input
           placeholder={t('PLACEHOLDER.FIRSTNAME')}

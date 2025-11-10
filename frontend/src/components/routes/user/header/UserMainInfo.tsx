@@ -9,7 +9,9 @@ export function UserMainInfo() {
   return (
     <div>
       <div className='flex gap-3 mb-3'>
-        <h1 className='text-2xl font-bold'>{user?.email.split('@')[0]}</h1>
+        <h1 className='text-2xl font-bold'>
+          {user?.username ? user?.username : user?.email.split('@')[0]}
+        </h1>
         <div className='min-h-full w-[1px] bg-black/20 dark:bg-white/20' />
         <div className='flex gap-2'>
           <Link

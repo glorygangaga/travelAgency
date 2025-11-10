@@ -1,5 +1,5 @@
 import { axiosClassic, axiosWithAuth } from "@/api/interseptors";
-import { FullTourData, TourCreateType, TourListCountriesDesc, TourResponseType, TourType } from "@/shared/types/tour.types";
+import { FullTourData, TourCreateType, TourFilterType, TourListCountriesDesc, TourResponseType, TourType } from "@/shared/types/tour.types";
 import { options } from "@/shared/types/user.types";
 
 class TourService {
@@ -65,6 +65,11 @@ class TourService {
 
   async getToursByIds(tours: number[]) {
     const response = await axiosWithAuth.get<FullTourData[]>(this.BASE_URL + '/ids', {params: {ids: tours}});
+    return response.data;
+  }
+
+  async getAllToursByQuery(params: TourFilterType & {pageNumber: number, pageSize: number}) {
+    const response = await axiosClassic.get<TourResponseType>(this.BASE_URL + '/find', {params});
     return response.data;
   }
 }

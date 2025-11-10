@@ -18,8 +18,8 @@ export const RoleNames: Record<ROLE_ID, string> = {
 
 
 export interface User {
+  username: string;
   user_id: string;
-  name: string;
   email: string;
   role_id: ROLE_ID,
   date: string | null;
@@ -30,10 +30,10 @@ export interface User {
 }
 
 export interface UserStore {
-  user: User | UserTypeResponse | null;
+  user: UserTypeResponse | null;
   loading: boolean;
   error: string | null;
-  setUserData: (user: User | UserTypeResponse) => void;
+  setUserData: (user: UserTypeResponse) => void;
   logout: () => void;
   favorites: number[];
   getFavorites: () => void;
@@ -50,6 +50,7 @@ export type UserTypeUpdate = {
 }
 
 export type UserTypeUpdateRequest = {
+  username?: string;
   password?: string;
   firstname?: string;
   lastname?: string;
@@ -60,8 +61,9 @@ export type UserTypeUpdateRequest = {
 
 export type UserTypeResponse = {
   user_id: number;
-  role_id: number;
+  role_id: ROLE_ID;
   email: string;
+  username: string | null;
   fullname: string | null;
   date: Date | null;
   passport_number: string | null;

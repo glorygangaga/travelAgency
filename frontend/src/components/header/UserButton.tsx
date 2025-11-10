@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { ROLE_ID, User } from '@/shared/types/user.types';
+import { ROLE_ID } from '@/shared/types/user.types';
 import { useUserStore } from '@/store/userStore';
 import { authService } from '@/services/auth.service';
 
@@ -36,11 +36,13 @@ export function UserButton() {
       >
         <CircleUser />
         <div className='flex gap-2'>
-          <p>{user ? (user.name ? user.name : user.email.split('@')[0]) : t('ASIDE.Account')}</p>
+          <p>
+            {user ? (user.username ? user.username : user.email.split('@')[0]) : t('ASIDE.Account')}
+          </p>
           <ChevronDown className='group-hover:-rotate-180 transition-transform' />
         </div>
       </Link>
-      <div className='opacity-0 -translate-y-5 invisible transition-all group-hover:translate-y-0 group-hover:opacity-100 group-hover:visible absolute -right-1/2 top-[105%] border border-black/20 dark:border-white/20 rounded-lg p-2 w-[200%] bg-white dark:bg-black'>
+      <div className='opacity-0 -translate-y-5 invisible transition-all group-hover:translate-y-0 group-hover:opacity-100 group-hover:visible absolute -left-1/2 top-[105%] border border-black/20 dark:border-white/20 rounded-lg p-2 w-[200%] max-w-[290px] bg-white dark:bg-black'>
         <Link
           href={
             user?.role_id === ROLE_ID.USER

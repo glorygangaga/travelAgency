@@ -17,9 +17,9 @@ export class ReviewService {
     const reviews = await this.prisma.review.findMany({where: {tour_id, is_approved: true},
       orderBy: {created_at: 'desc'},
       take: pageSize, skip,
-      include: {user: {select: {email: true}}}
+      include: {user: {select: {username: true, email: true}}}
     });
-    const rev = reviews.map(review => ({...review, user: {username: review.user.email.split('@')[0]}}));
+    const rev = reviews.map(review => ({...review, user: {username: review.user.username || review.user.email.split('@')[0]}}));
 
     const total = await this.prisma.review.count({where: {tour_id, is_approved: true}});
     return {reviews: rev, total};
@@ -37,10 +37,10 @@ export class ReviewService {
 
   async getReviewsByUser(user_id: number, pageNumber: number, pageSize: number) {
     const skip = pageSize * (pageNumber - 1);
-    const reviews = await this.prisma.review.findMany({where: {user_id}, take: pageSize, skip, include: {user: {select: {email: true}}}});
+    const reviews = await this.prisma.review.findMany({where: {user_id}, take: pageSize, skip, include: {user: {select: {email: true, username: true}}}});
     const total = await this.prisma.review.count({where: {user_id}});
 
-    const rev = reviews.map(review => ({...review, user: {username: review.user.email.split('@')[0]}}));
+    const rev = reviews.map(review => ({...review, user: {username: review.user.username || review.user.email.split('@')[0]}}));
 
     return {reviews: rev, total};
   }

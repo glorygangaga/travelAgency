@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, memo, useState } from 'react';
+import { FC, memo } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 import PaginationButtons from './PaginationButtons';
@@ -20,11 +20,10 @@ interface PaginationProps {
 }
 
 const Pagination: FC<PaginationProps> = ({ pages, setPages, total }) => {
-  const [buttons, _] = useState<number[]>(
-    Array(Math.ceil(total / pages.pageSize))
-      .fill(0)
-      .map((_, i) => i + 1),
-  );
+  const totalPages = Math.ceil(total / pages.pageSize);
+  const buttons = Array.from({ length: totalPages }, (_, i) => i + 1);
+  if (buttons.length <= 1) return null;
+
   return (
     buttons.length > 1 && (
       <article className='flex gap-4 mt-4 justify-center w-fit dark:bg-black bg-white border border-black/10 mx-auto p-4 rounded-4xl'>

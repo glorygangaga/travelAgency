@@ -7,7 +7,7 @@ export const useUserStore = create<UserStore>((set) => ({
   error: null,
   favorites: [],
 
-  setUserData: (user: User | UserTypeResponse) => {
+  setUserData: (user: UserTypeResponse) => {
     set({user})
   },
 

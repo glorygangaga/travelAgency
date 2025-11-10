@@ -15,8 +15,7 @@ async function main() {
   }
 
   const adminRole = await prisma.role.findUnique({ where: { role_name: "admin" } });
-  if (!adminRole) throw new Error("❌ Role 'manager' not found");
-
+  if (!adminRole) throw new Error("Role 'admin' not found");
 
   const admin = {
     email: 'admin@gmail.com',
@@ -36,7 +35,7 @@ async function main() {
   })
 
   const managerRole = await prisma.role.findUnique({ where: { role_name: "manager" } });
-  if (!managerRole) throw new Error("❌ Role 'manager' not found");
+  if (!managerRole) throw new Error("Role 'manager' not found");
 
   const manager = {
     email: 'manager@gmail.com',
@@ -57,7 +56,7 @@ async function main() {
 
   console.log("Users created successfully");
 
-  await prisma.counry.createMany({
+  await prisma.country.createMany({
     data: [
       { country_name: 'Italy', description: 'Land of art, delicious food, and beautiful landscapes.' },
       { country_name: 'Japan', description: 'The Land of the Rising Sun and ancient traditions.' },
@@ -72,6 +71,9 @@ async function main() {
     ],
     skipDuplicates: true,
   });
+
+  console.log("Countries created successfully");
+
 
   await prisma.hotel.createMany({
     data: [
@@ -97,6 +99,7 @@ async function main() {
     skipDuplicates: true,
   });
   
+  console.log("Hotels created successfully");
 
   await prisma.tour.createMany({
     data: [
@@ -140,7 +143,7 @@ async function main() {
     ],
     skipDuplicates: true
   });
-  
+  console.log("Tours created successfully");
 }
 
 main().then(async () => {

@@ -9,7 +9,7 @@ import { options } from '@/shared/types/user.types';
 
 type Props = {
   options: options[] | undefined;
-  value: string;
+  value: any;
   onChange: Dispatch<SetStateAction<string>>;
   placeholder?: string;
   isFull?: boolean;
@@ -56,7 +56,7 @@ export function Select({
   }, [find, options]);
 
   return (
-    <div ref={ref} className={isFull ? '' : ''}>
+    <div ref={ref} className={isFull ? '' : 'relative'}>
       {showError && <p className='text-red-500 text-sm'>{error}</p>}
       <button
         className={`w-full border border-white/40 p-2 rounded-xl text-start ${
@@ -71,7 +71,9 @@ export function Select({
         {options?.find((option) => option.exitValue === value)?.value || placeholder}
       </button>
       <div
-        className={`absolute z-50 overflow-y-auto bg-black text-white left-0 transition-all p-3 border border-white/20 w-full rounded-lg ${
+        className={`absolute z-50 overflow-y-auto ${
+          isFull ? 'max-h-full' : 'max-h-[260px]'
+        } bg-black text-white left-0 transition-all p-3 border border-white/20 w-full rounded-lg ${
           isOpen ? '' : 'opacity-0 invisible'
         } ${isFull ? 'h-full top-0' : 'top-full'}`}
         onClick={(e) => e.stopPropagation()}

@@ -4,6 +4,8 @@ import { TourDto } from './dto/tour.dto';
 import { HotelService } from 'src/hotel/hotel.service';
 import { UpdateTourDto } from './dto/update.dto';
 import { ReviewService } from 'src/review/review.service';
+import { TourQueryDto } from './dto/query.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class TourService {
@@ -80,7 +82,7 @@ export class TourService {
     });
     const ids = countriesTop.map(c => c.country_id);
 
-    return this.prisma.counry.findMany({
+    return this.prisma.country.findMany({
       where: { country_id: { in: ids } },
     });
   }
@@ -144,6 +146,59 @@ export class TourService {
       },
       take: 10
     });
+  }
+
+  async getToursByQuery(dto: TourQueryDto) {
+    const takePage = dto.pageSize * (dto.pageNumber - 1);
+
+    const filters: Prisma.TourWhereInput[] = [];
+    if (dto.country_id) filters.push({ country_id: dto.country_id })
+    if (dto.hotel_id) filters.push({ hotel_id: dto.hotel_id })
+    if (dto.food) filters.push({ food_type: dto.food })
+    if (dto.maxPrice) filters.push({ price_person: { lte: dto.maxPrice } })
+    if (dto.minPrice) filters.push({ price_person: { gte: dto.minPrice } })
+    if (dto.minSlots) filters.push({ available_slots: { gte: dto.minSlots } })
+    if (dto.minDateStart) filters.push({ start_date: { gte: new Date(dto.minDateStart) } })
+    if (dto.maxDateEnd) filters.push({ end_date: { lte: new Date(dto.maxDateEnd) } })
+
+    const tours = await this.prisma.tour.findMany({
+      where: {
+        OR: dto.q ? [
+          {title: {contains: dto.q, mode: 'insensitive'}},
+          {description: {contains: dto.q, mode: 'insensitive'}},
+          {country: {country_name: {contains: dto.q, mode: 'insensitive'}}},
+          {hotel: {hotel_name: {contains: dto.q, mode: 'insensitive'}}},
+        ] : undefined,
+        AND: filters.length ? filters : undefined,
+      },
+      orderBy: {
+        price_person: dto.filterByPriceMax ? 'desc' : dto.filterByPriceMin ? 'asc' : undefined
+      },
+      take: dto.pageSize,
+      skip: takePage,
+      include: {
+        hotel: true,
+        country: true,
+      },
+    });
+
+    const total = await this.prisma.tour.count({
+      where: {
+        OR: dto.q
+          ? [
+              { title: { contains: dto.q, mode: 'insensitive' } },
+              { description: { contains: dto.q, mode: 'insensitive' } },
+              { country: { country_name: { contains: dto.q, mode: 'insensitive' } } },
+              { hotel: { hotel_name: { contains: dto.q, mode: 'insensitive' } } },
+            ]
+          : undefined,
+        AND: filters.length ? filters : undefined,
+      },
+    });
+  
+
+
+    return {tours, total};
   }
 
   async getFullTour(tour_id: number) {

@@ -10,6 +10,7 @@ import { useUserStore } from '@/store/userStore';
 import { useModal } from '@/components/ui/modal/ModalProvider';
 import { LoginSkeleton } from '@/components/Auth/login/LoginSkeleton';
 import { FullTourData } from '@/shared/types/tour.types';
+import { ROLE_ID } from '@/shared/types/user.types';
 
 const Login = dynamic(() => import('@/components/Auth/login/Login'), {
   loading: () => <LoginSkeleton />,
@@ -35,6 +36,8 @@ export default function BuyTour({ tour }: Props) {
       open(<Login />);
       return;
     }
+
+    if (user.role_id === ROLE_ID.ADMIN || user.role_id === ROLE_ID.MODERATOR) return;
 
     if (!user.fullname || !user.passport_number || !user.phone || !user.date) {
       push('/account/settings?error=true');

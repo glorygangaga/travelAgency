@@ -13,17 +13,19 @@ export function RedirectButton() {
   const { open } = useModal();
 
   return (
-    <button
-      className='border-b-2'
-      onClick={() =>
-        open(
-          <Suspense fallback={<RegisterSkeleton />}>
-            <Register />
-          </Suspense>,
-        )
-      }
-    >
-      {t('Auth.Register')}
-    </button>
+    <div className='flex justify-start'>
+      <button
+        className='border-b-2'
+        onClick={() =>
+          open(
+            <Suspense fallback={<RegisterSkeleton />}>
+              <Register />
+            </Suspense>,
+          )
+        }
+      >
+        {t('Auth.Register')}
+      </button>
+    </div>
   );
 }

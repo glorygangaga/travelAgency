@@ -10,6 +10,7 @@ import { ToursSkeleton } from './ToursSkeleton';
 import { TourFilterType } from '@/shared/types/tour.types';
 import { useDebounce } from '@/shared/lib/hook/useDebounce';
 import { useModal } from '@/components/ui/modal/ModalProvider';
+import { defaultFilterData } from '@/shared/data/tours';
 
 const ToursList = dynamic(() => import('./ToursList'));
 const FilterMain = dynamic(() => import('./filter/filterMain'));
@@ -21,7 +22,8 @@ export function Tours() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [pages, setPages] = useState({ pageNumber: 1, pageSize: 12 });
   const { register, watch, control, reset } = useForm<TourFilterType>({
-    mode: 'onSubmit',
+    mode: 'all',
+    defaultValues: defaultFilterData,
   });
 
   const watched = watch();
@@ -30,7 +32,7 @@ export function Tours() {
     return watched;
   }, [JSON.stringify(watched)]);
 
-  const debouncedData = useDebounce(filters, 500);
+  const debouncedData = useDebounce(filters, 750);
 
   const { isLoading, data } = useQuery({
     queryKey: ['tours', pages, debouncedData],
@@ -46,7 +48,7 @@ export function Tours() {
 
   return (
     <section className='mb-10'>
-      <div className='w-full flex gap-5'>
+      <div className='w-full flex gap-5 relative'>
         <FilterMain
           register={register}
           control={control}
@@ -56,11 +58,13 @@ export function Tours() {
         />
         {isLoading ? (
           <ToursSkeleton />
+        ) : data && data.tours.length > 0 ? (
+          <ToursList data={data} pages={pages} setPages={setPages} setIsOpen={setIsOpen} />
         ) : (
-          data &&
-          data.tours.length > 0 && (
-            <ToursList data={data} pages={pages} setPages={setPages} setIsOpen={setIsOpen} />
-          )
+          <div className='flex flex-col items-center justify-center w-full font-bold'>
+            <h2 className='text-5xl'>There's nothing here</h2>
+            <p>Try to change the search criteria...</p>
+          </div>
         )}
       </div>
     </section>

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { User, UserStore, UserTypeResponse } from "@/shared/types/user.types";
+import { User, UserStore } from "@/shared/types/user.types";
 
 export const useUserStore = create<UserStore>((set) => ({
   user: null,
@@ -7,7 +7,7 @@ export const useUserStore = create<UserStore>((set) => ({
   error: null,
   favorites: [],
 
-  setUserData: (user: UserTypeResponse) => {
+  setUserData: (user: User) => {
     set({user})
   },
 
@@ -27,7 +27,9 @@ export const useUserStore = create<UserStore>((set) => ({
   },
 
   getFavorites() {
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '') as number[];
+    const fav = localStorage.getItem('favorites');
+    if (!fav) return;
+    const favorites = (JSON.parse(fav) || []) as number[];
     set({favorites});
   }
 }));

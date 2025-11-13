@@ -21,7 +21,7 @@ export function FavoriteList() {
       {isLoading ? (
         <Loading />
       ) : data ? (
-        <ul className='grid min-sm:grid-cols-2 min-lg:grid-cols-3 gap-4 rounded-lg'>
+        <ul className='grid min-sm:grid-cols-2 gap-4 rounded-lg'>
           {data.map((tour) => (
             <TourCard key={tour.tour_id} tour={tour} />
           ))}

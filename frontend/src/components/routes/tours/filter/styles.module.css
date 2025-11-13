@@ -1,0 +1,9 @@
+.maxHCalc {
+  max-height: calc(100svh - 255px);
+}
+
+@media (width <= 48rem) {
+  .maxHCalc {
+    max-height: calc(100svh);
+  }
+}

@@ -24,11 +24,9 @@ export class TourController {
   @Get('/ids')
   @Auth()
   async getToursByIds(@Query('ids[]') ids: string[] | string) {
-    console.log(ids);
     const idsArray = Array.isArray(ids)
     ? ids.map(Number)
     : ids.split(',').map(Number);
-    
 
     return this.tourService.getToursByIds(idsArray);
   }

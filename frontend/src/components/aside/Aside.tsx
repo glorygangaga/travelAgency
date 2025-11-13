@@ -30,7 +30,7 @@ const Aside: FC<Props> = ({ CloseMenu }) => {
         onMouseLeave={() => setHovered(false)}
         className='flex flex-col gap-4 px-2 max-md:pt-2 pt-8 border-r z-10 border-black/20 dark:border-white/10 fixed left-0 max-md:h-min h-screen text-md group max-md:w-full min-w-[70px] bg-gray-100 max-md:bg-white dark:bg-black'
         initial={{ width: '70px' }}
-        animate={{ width: hovered ? '220px' : '70px' }}
+        animate={{ width: hovered ? '230px' : '70px' }}
       >
         <AsideHeader />
         <AsideItems />

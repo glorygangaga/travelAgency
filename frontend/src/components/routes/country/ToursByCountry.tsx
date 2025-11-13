@@ -36,7 +36,7 @@ export function ToursByCountry({ country_id }: Props) {
         data &&
         data.tours.length > 0 && (
           <>
-            <ul className='grid min-sm:grid-cols-2 min-lg:grid-cols-3 gap-4 relative '>
+            <ul className='grid min-sm:grid-cols-2 gap-4 relative'>
               {data.tours.map((tour) => (
                 <TourCard tour={tour} key={tour.tour_id} />
               ))}

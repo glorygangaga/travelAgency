@@ -1,10 +1,20 @@
+import { getTranslations } from 'next-intl/server';
+
 import { Hotel } from '@/components/routes/hotel/Hotel';
 import type { Metadata } from 'next';
 
-export const metadata: Metadata = {
-  title: 'Hotel',
-  description: 'Hotel',
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'HOTEL' });
+  return {
+    title: t('HOTEL'),
+    description: 'Hotel',
+  };
+}
 
 export default async function Page({ params }: { params: { hotel_id: string } }) {
   const { hotel_id } = await params;

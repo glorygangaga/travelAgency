@@ -2,15 +2,22 @@
 
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
+import { useTheme } from 'next-themes';
+import { useEffect } from 'react';
 
 import { HandleLogout } from '../../user/HandleLogout';
 import { userService } from '@/services/user.service';
 
 export function PrivateHeader() {
+  const { setTheme } = useTheme();
   const { data, isLoading, isError } = useQuery({
     queryKey: ['user-role'],
     queryFn: () => userService.getRole(),
   });
+
+  useEffect(() => {
+    setTheme('dark');
+  }, [setTheme]);
 
   if (isLoading) {
     return <header className='bg-black/50 mb-2 p-3 text-white text-center'>Loading...</header>;

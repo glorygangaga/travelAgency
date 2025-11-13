@@ -6,10 +6,13 @@ type Props = {
 };
 
 export function AsideSpanFramer({ text }: Props) {
-  const { hovered } = useAsideContext();
+  const { hovered, isMobile } = useAsideContext();
+
+  if (isMobile) return <span className='w-max whitespace-nowrap'>{text}</span>;
+
   return (
-    hovered && (
-      <AnimatePresence mode='popLayout'>
+    <AnimatePresence mode='popLayout'>
+      {hovered && (
         <motion.span
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -18,7 +21,7 @@ export function AsideSpanFramer({ text }: Props) {
         >
           {text}
         </motion.span>
-      </AnimatePresence>
-    )
+      )}
+    </AnimatePresence>
   );
 }

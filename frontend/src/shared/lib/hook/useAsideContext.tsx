@@ -4,6 +4,7 @@ import { useContext } from 'react';
 export interface AppContextType {
   hovered: boolean;
   CloseMenu?: () => void;
+  isMobile: boolean;
 }
 
 export function useAsideContext() {

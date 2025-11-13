@@ -37,6 +37,7 @@
   },
   "TOUR": {
     "TOURS": "Tours",
+    "TOUR": "Excursión",
     "SLOTS": "Plazas",
     "HOTEL": "Hotel",
     "COUNTRY": "País",
@@ -71,10 +72,12 @@
     "DAYS": "Días"
   },
   "HOTEL": {
-    "Tours": "Tours en este hotel"
+    "Tours": "Tours en este hotel",
+    "HOTEL": "Hotel"
   },
   "COUNTRY": {
-    "Tours": "Tours en este país"
+    "Tours": "Tours en este país",
+    "COUNTRY": "País"
   }
   ,
   "REVIEW": {
@@ -83,6 +86,8 @@
     "WAIT": "Espere mientras su reseña sea aprobada por el moderador."
   },
   "USER": {
+    "USER_ACCOUNT": "Cuenta de usuario",
+    "USER_SETTINGS": "Configuración del usuario",
     "ACCOUNT": "Cuenta",
     "LOGOUT": "Cerrar sesión",
     "SETTINGS": {

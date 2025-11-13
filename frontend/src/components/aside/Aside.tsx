@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { createContext, useState, type FC } from 'react';
+import { createContext, useEffect, useState, type FC } from 'react';
 
 import { AsideHeader } from './AsideHeader';
 import AsideItems from './AsideItems';
@@ -21,16 +21,29 @@ export const textVariants = {
 
 const Aside: FC<Props> = ({ CloseMenu }) => {
   const [hovered, setHovered] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkWidth = () => setIsMobile(window.innerWidth < 600);
+    checkWidth();
+    window.addEventListener('resize', checkWidth);
+    return () => window.removeEventListener('resize', checkWidth);
+  }, []);
 
   return (
-    <AsideContext.Provider value={{ hovered, CloseMenu }}>
+    <AsideContext.Provider value={{ hovered, CloseMenu, isMobile }}>
       <motion.aside
         layout
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
+        key={isMobile ? 'mobile' : 'desktop'}
+        onMouseEnter={() => !isMobile && setHovered(true)}
+        onMouseLeave={() => !isMobile && setHovered(false)}
         className='flex flex-col gap-4 px-2 max-md:pt-2 pt-8 border-r z-10 border-black/20 dark:border-white/10 fixed left-0 max-md:h-min h-screen text-md group max-md:w-full min-w-[70px] bg-gray-100 max-md:bg-white dark:bg-black'
-        initial={{ width: '70px' }}
-        animate={{ width: hovered ? '230px' : '70px' }}
+        animate={{
+          width: isMobile ? '100%' : hovered ? '230px' : '70px',
+        }}
+        transition={{
+          width: isMobile ? { duration: 0 } : { type: 'spring', stiffness: 300, damping: 30 },
+        }}
       >
         <AsideHeader />
         <AsideItems />

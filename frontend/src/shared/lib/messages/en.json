@@ -38,6 +38,7 @@
   },
   "TOUR": {
     "TOURS": "Tours",
+    "TOUR": "Tour",
     "SLOTS": "Slots",
     "HOTEL": "Hotel",
     "COUNTRY": "Country",
@@ -72,10 +73,12 @@
     "DAYS": "Days"
   },
   "HOTEL": {
-    "Tours": "Tours in this hotel"
+    "Tours": "Tours in this hotel",
+    "HOTEL": "Hotel"
   },
   "COUNTRY": {
-    "Tours": "Tours in this country"
+    "Tours": "Tours in this country",
+    "COUNTRY": "Country"
   },
   "REVIEW": {
     "NOT_REVIEWS": "There is not reviews",
@@ -83,6 +86,8 @@
     "WAIT": "Wait while your review will be approved by moderator."
   },
   "USER": {
+    "USER_ACCOUNT": "User account",
+    "USER_SETTINGS": "User settings",
     "ACCOUNT": "Account",
     "LOGOUT": "Logout",
     "SETTINGS": {

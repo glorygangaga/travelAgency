@@ -11,7 +11,7 @@ export function SelectList({ option, onChange, setIsOpen }: Props) {
   return (
     <li>
       <button
-        className='w-full text-start p-2 transition-colors hover:bg-white/10 rounded-lg'
+        className='w-full text-start p-2 transition-colors hover:bg-black/10 dark:hover:bg-white/10 rounded-lg'
         type='button'
         onClick={() => {
           onChange(option.exitValue);

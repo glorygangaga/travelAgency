@@ -12,7 +12,7 @@ import { useUserStore } from '@/store/userStore';
 import { AuthTypeRequest } from '@/shared/types/auth.types';
 import { authService } from '@/services/auth.service';
 import { createLoginSchema } from '@/shared/schemas/auth.schema';
-import { ROLE_ID } from '@/shared/types/user.types';
+import { ROLE_ID, User } from '@/shared/types/user.types';
 import { ButtonSubmit } from '@/components/ui/button/ButtonSubmit';
 
 export function LoginForm() {
@@ -38,7 +38,19 @@ export function LoginForm() {
     mutationKey: ['auth'],
     mutationFn: (data: AuthTypeRequest) => authService.main('login', data),
     async onSuccess(data) {
-      setUserData(data.user);
+      const newData: User = {
+        username: data.user.username,
+        user_id: data.user.user_id,
+        email: data.user.email,
+        role_id: data.user.role_id,
+        date: data.user.date,
+        fullname: data.user.fullname,
+        passport_number: data.user.passport_number,
+        phone: data.user.phone,
+        token: data.accessToken,
+      };
+
+      setUserData(newData);
       reset();
       close();
 
@@ -60,7 +72,7 @@ export function LoginForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className='grid gap-5 justify-items-center mb-2 w-lg max-lg:w-fit'
+      className='grid gap-5 justify-items-center mb-2 w-lg max-lg:w-full'
     >
       <h1 className='text-3xl font-bold'>{t('Auth.Login')}</h1>
       {errors.root && (
@@ -95,7 +107,7 @@ export function LoginForm() {
       <ButtonSubmit
         isPending={isSubmitting || isPending}
         text={t('Auth.Login')}
-        className='dark:bg-white dark:text-black flex gap-2 w-1/2 justify-center max-sm:w-full bg-black/80 text-white px-25 py-2 rounded-lg'
+        className='dark:bg-white dark:text-black flex gap-2 w-2/3 justify-center max-sm:w-full bg-black/80 text-white px-25 py-2 rounded-lg'
       />
     </form>
   );

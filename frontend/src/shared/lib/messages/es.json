@@ -48,6 +48,18 @@
     "SEE_ALL": "Ver todos los tours"
   },
   "Calendar": {
+    "MONTH_0": "Enero",
+    "MONTH_1": "Febrero",
+    "MONTH_2": "Marzo",
+    "MONTH_3": "Abril",
+    "MONTH_4": "Mayo",
+    "MONTH_5": "Junio",
+    "MONTH_6": "Julio",
+    "MONTH_7": "Agosto",
+    "MONTH_8": "Septiembre",
+    "MONTH_9": "Octubre",
+    "MONTH_10": "Noviembre",
+    "MONTH_11": "Diciembre",
     "weekday_0": "Lun",
     "weekday_1": "Mar",
     "weekday_2": "Mié",
@@ -114,5 +126,33 @@
   },
   "CHECKOUT": {
     "TITLE": "Pago"
+  },
+  "FILTER": {
+    "FILTER": "Filtro",
+    "FIND_TOUR": "Buscar un tour",
+    "COUNTRY": "Seleccionar país",
+    "HOTEL": "Seleccionar hotel",
+    "FOOD": "Tipo de comida",
+    "ADDITIONAL": {
+      "ADDITIONAL": "Filtros adicionales",
+      "SLOTS": "Mínimo de plazas",
+      "PRICE": "Precio - $",
+      "MIN": "Mín",
+      "MAX": "Máx",
+      "Date": "Fecha"
+    },
+    "ACTIVE": {
+      "HOTEL": "Hotel (id)",
+      "COUNTRY": "País (id)",
+      "FOOD": "Comida",
+      "MAX": "Precio máximo",
+      "MIN": "Precio mínimo",
+      "MIN_DATE": "Fecha de inicio mínima",
+      "MAX_DATE": "Fecha de finalización máxima",
+      "MIN_SLOTS": "Mínimo de plazas",
+      "TEXT": "Texto",
+      "FILTER_MAX": "Filtrar por precio máximo",
+      "FILTER_MIN": "Filtrar por precio mínimo"
+    }
   }
 }

@@ -16,9 +16,9 @@ export function Modal({ children, isOpen, onClose }: Props) {
       onMouseDown={onClose}
     >
       <div
-        className={`w-auto max-h-3/4 overflow-y-hidden max-w-10/12 overflow-auto md:max-w-3/5 bg-gray-100 dark:bg-black border border-black/20 dark:border-white/20 p-8 rounded-2xl z-40 cursor-default relative min-w-xs transition-transform ${
+        className={`w-auto min-md:max-h-3/4 overflow-y-hidden min-md:max-w-10/12 overflow-auto bg-gray-100 dark:bg-black border border-black/20 dark:border-white/20 p-8 z-40 cursor-default relative min-w-xs transition-transform ${
           isOpen ? 'scale-100' : 'scale-75'
-        }`}
+        } max-md:absolute max-md:w-full max-md:h-full max-md:max-h-screen max-md:flex max-md:flex-col left-0 top-0 min-md:rounded-2xl`}
         onMouseDown={(e) => e.stopPropagation()}
       >
         <button

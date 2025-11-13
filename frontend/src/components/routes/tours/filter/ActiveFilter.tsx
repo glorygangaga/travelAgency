@@ -1,24 +1,26 @@
-import { UseFormReset } from 'react-hook-form';
 import { X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
-import { TourFilterType } from '@/shared/types/tour.types';
+import { RenameFilterActive } from '@/shared/data/RenameFilterActive';
+import { useProviderContext } from '@/shared/lib/hook/useProvideContext';
+import { FilterContext } from './Filter';
 
-interface Props {
-  filters: TourFilterType;
-  reset: UseFormReset<TourFilterType>;
-}
+export function ActiveFilter() {
+  const t = useTranslations('FILTER.ACTIVE');
 
-export function ActiveFilter({ filters, reset }: Props) {
+  const { filters, reset } = useProviderContext(FilterContext);
+
   return (
-    <ul className='flex flex-wrap gap-2 mb-5'>
-      {!!filters &&
-        Object.entries(filters).map(([key, value]) => {
+    Object.entries(filters).length > 0 && (
+      <ul className='flex flex-wrap gap-2 mb-5'>
+        {Object.entries(filters).map(([key, value]) => {
           if (value === undefined || value === '' || value === false) return null;
+          const keyText = RenameFilterActive(key, t);
           return (
             <li key={key} className='p-1 rounded-lg bg-white/10 border flex items-center'>
               <p>
                 <span>
-                  {key}: {value.toString()}
+                  {keyText}: {value.toString()}
                 </span>
               </p>
               <button
@@ -31,6 +33,7 @@ export function ActiveFilter({ filters, reset }: Props) {
             </li>
           );
         })}
-    </ul>
+      </ul>
+    )
   );
 }

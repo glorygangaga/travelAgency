@@ -8,17 +8,27 @@ interface CalendarProps {
   start_date: string | Date;
   end_date: string | Date;
   showInfo?: boolean;
+  onChange?: (newValues: { minDate?: string; maxDate?: string }) => void;
 }
 
-export default function Calendar({ start_date, end_date, showInfo = true }: CalendarProps) {
+export default function Calendar({
+  start_date,
+  end_date,
+  showInfo = true,
+  onChange,
+}: CalendarProps) {
   const t = useTranslations('Calendar');
+  const [selectedRange, setSelectedRange] = useState<{ start?: Date; end?: Date }>({
+    start: new Date(start_date),
+    end: new Date(end_date),
+  });
 
   const [currentDate, setCurrentDate] = useState(new Date(start_date));
 
   const start = new Date(start_date);
   const end = new Date(end_date);
 
-  const monthName = currentDate.toLocaleString('default', { month: 'long' });
+  const monthName = t(`MONTH_${currentDate.getMonth()}`);
   const year = currentDate.getFullYear();
 
   const weekdays: string[] = Array.from({ length: 7 }, (_, i) => t(`weekday_${i}`));
@@ -56,16 +66,23 @@ export default function Calendar({ start_date, end_date, showInfo = true }: Cale
     );
   }
 
+  function formatDate(d: Date) {
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
   return (
     <div className='flex flex-col items-center w-fit max-w-[320px] p-4 bg-white border border-black/20 dark:bg-zinc-900 rounded-2xl shadow'>
       <div className='flex justify-between items-center w-full mb-3'>
-        <button onClick={() => changeMonth(-1)} className='px-2 text-xl'>
+        <button type='button' onClick={() => changeMonth(-1)} className='px-2 text-xl'>
           <MoveLeft />
         </button>
         <h2 className='font-semibold capitalize'>
           {monthName} {year}
         </h2>
-        <button onClick={() => changeMonth(1)} className='px-2 text-xl'>
+        <button type='button' onClick={() => changeMonth(1)} className='px-2 text-xl'>
           <MoveRight />
         </button>
       </div>
@@ -96,11 +113,39 @@ export default function Calendar({ start_date, end_date, showInfo = true }: Cale
 
           if (inRange || isStart) classes += 'bg-blue-100 dark:bg-blue-900/40 ';
           if (isToday && !inRange) classes += 'border border-blue-600 text-blue-600 ';
+          if (onChange && d < today) classes += 'opacity-50 ';
+          else classes += 'cursor-pointer ';
           if (!inRange && !isStart && !isEnd && !isToday)
-            classes += 'hover:bg-gray-100 dark:hover:bg-zinc-800 ';
+            classes += 'hover:bg-gray-100 dark:hover:bg-zinc-800';
 
           return (
-            <div key={i} className={classes}>
+            <div
+              key={i}
+              className={classes}
+              onClick={() => {
+                const clickedDate = new Date(d);
+                clickedDate.setHours(0, 0, 0, 0);
+
+                const todayDate = new Date(today);
+                todayDate.setHours(0, 0, 0, 0);
+                if (clickedDate < todayDate) return;
+
+                if (!selectedRange.start || (selectedRange.start && selectedRange.end)) {
+                  setSelectedRange({ start: clickedDate });
+                  onChange?.({ minDate: formatDate(clickedDate), maxDate: undefined });
+                } else {
+                  const startDate = selectedRange.start;
+                  const endDate = clickedDate >= startDate ? clickedDate : startDate;
+                  const min = clickedDate <= startDate ? clickedDate : startDate;
+
+                  setSelectedRange({ start: min, end: endDate });
+                  onChange?.({
+                    minDate: formatDate(min),
+                    maxDate: formatDate(endDate),
+                  });
+                }
+              }}
+            >
               {day}
             </div>
           );

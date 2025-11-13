@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { userService } from '@/services/user.service';
 import { useUserStore } from '@/store/userStore';
 import { EnumTokens } from '@/services/auth-token.service';
+import { User } from '@/shared/types/user.types';
 
 export function useProfile() {
   const token = typeof window !== 'undefined' ? Cookies.get(EnumTokens.ACCESS_TOKEN) : null;
@@ -19,7 +20,19 @@ export function useProfile() {
 
   useEffect(() => {
     if (!data) return;
-    setUserData(data);
+    const newData: User = {
+      username: data.username,
+      user_id: data.user_id,
+      email: data.email,
+      role_id: data.role_id,
+      date: data.date,
+      fullname: data.fullname,
+      passport_number: data.passport_number,
+      phone: data.phone,
+      token: null,
+    };
+
+    setUserData(newData);
     getFavorites();
   }, [data]);
 

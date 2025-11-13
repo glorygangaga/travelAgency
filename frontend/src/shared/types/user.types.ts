@@ -18,22 +18,35 @@ export const RoleNames: Record<ROLE_ID, string> = {
 
 
 export interface User {
-  username: string;
-  user_id: string;
+  username: string | null;
+  user_id: number;
   email: string;
   role_id: ROLE_ID,
   date: string | null;
   fullname: string | null;
   passport_number: string | null;
   phone: string | null;
-  token: string;
+  token: string | null;
+}
+
+export type UserTypeResponse = {
+  user_id: number;
+  role_id: ROLE_ID;
+  email: string;
+  username: string | null;
+  fullname: string | null;
+  date: string | null;
+  passport_number: string | null;
+  phone: string | null;
+  created_at: Date;
+  updated_at: Date;
 }
 
 export interface UserStore {
-  user: UserTypeResponse | null;
+  user: User | null;
   loading: boolean;
   error: string | null;
-  setUserData: (user: UserTypeResponse) => void;
+  setUserData: (user: User) => void;
   logout: () => void;
   favorites: number[];
   getFavorites: () => void;
@@ -57,19 +70,6 @@ export type UserTypeUpdateRequest = {
   date?: string;
   passport_number?: string;
   phone?: string;
-}
-
-export type UserTypeResponse = {
-  user_id: number;
-  role_id: ROLE_ID;
-  email: string;
-  username: string | null;
-  fullname: string | null;
-  date: Date | null;
-  passport_number: string | null;
-  phone: string | null;
-  created_at: Date;
-  updated_at: Date;
 }
 
 export type updateUserActionType = {

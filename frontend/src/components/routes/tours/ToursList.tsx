@@ -43,7 +43,7 @@ export default function ToursList({ data, setIsOpen, pages, setPages }: Props) {
         <SlidersHorizontal />
       </motion.button>
       <h1 className='text-center font-bold text-5xl mb-2'>{t('TOURS')}</h1>
-      <ul className='max-w-6xl mx-auto grid min-sm:grid-cols-2 min-lg:grid-cols-3 gap-4 relative p-4 bg-white border border-black/20 dark:bg-black rounded-lg'>
+      <ul className='max-w-6xl mx-auto grid min-sm:grid-cols-2 gap-4 relative p-4 bg-white border border-black/20 dark:bg-black rounded-lg'>
         {data.tours.map((tour) => (
           <TourCard tour={tour} key={tour.tour_id} />
         ))}

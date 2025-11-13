@@ -1,4 +1,4 @@
-import { User } from "./user.types";
+import { UserTypeResponse } from "./user.types";
 
 export type AuthTypeRequest = {
   email: string;
@@ -41,6 +41,6 @@ export type RegisterActionType = {
 }
 
 export type AuthRegisterResponse = {
-  user: User;
+  user: UserTypeResponse;
   accessToken: string;
 }

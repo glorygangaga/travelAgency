@@ -13,6 +13,7 @@ import { createRegisterSchema } from '@/shared/schemas/auth.schema';
 import { authService } from '@/services/auth.service';
 import { AuthRegisterTypeRequest } from '@/shared/types/auth.types';
 import { ButtonSubmit } from '@/components/ui/button/ButtonSubmit';
+import { User } from '@/shared/types/user.types';
 
 export function RegisterForm() {
   const t = useTranslations();
@@ -43,7 +44,19 @@ export function RegisterForm() {
       });
     },
     async onSuccess(data) {
-      setUserData(data.user);
+      const newData: User = {
+        username: data.user.username,
+        user_id: data.user.user_id,
+        email: data.user.email,
+        role_id: data.user.role_id,
+        date: data.user.date,
+        fullname: data.user.fullname,
+        passport_number: data.user.passport_number,
+        phone: data.user.phone,
+        token: data.accessToken,
+      };
+
+      setUserData(newData);
       reset();
       close();
       push('/account');
@@ -56,7 +69,7 @@ export function RegisterForm() {
 
   return (
     <form
-      className='grid gap-5 justify-items-center mb-2 w-lg max-lg:w-fit'
+      className='grid gap-5 justify-items-center mb-2 w-lg max-lg:w-full'
       onSubmit={handleSubmit(onSubmit)}
     >
       <h1 className='text-3xl font-bold'>{t('Auth.Register')}</h1>
@@ -72,6 +85,7 @@ export function RegisterForm() {
         id='login'
         placeholder='example@mail.ru'
         className='w-full'
+        autoComplete='off'
         error={errors.email?.message}
         {...register('email', { required: 'email is required' })}
         required

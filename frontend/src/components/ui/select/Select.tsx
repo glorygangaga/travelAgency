@@ -59,8 +59,8 @@ export function Select({
     <div ref={ref} className={isFull ? '' : 'relative'}>
       {showError && <p className='text-red-500 text-sm'>{error}</p>}
       <button
-        className={`w-full border border-white/40 p-2 rounded-xl text-start ${
-          placeholder && value.length === 0 ? 'text-white/60' : ''
+        className={`w-full border border-black/40 dark:border-white/40 p-2 rounded-xl text-start ${
+          placeholder && value.length === 0 ? 'dark:text-white/60 text-black/60' : ''
         }`}
         type='button'
         onClick={() => {
@@ -73,7 +73,7 @@ export function Select({
       <div
         className={`absolute z-50 overflow-y-auto ${
           isFull ? 'max-h-full' : 'max-h-[260px]'
-        } bg-black text-white left-0 transition-all p-3 border border-white/20 w-full rounded-lg ${
+        } bg-white dark:bg-black dark:text-white left-0 transition-all p-3 border border-black/30 dark:border-white/20 w-full rounded-lg ${
           isOpen ? '' : 'opacity-0 invisible'
         } ${isFull ? 'h-full top-0' : 'top-full'}`}
         onClick={(e) => e.stopPropagation()}

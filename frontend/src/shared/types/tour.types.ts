@@ -31,6 +31,7 @@ export type TourTypeRes = {
   hotel: {
     hotel_name: string;
   };
+  images: {image_id: number}[]
 } & TourType;
 
 export type TourResponseType = {
@@ -55,6 +56,7 @@ export type TourCreateType = {
   price_person: number;
   available_slots: number;
   description: string;
+  files: File[];
 }
 
 export type TourListCountriesDesc = {
@@ -68,6 +70,7 @@ export type FullTourData = {
   hotel: hotelType;
   rating: number;
   reviews_total: number;
+  images: {image_id: number}[]
 } & TourType;
 
 export type TourFilterType = {
@@ -83,3 +86,5 @@ export type TourFilterType = {
   filterByPriceMax?: boolean;
   filterByPriceMin?: boolean;
 }
+
+export type TourWithImage = TourType & { image_id: number};

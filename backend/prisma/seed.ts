@@ -1,105 +1,133 @@
 import { PrismaClient, RoleEnum } from "@prisma/client";
 import { hash } from "argon2";
+import fs from "fs";
+import path from "path";
 
 const prisma = new PrismaClient();
+const IMAGE_ROOT = path.join(__dirname, "seedImages");
+
+function normalize(str: string) {
+  return str
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]/g, "");
+}
+
+function readImage(filePath: string) {
+  return fs.readFileSync(filePath);
+}
+
+async function seedImages<T extends Record<string, any>>(
+  folder: "country" | "hotel" | "tour",
+  items: T[],
+  matchField: keyof T,
+  relationKey: "country_id" | "hotel_id" | "tour_id"
+) {
+  const dir = path.join(IMAGE_ROOT, folder);
+  const files = fs.readdirSync(dir);
+
+  for (const item of items) {
+    const normalizedName = normalize(String(item[matchField]));
+
+    const matchedFiles = files.filter(file =>
+      normalize(file).includes(normalizedName)
+    );
+
+    for (const file of matchedFiles) {
+      await prisma.image.create({
+        data: {
+          mimetype: "image/jpeg",
+          data: readImage(path.join(dir, file)),
+          [relationKey]: item[relationKey],
+        },
+      });
+    }
+  }
+}
 
 async function main() {
-  const roles: RoleEnum[] = ['user', 'admin', 'manager'];
+  const roles: RoleEnum[] = ["user", "admin", "manager"];
 
-  for (const roleName of roles) {
+  for (const role of roles) {
     await prisma.role.upsert({
-      where: { role_name: roleName }, 
+      where: { role_name: role },
       update: {},
-      create: { role_name: roleName },
-    })
+      create: { role_name: role },
+    });
   }
 
   const adminRole = await prisma.role.findUnique({ where: { role_name: "admin" } });
-  if (!adminRole) throw new Error("Role 'admin' not found");
-
-  const admin = {
-    email: 'admin@gmail.com',
-    password: await hash("123456") ,
-  };
-
-  await prisma.user.upsert({
-    where: {email: admin.email},
-    update: {},
-    create: {
-      email: admin.email,
-      password: admin.password,
-      created_at: new Date(),
-      updated_at: new Date(),
-      role_id: adminRole.role_id
-    }
-  })
-
   const managerRole = await prisma.role.findUnique({ where: { role_name: "manager" } });
-  if (!managerRole) throw new Error("Role 'manager' not found");
 
-  const manager = {
-    email: 'manager@gmail.com',
-    password: await hash('123456'),
+  if (!adminRole || !managerRole) {
+    throw new Error("Roles not found");
   }
 
   await prisma.user.upsert({
-    where: {email: manager.email},
+    where: { email: "admin@gmail.com" },
     update: {},
     create: {
-      email: manager.email,
-      password: manager.password,
-      created_at: new Date(),
-      updated_at: new Date(),
-      role_id: managerRole.role_id
-    }
+      email: "admin@gmail.com",
+      password: await hash("123456"),
+      role_id: adminRole.role_id,
+    },
   });
 
-  console.log("Users created successfully");
+  await prisma.user.upsert({
+    where: { email: "manager@gmail.com" },
+    update: {},
+    create: {
+      email: "manager@gmail.com",
+      password: await hash("123456"),
+      role_id: managerRole.role_id,
+    },
+  });
+
+  console.log("Roles & users seeded");
 
   await prisma.country.createMany({
     data: [
-      { country_name: 'Italy', description: 'Land of art, delicious food, and beautiful landscapes.' },
-      { country_name: 'Japan', description: 'The Land of the Rising Sun and ancient traditions.' },
-      { country_name: 'Spain', description: 'Warm country with beaches, mountains, and vibrant culture.' },
-      { country_name: 'Egypt', description: 'Home of pharaohs, pyramids, and the Red Sea.' },
-      { country_name: 'Norway', description: 'Country of fjords and the Northern Lights.' },
-      { country_name: 'Greece', description: 'Cradle of ancient civilization with scenic islands.' },
-      { country_name: 'Turkey', description: 'Bridge between Europe and Asia with rich history.' },
-      { country_name: 'Switzerland', description: 'Mountains, lakes, and picturesque villages.' },
-      { country_name: 'Thailand', description: 'Exotic beaches, temples, and tropical jungles.' },
-      { country_name: 'Iceland', description: 'Land of glaciers, volcanoes, and hot springs.' },
+      { country_name: "Italy", description: "Land of art, delicious food, and beautiful landscapes." },
+      { country_name: "Japan", description: "The Land of the Rising Sun and ancient traditions." },
+      { country_name: "Spain", description: "Warm country with beaches, mountains, and vibrant culture." },
+      { country_name: "Egypt", description: "Home of pharaohs, pyramids, and the Red Sea." },
+      { country_name: "Norway", description: "Country of fjords and the Northern Lights." },
+      { country_name: "Greece", description: "Cradle of ancient civilization with scenic islands." },
+      { country_name: "Turkey", description: "Bridge between Europe and Asia with rich history." },
+      { country_name: "Switzerland", description: "Mountains, lakes, and picturesque villages." },
+      { country_name: "Thailand", description: "Exotic beaches, temples, and tropical jungles." },
+      { country_name: "Iceland", description: "Land of glaciers, volcanoes, and hot springs." },
     ],
     skipDuplicates: true,
   });
 
-  console.log("Countries created successfully");
-
+  const countries = await prisma.country.findMany();
+  await seedImages("country", countries, "country_name", "country_id");
+  console.log("Countries & images seeded");
 
   await prisma.hotel.createMany({
     data: [
-      { hotel_name: 'Venezia Palace', country_id: 1, category: '5★', description: 'Luxury hotel in Venice with Grand Canal views.' },
-      { hotel_name: 'Rome Imperial', country_id: 1, category: '4★', description: 'Elegant hotel near the Colosseum.' },
-      { hotel_name: 'Tokyo Garden Inn', country_id: 2, category: '4★', description: 'Modern hotel near Tokyo gardens and temples.' },
-      { hotel_name: 'Kyoto Serenity', country_id: 2, category: '5★', description: 'Traditional hotel with Japanese-style rooms.' },
-      { hotel_name: 'Costa del Sol Resort', country_id: 3, category: '5★', description: 'Beachfront resort on Spain’s southern coast.' },
-      { hotel_name: 'Barcelona Central', country_id: 3, category: '4★', description: 'City hotel close to La Rambla.' },
-      { hotel_name: 'Red Sea Paradise', country_id: 4, category: '4★', description: 'Beach hotel in Hurghada with diving center.' },
-      { hotel_name: 'Cairo Nile View', country_id: 4, category: '5★', description: 'Luxury hotel overlooking the Nile river.' },
-      { hotel_name: 'Fjord Dreams', country_id: 5, category: '5★', description: 'Cozy hotel near Norwegian fjords with panoramic views.' },
-      { hotel_name: 'Athens Classic', country_id: 6, category: '4★', description: 'Hotel in the heart of Athens near the Acropolis.' },
-      { hotel_name: 'Santorini Sunset', country_id: 6, category: '5★', description: 'Romantic hotel with sea-view rooms.' },
-      { hotel_name: 'Istanbul Bosphorus', country_id: 7, category: '5★', description: 'Luxury hotel with Bosphorus views.' },
-      { hotel_name: 'Cappadocia Cave Hotel', country_id: 7, category: '4★', description: 'Unique cave-style hotel with hot air balloon tours.' },
-      { hotel_name: 'Zurich Alpine', country_id: 8, category: '5★', description: 'Hotel in Swiss Alps with ski-in/ski-out access.' },
-      { hotel_name: 'Bangkok Riverside', country_id: 9, category: '4★', description: 'Modern hotel with river views and rooftop bar.' },
-      { hotel_name: 'Phuket Beach Resort', country_id: 9, category: '5★', description: 'Tropical resort with private beach and spa.' },
-      { hotel_name: 'Reykjavik Aurora', country_id: 10, category: '4★', description: 'Hotel with Northern Lights viewing tours.' },
-      { hotel_name: 'Icelandic Glacier Lodge', country_id: 10, category: '5★', description: 'Remote lodge near glaciers and hot springs.' },
+      { hotel_name: "Venezia Palace", country_id: 1, category: "5★", description: "Luxury hotel in Venice." },
+      { hotel_name: "Rome Imperial", country_id: 1, category: "4★", description: "Elegant hotel near Colosseum." },
+      { hotel_name: "Tokyo Garden Inn", country_id: 2, category: "4★", description: "Modern Tokyo hotel." },
+      { hotel_name: "Kyoto Serenity", country_id: 2, category: "5★", description: "Traditional Japanese hotel." },
+      { hotel_name: "Costa del Sol Resort", country_id: 3, category: "5★", description: "Beach resort in Spain." },
+      { hotel_name: "Barcelona Central", country_id: 3, category: "4★", description: "City center hotel." },
+      { hotel_name: "Red Sea Paradise", country_id: 4, category: "4★", description: "Beach hotel in Hurghada." },
+      { hotel_name: "Cairo Nile View", country_id: 4, category: "5★", description: "Hotel overlooking Nile." },
+      { hotel_name: "Fjord Dreams", country_id: 5, category: "5★", description: "Hotel near fjords." },
+      { hotel_name: "Athens Classic", country_id: 6, category: "4★", description: "Hotel near Acropolis." },
+      { hotel_name: "Santorini Sunset", country_id: 6, category: "5★", description: "Romantic sea-view hotel." },
+      { hotel_name: "Istanbul Bosphorus", country_id: 7, category: "5★", description: "Luxury Bosphorus hotel." },
+      { hotel_name: "Cappadocia Cave Hotel", country_id: 7, category: "4★", description: "Cave-style hotel." },
+      { hotel_name: "Zurich Alpine", country_id: 8, category: "5★", description: "Alpine ski hotel." },
+      { hotel_name: "Bangkok Riverside", country_id: 9, category: "4★", description: "Hotel by river." },
+      { hotel_name: "Phuket Beach Resort", country_id: 9, category: "5★", description: "Beachfront resort." },
+      { hotel_name: "Reykjavik Aurora", country_id: 10, category: "4★", description: "Northern lights hotel." },
+      { hotel_name: "Icelandic Glacier Lodge", country_id: 10, category: "5★", description: "Glacier lodge." },
     ],
     skipDuplicates: true,
   });
-  
-  console.log("Hotels created successfully");
 
   await prisma.tour.createMany({
     data: [
@@ -144,13 +172,24 @@ async function main() {
     skipDuplicates: true
   });
   console.log("Tours created successfully");
+
+
+  const hotels = await prisma.hotel.findMany();
+  await seedImages("hotel", hotels, "hotel_name", "hotel_id");
+  console.log("Hotels & images seeded");
+
+  const tours = await prisma.tour.findMany();
+  await seedImages("tour", tours, "title", "tour_id");
+  console.log("Tours & images seeded");
 }
 
-main().then(async () => {
-  await prisma.$disconnect();
-})
-.catch(async (e) => {
-  console.error(e);
-  await prisma.$disconnect();
-  process.exit(1);
-})
+main()
+  .then(async () => {
+    await prisma.$disconnect();
+    console.log("SEED COMPLETED SUCCESSFULLY");
+  })
+  .catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
+  });

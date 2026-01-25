@@ -1,5 +1,5 @@
 import { axiosClassic, axiosWithAuth } from "@/api/interseptors";
-import { FullTourData, TourCreateType, TourFilterType, TourListCountriesDesc, TourResponseType, TourType } from "@/shared/types/tour.types";
+import { FullTourData, TourFilterType, TourListCountriesDesc, TourResponseType, TourType, TourWithImage } from "@/shared/types/tour.types";
 import { options } from "@/shared/types/user.types";
 
 class TourService {
@@ -20,8 +20,8 @@ class TourService {
     return response.data;
   }
 
-  async createTour(tour: TourCreateType) {
-    const response = await axiosWithAuth.post<TourType>(this.BASE_URL, tour);
+  async createTour(tour: FormData) {
+    const response = await axiosWithAuth.post<TourType>(this.BASE_URL, tour, {headers: { 'Content-Type': 'multipart/form-data'} });
     return response.data;
   }
 
@@ -70,6 +70,11 @@ class TourService {
 
   async getAllToursByQuery(params: TourFilterType & {pageNumber: number, pageSize: number}) {
     const response = await axiosClassic.get<TourResponseType>(this.BASE_URL + '/find', {params});
+    return response.data;
+  }
+
+  async getTourWithImages(total: number) {
+    const response = await axiosClassic.get<TourWithImage[]>(this.BASE_URL + `/images/${total}`);
     return response.data;
   }
 }

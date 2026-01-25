@@ -1,4 +1,3 @@
-import { AnimatePresence, motion } from 'framer-motion';
 import { useAsideContext } from '@/shared/lib/hook/useAsideContext';
 
 type Props = {
@@ -11,17 +10,10 @@ export function AsideSpanFramer({ text }: Props) {
   if (isMobile) return <span className='w-max whitespace-nowrap'>{text}</span>;
 
   return (
-    <AnimatePresence mode='popLayout'>
-      {hovered && (
-        <motion.span
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className='overflow-x-hidden w-max'
-        >
-          {text}
-        </motion.span>
-      )}
-    </AnimatePresence>
+    hovered && (
+      <span key='desktop' className='overflow-x-hidden w-max '>
+        {text}
+      </span>
+    )
   );
 }

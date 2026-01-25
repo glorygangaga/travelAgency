@@ -16,7 +16,6 @@ model Role {
 model User {
   user_id         Int       @id @default(autoincrement())
   role_id         Int
-  username        String?
   email           String    @unique
   password        String
   fullname        String?
@@ -25,46 +24,26 @@ model User {
   phone           String?
   created_at      DateTime  @default(now())
   updated_at      DateTime  @updatedAt
-
-  image         Image[]
-  blogPosts     BlogPost[]
-  bookings      Booking[]
-  reviews       Review[]
-  subscriptions Subscription[]
-  role          Role           @relation(fields: [role_id], references: [role_id])
+  username        String?
+  bookings        Booking[]
+  image           Image[]
+  reviews         Review[]
+  role            Role      @relation(fields: [role_id], references: [role_id])
 }
 
 model Image {
   image_id   Int      @id @default(autoincrement())
-  url        String
+  mimetype   String
+  data       Bytes
   tour_id    Int?
   hotel_id   Int?
   country_id Int?
   user_id    Int?
   created_at DateTime @default(now())
-
-  tour    Tour?    @relation(fields: [tour_id], references: [tour_id])
-  hotel   Hotel?   @relation(fields: [hotel_id], references: [hotel_id])
-  country Country? @relation(fields: [country_id], references: [country_id])
-  user    User?    @relation(fields: [user_id], references: [user_id])
-}
-
-model BlogPost {
-  post_id    Int      @id @default(autoincrement())
-  author_id  Int
-  title      String
-  content    String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  author     User     @relation(fields: [author_id], references: [user_id])
-}
-
-model Subscription {
-  subscription_id Int      @id @default(autoincrement())
-  user_id         Int
-  subscribed_at   DateTime @default(now())
-  is_active       Boolean  @default(false)
-  user            User     @relation(fields: [user_id], references: [user_id])
+  country    Country? @relation(fields: [country_id], references: [country_id])
+  hotel      Hotel?   @relation(fields: [hotel_id], references: [hotel_id])
+  tour       Tour?    @relation(fields: [tour_id], references: [tour_id])
+  user       User?    @relation(fields: [user_id], references: [user_id])
 }
 
 model Review {
@@ -93,10 +72,10 @@ model Tour {
   available_slots Int
   description     String
   bookings        Booking[]
+  images          Image[]
   reviews         Review[]
   country         Country   @relation(fields: [country_id], references: [country_id])
   hotel           Hotel     @relation(fields: [hotel_id], references: [hotel_id])
-  Image           Image[]
 }
 
 model Hotel {
@@ -106,8 +85,8 @@ model Hotel {
   category    String
   description String
   country     Country @relation(fields: [country_id], references: [country_id])
+  images      Image[]
   tours       Tour[]
-  Image       Image[]
 }
 
 model Country {
@@ -115,8 +94,8 @@ model Country {
   country_name String
   description  String
   hotels       Hotel[]
+  images       Image[]
   tours        Tour[]
-  Image        Image[]
 }
 
 model Booking {

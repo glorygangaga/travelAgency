@@ -1,8 +1,9 @@
-import { BadRequestException, Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post, Put, Query, UploadedFiles, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CountryService } from './country.service';
 import { CountryDto } from './dto/county.dto';
 import { UpdateCountryDto } from './dto/update.dto';
 import { AuthRole } from 'src/decorators/role.decorator';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('country')
 export class CountryController {
@@ -16,15 +17,20 @@ export class CountryController {
   @Get(':country_id')
   async getCounty(@Param('country_id') country_id: string) {
     if (isNaN(+country_id)) throw new BadRequestException('Invalid country_id parameter');
-    return this.countryService.getCountry(+country_id);
+    const country = await this.countryService.getCountry(+country_id);
+    if (country !== null) return country;
+    throw new NotFoundException('Country not found');
   }
 
   @UsePipes(new ValidationPipe())
   @Post()
   @HttpCode(200)
+  @UseInterceptors(FilesInterceptor('images'))
   @AuthRole('admin', 'manager')
-  async createCountry(@Body() dto: CountryDto) {
-    return this.countryService.create(dto);
+  async createCountry(@UploadedFiles() images: Express.Multer.File[] = [], @Body() dto: CountryDto) {
+    console.log(images);
+    
+    return this.countryService.create(images, dto);
   }
 
   @UsePipes(new ValidationPipe())

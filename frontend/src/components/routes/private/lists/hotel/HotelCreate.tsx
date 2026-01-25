@@ -8,6 +8,7 @@ import { useModal } from '@/components/ui/modal/ModalProvider';
 import { hotelService } from '@/services/hotel.service';
 import { Select } from '@/components/ui/select/Select';
 import { ButtonSubmit } from '@/components/ui/button/ButtonSubmit';
+import { AddImageAll } from '@/components/ui/image/AddImageAll';
 
 export default function HotelCreate() {
   const [countriesEnabled, setCountriesEnabled] = useState(false);
@@ -20,11 +21,12 @@ export default function HotelCreate() {
     handleSubmit,
     formState: { errors },
     control,
+    setValue,
   } = useForm<createHotelType>({ mode: 'onSubmit' });
 
   const { mutate, isPending } = useMutation({
     mutationKey: ['hotels'],
-    mutationFn: (hotel: createHotelType) => hotelService.createHotel(hotel),
+    mutationFn: (hotel: FormData) => hotelService.createHotel(hotel),
     onSuccess() {
       close();
       queryClient.invalidateQueries({
@@ -45,7 +47,19 @@ export default function HotelCreate() {
   });
 
   const onSubmit: SubmitHandler<createHotelType> = (data) => {
-    mutate(data);
+    const formData = new FormData();
+    formData.append('category', data.category);
+    formData.append('country_id', data.country_id);
+    formData.append('description', data.description);
+    formData.append('hotel_name', data.hotel_name);
+
+    if (data.files && data.files.length > 0) {
+      Array.from(data.files).forEach((file) => {
+        formData.append('images', file);
+      });
+    }
+
+    mutate(formData);
   };
 
   return (
@@ -56,6 +70,12 @@ export default function HotelCreate() {
           <p>{errors.root.message}</p>
         </div>
       )}
+      <AddImageAll
+        multiple={true}
+        onChange={(files) => {
+          setValue('files', files);
+        }}
+      />
       <Input placeholder='Hotel name' {...register('hotel_name', { required: true })} />
       <Input placeholder='Hotel category' {...register('category', { required: true })} />
       <Controller

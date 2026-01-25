@@ -28,12 +28,18 @@ export type approveReviewType = {
 }
 
 export type getReviewsListType = {
-  reviews: (ReviewType & {user: {username: string}})[];
+  reviews: (ReviewType & {user: {username: string, image_id: {image_id: number}[]}})[];
   total: number;
 }
 
 export type getReviewsNotFullListType = {
   reviews: ReviewType[];
   total: number;
-
 }
+
+export type getReviewListTypeHome = {
+  user: {
+    username: string,
+    image: {image_id: number}
+  }
+} & ReviewType;

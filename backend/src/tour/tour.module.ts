@@ -5,9 +5,10 @@ import { PrismaService } from 'src/prisma.service';
 import { UserModule } from 'src/user/user.module';
 import { HotelModule } from 'src/hotel/hotel.module';
 import { ReviewModule } from 'src/review/review.module';
+import { ImageModule } from 'src/image/image.module';
 
 @Module({
-  imports: [UserModule, HotelModule, ReviewModule],
+  imports: [UserModule, HotelModule, ReviewModule, ImageModule],
   controllers: [TourController],
   providers: [TourService, PrismaService],
   exports: [TourService]

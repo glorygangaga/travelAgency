@@ -22,7 +22,7 @@ export default function TourDelete({ tour }: Props) {
     onSuccess() {
       close();
       queryClient.invalidateQueries({
-        queryKey: ['tour'],
+        queryKey: ['tours'],
       });
     },
     onError(error: any) {

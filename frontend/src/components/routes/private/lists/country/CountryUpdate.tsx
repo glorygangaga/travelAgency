@@ -68,6 +68,7 @@ export default function CountryUpdate({ countryId }: Props) {
           <p>{errors.root.message}</p>
         </div>
       )}
+
       <Input
         placeholder='Country name'
         id='country'

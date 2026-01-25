@@ -16,18 +16,16 @@ export function AsideHeader() {
       onClick={() => CloseMenu && CloseMenu()}
     >
       <Earth />
-      <AnimatePresence mode='popLayout'>
-        {(hovered || isMobile) && (
-          <motion.span
-            className='hidden max-w-0 invisible opacity-0 group-hover:max-w-fit max-md:max-w-fit max-md:opacity-100 group-hover:opacity-100 max-md:visible group-hover:visible max-md:block group-hover:block transition-opacity duration-500 ease-in-out'
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            {t('SITE_NAME')}
-          </motion.span>
-        )}
-      </AnimatePresence>
+      {(hovered || isMobile) && (
+        <motion.span
+          className='hidden max-w-0 invisible opacity-0 group-hover:max-w-fit max-md:max-w-fit max-md:opacity-100 group-hover:opacity-100 max-md:visible group-hover:visible max-md:block group-hover:block transition-opacity duration-500 ease-in-out'
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          {t('SITE_NAME')}
+        </motion.span>
+      )}
     </Link>
   );
 }

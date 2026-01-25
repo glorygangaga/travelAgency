@@ -98,10 +98,6 @@
 
 # Технологические требования
 
-## Deploy
-
-- Docker
-
 ## Frontend
 
 - Фреймворк: Next.js
@@ -130,18 +126,19 @@
 erDiagram
     ROLE {
         int role_id PK
-        string role_name
+        enum role_name
     }
 
     USER {
         int user_id PK
         int role_id FK
-        string full_name
-        date birth_date
+        string email
+        string password
+        string fullname
+        date date
         string passport_number
         string phone
-        string email
-        string password_hash
+        string username
         timestamp created_at
         timestamp updated_at
     }
@@ -169,10 +166,21 @@ erDiagram
         date end_date
         int duration_days
         string tour_type
-        string food_type
-        numeric price_person
+        enum food_type
+        float price_person
         int available_slots
         text description
+    }
+
+    IMAGE {
+        int image_id PK
+        string mimetype
+        bytes data
+        int tour_id FK
+        int hotel_id FK
+        int country_id FK
+        int user_id FK
+        timestamp created_at
     }
 
     BOOKING {
@@ -181,17 +189,16 @@ erDiagram
         int tour_id FK
         timestamp booking_date
         int num_people
-        numeric total_price
-        string status
+        float total_price
     }
 
     PAYMENT {
         int payment_id PK
         int booking_id FK
         timestamp payment_date
-        numeric amount
-        string method
-        string status
+        float amount
+        enum method
+        enum status
     }
 
     REVIEW {
@@ -199,37 +206,28 @@ erDiagram
         int user_id FK
         int tour_id FK
         timestamp created_at
-        numeric rating
+        int rating
         text comment
         boolean is_approved
     }
 
-    SUBSCRIPTION {
-        int subscription_id PK
-        int user_id FK
-        timestamp subscribed_at
-        boolean is_active
-    }
-
-    BLOG_POST {
-        int post_id PK
-        int author_id FK
-        string title
-        text content
-        timestamp created_at
-        timestamp updated
-    }
-
     %% Relationships
     ROLE ||--o{ USER : assigns
-    COUNTRY ||--o{ HOTEL : has
-    COUNTRY ||--o{ TOUR : located_in
-    HOTEL ||--o{ TOUR : offers
     USER ||--o{ BOOKING : makes
-    TOUR ||--o{ BOOKING : reserved_by
-    BOOKING ||--o{ PAYMENT : paid_with
     USER ||--o{ REVIEW : writes
+    USER ||--o{ IMAGE : has
+
+    COUNTRY ||--o{ HOTEL : has
+    COUNTRY ||--o{ TOUR : has
+    COUNTRY ||--o{ IMAGE : has
+
+    HOTEL ||--o{ TOUR : offers
+    HOTEL ||--o{ IMAGE : has
+
+    TOUR ||--o{ BOOKING : reserved_by
     TOUR ||--o{ REVIEW : receives
-    USER ||--o{ SUBSCRIPTION : subscribes
-    USER ||--o{ BLOG_POST : authors
+    TOUR ||--o{ IMAGE : has
+
+    BOOKING ||--o{ PAYMENT : paid_with
+
 ```

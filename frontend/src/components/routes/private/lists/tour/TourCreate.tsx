@@ -12,6 +12,7 @@ import { TourCreateType } from '@/shared/types/tour.types';
 import { OnlyNumbers } from '@/shared/lib/functions/OnlyNumbers';
 import { tourFoodOptions } from '@/store/tourOptions';
 import { useModal } from '@/components/ui/modal/ModalProvider';
+import { AddImageAll } from '@/components/ui/image/AddImageAll';
 
 export default function TourCreate() {
   const { close } = useModal();
@@ -23,6 +24,7 @@ export default function TourCreate() {
     handleSubmit,
     control,
     watch,
+    setValue,
     setError,
     formState: { errors },
   } = useForm<TourCreateType>({ mode: 'onSubmit' });
@@ -41,7 +43,7 @@ export default function TourCreate() {
 
   const { isPending, mutate } = useMutation({
     mutationKey: ['tours'],
-    mutationFn: (data: TourCreateType) => tourService.createTour(data),
+    mutationFn: (data: FormData) => tourService.createTour(data),
     onSuccess() {
       close();
       queryClient.invalidateQueries({
@@ -56,23 +58,45 @@ export default function TourCreate() {
   });
 
   const onSubmit: SubmitHandler<TourCreateType> = (data) => {
-    const exitValue: TourCreateType = {
-      ...data,
-      price_person: +data.price_person,
-      available_slots: +data.available_slots,
-    };
+    const formData = new FormData();
 
-    mutate(exitValue);
+    formData.append('available_slots', String(data.available_slots));
+    formData.append('country_id', data.country_id);
+    formData.append('description', data.description);
+    formData.append('end_date', data.end_date);
+    formData.append('food_type', data.food_type);
+    formData.append('hotel_id', data.hotel_id);
+    formData.append('price_person', String(data.price_person));
+    formData.append('start_date', data.start_date);
+    formData.append('title', data.title);
+    formData.append('tour_type', data.tour_type);
+
+    if (data.files && data.files.length > 0) {
+      Array.from(data.files).forEach((file) => {
+        formData.append('images', file);
+      });
+    }
+
+    mutate(formData);
   };
 
   return (
-    <form className='grid gap-3 min-w-80' onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className='grid gap-3 min-w-80 overflow-y-scroll max-h-3/5'
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <h1 className='text-center font-bold text-3xl'>Create tour</h1>
       {errors.root && (
         <div className='bg-black/10 mb-2 text-red-500 p-2 rounded-lg dark:bg-white/10 text-center'>
           <p>{errors.root.message}</p>
         </div>
       )}
+      <AddImageAll
+        multiple={true}
+        onChange={(files) => {
+          setValue('files', files);
+        }}
+      />
       <Input placeholder='Tour title' required {...register('title', { required: true })} />
       <div className='flex gap-2 pt-2'>
         <Input

@@ -6,11 +6,12 @@ import { useRouter } from 'next/navigation';
 import { ROLE_ID } from '@/shared/types/user.types';
 import { useUserStore } from '@/store/userStore';
 import { authService } from '@/services/auth.service';
+import { LoadImage } from '../ui/image/LoadImage';
 
 export function UserButton() {
   const t = useTranslations();
   const { push } = useRouter();
-  const { logout, user } = useUserStore();
+  const { logout, user, imageId } = useUserStore();
 
   const handleLogout = async () => {
     const res = await authService.logout();
@@ -21,7 +22,7 @@ export function UserButton() {
   };
 
   return (
-    <div className='transition-colors dark:hover:bg-white/10 hover:bg-black/10 rounded-lg group relative flex items-center'>
+    <div className='transition-colors dark:bg-black/90 bg-white dark:hover:bg-white/10 hover:bg-black/10 rounded-lg group relative flex items-center'>
       <Link
         href={
           user?.role_id === ROLE_ID.USER
@@ -34,7 +35,15 @@ export function UserButton() {
         }
         className='flex gap-2 justify-center items-center p-2'
       >
-        <CircleUser />
+        {imageId === null ? (
+          <CircleUser className='w-5 h-5' />
+        ) : (
+          imageId && (
+            <div className='w-7 h-7'>
+              <LoadImage image_id={imageId} className='rounded-full' />
+            </div>
+          )
+        )}
         <div className='flex gap-2'>
           <p>
             {user ? (user.username ? user.username : user.email.split('@')[0]) : t('ASIDE.Account')}

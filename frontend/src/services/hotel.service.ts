@@ -15,8 +15,8 @@ class HotelService {
     return response.data;
   }
 
-  async createHotel(hotel: createHotelType) {
-    const response = await axiosWithAuth.post<hotelType>(this.BASE_URL, hotel);
+  async createHotel(hotel: FormData) {
+    const response = await axiosWithAuth.post<hotelType>(this.BASE_URL, hotel, {headers: { 'Content-Type': 'multipart/form-data'} });
     return response.data;
   }
 

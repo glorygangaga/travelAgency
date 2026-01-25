@@ -16,11 +16,16 @@ export class ReviewController {
     return this.reviewService.getReviewsNotApproved(+pageNumber, +pageSize);
   }
 
-
+  
   @Get('/:tour_id')
   async getReviewsByTour(@Param('tour_id') tour_id: string, @Query('pageNumber') pageNumber: string, @Query('pageSize') pageSize: string) {
     if (isNaN(+tour_id)) throw new BadRequestException('Invalid tour_id parameter');
     return this.reviewService.getReviewsByTour(+tour_id, +pageNumber, +pageSize);
+  }
+  
+  @Get('/best/:total')
+  async getReviewsForHomePage(@Param('total') total: string) {
+    return this.reviewService.getReviewsHomePage(+total);
   }
 
   @Get()

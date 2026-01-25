@@ -159,5 +159,55 @@
       "FILTER_MAX": "Filter by price max",
       "FILTER_MIN": "Filter by price min"
     }
+  },
+  "HOME": {
+    "CHOOSE": "Choose a tour",
+    "BUTTON": "See the best offers!",
+    "ABOUT": {
+      "TITLE": "About us",
+      "WELCOME": "Welcome to",
+      "TEXT1": "We don't just sell tours — we create flawless journeys that become part of your story. For us, quality is not just a word in an advertising slogan. It is a fundamental principle that underlies every action we take, every route we design, and every smile of our clients.",
+      "TEXT2": "Our customer care service operates 24/7. Wherever you go, a single call is all it takes to solve any issue — from changing a hotel room to arranging emergency assistance. You will never be left alone with a problem.",
+      "TEXT3": {
+        "FIRST": "Behind our quality are people — our team of professional travel managers who are truly passionate about what they do. These are not just consultants, but experienced travelers, geographers, and historians by education, who sincerely share their knowledge and insider tips. As a result, choosing",
+        "SECOND": "means entrusting your vacation to professionals for whom there are no small details. It means receiving not just a travel package, but confidence in tomorrow and a key to a world of flawless experiences."
+      },
+      "ADDITIONAL": {
+        "TEXT1": "Verified partners and secure payments",
+        "TEXT2": "We offer competitive prices without hidden fees",
+        "TEXT3": "Worldwide destinations"
+      }
+    }
+  },
+  "CONTACTS": "Contacts",
+  "ABOUT": {
+    "US": "About Our Travel Agency",
+    "DO": "We don't just sell tours - we create unforgettable journeys that become part of your story.",
+    "WHO": {
+      "WHO": "Who We Are",
+      "TEXT1": "We are a team of passionate travel professionals who believe that every journey should be seamless, inspiring, and worry-free.",
+      "TEXT2": "Our travel managers are not just consultants — they are explorers, historians, and logistics experts who take care of every detail so you can focus on enjoying the adventure."
+    },
+    "VALUES": {
+      "VALUES": "Our Core Values",
+      "TITLE1": "Reliability",
+      "TEXT1": "Verified partners, transparent terms, and secure payments.",
+      "TITLE2": "Personal Approach",
+      "TEXT2": "Every tour is tailored to your preferences and travel style.",
+      "TITLE3": "Worldwide Destinations",
+      "TEXT3": "From city breaks to exotic adventures — the whole world is open.",
+      "TITLE4": "24/7 Support",
+      "TEXT4": "One call away from solving any issue, anywhere in the world."
+    },
+    "WHY": {
+      "WHY": "Why Choose Us",
+      "TEXT1": "Choosing our agency means choosing peace of mind. We handle everything — flights, hotels, transfers, experiences — with precision and care.",
+      "TEXT2": "With us, you don't just buy a tour. You gain confidence, comfort, and access to a world of perfectly planned experiences."
+    },
+    "READY": {
+      "READY": "Ready for Your Next Journey?",
+      "TEXT": "Let us create a travel experience you'll remember for a lifetime.",
+      "BUTTON": "Choose Your Tour"
+    }
   }
 }

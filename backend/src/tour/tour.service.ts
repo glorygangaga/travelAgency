@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { TourDto } from './dto/tour.dto';
 import { HotelService } from 'src/hotel/hotel.service';
@@ -6,13 +6,15 @@ import { UpdateTourDto } from './dto/update.dto';
 import { ReviewService } from 'src/review/review.service';
 import { TourQueryDto } from './dto/query.dto';
 import { Prisma } from '@prisma/client';
+import { ImageService } from 'src/image/image.service';
 
 @Injectable()
 export class TourService {
   constructor (
     private prisma: PrismaService,
     private hotelService: HotelService,
-    private reivewService: ReviewService
+    private reivewService: ReviewService,
+    private imageService: ImageService
   ) {}
 
   async getTours(pageNumber: number, pageSize: number) {
@@ -22,7 +24,8 @@ export class TourService {
       skip: takePage,
       include: {
         hotel: {select: {hotel_name: true}},
-        country: {select: {country_name: true}}
+        country: {select: {country_name: true}},
+        images: {select: {image_id: true}}
       },
       where: {AND: [
         {available_slots: {gt: 0}}
@@ -38,11 +41,11 @@ export class TourService {
 
   async getTour(tour_id: number) {
     return this.prisma.tour.findUnique({
-      where: {tour_id}, include: {reviews: true}
+      where: {tour_id}, include: {reviews: true, images: {select: {image_id: true}}}
     });
   }
 
-  async createTour(dto: TourDto) {
+  async createTour(images: Express.Multer.File[], dto: TourDto) {
     const start = new Date(dto.start_date);
     const end = new Date(dto.end_date);
     const duration = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
@@ -55,6 +58,14 @@ export class TourService {
     return this.prisma.tour.create({data: {...createTour,
       start_date: new Date(dto.start_date),
       end_date: new Date(dto.end_date),
+      ...(images.length > 0 && {
+        images: {
+          create: images.map(file => ({
+            data: file.buffer,
+            mimetype: file.mimetype,
+          }))
+        }
+      }),
     }});
   }
 
@@ -66,6 +77,7 @@ export class TourService {
   }
 
   async deleteTour(tour_id: number) {
+    await this.imageService.DeleteImages(tour_id, 'tour');
     return this.prisma.tour.delete({where: {tour_id}});
   }
 
@@ -87,6 +99,18 @@ export class TourService {
     });
   }
 
+  async getToursWithImages(total: number) {
+    return this.prisma.$queryRaw`
+    SELECT DISTINCT ON (t.tour_id)
+      t.*,
+      i.image_id
+    FROM "Tour" t
+    JOIN "Image" i ON i.tour_id = t.tour_id
+    ORDER BY t.tour_id, random()
+    LIMIT ${total};
+  `;
+  }
+
   async getToursByCountry(country_id: number, pageNumber: number, pageSize: number) {
     const takePage = pageSize * (pageNumber - 1);
 
@@ -96,7 +120,8 @@ export class TourService {
       skip: takePage,
       include: {
         hotel: {select: {hotel_name: true}},
-        country: {select: {country_name: true}}
+        country: {select: {country_name: true}},
+        images: {select: {image_id: true}}
       }
     });
 
@@ -116,7 +141,8 @@ export class TourService {
       skip: takePage,
       include: {
         hotel: {select: {hotel_name: true}},
-        country: {select: {country_name: true}}
+        country: {select: {country_name: true}},
+        images: {select: {image_id: true}}
       }
     });
 
@@ -143,6 +169,7 @@ export class TourService {
       include: {
         hotel: true,
         country: true,
+        images: {select: {image_id: true}}
       },
       take: 10
     });
@@ -179,6 +206,7 @@ export class TourService {
       include: {
         hotel: true,
         country: true,
+        images: {select: {image_id: true}}
       },
     });
 
@@ -206,6 +234,7 @@ export class TourService {
     const tour = await this.prisma.tour.findUnique({where: {tour_id}, include: {
       hotel: true,
       country: true,
+      images: {select: {image_id: true}}
     }});
 
     return {...tour, ...rating};
@@ -218,7 +247,8 @@ export class TourService {
   async getToursByIds(tours: number[]) {
     return this.prisma.tour.findMany({where: {tour_id: {in: tours}}, include: {
       hotel: true,
-      country: true
+      country: true,
+      images: {select: {image_id: true}}
     }});
   }
 }

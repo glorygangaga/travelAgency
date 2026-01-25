@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, UsePipes, ValidationPipe, UseInterceptors, UploadedFiles, NotFoundException } from '@nestjs/common';
 import { TourService } from './tour.service';
 import { AuthRole } from 'src/decorators/role.decorator';
 import { TourDto } from './dto/tour.dto';
 import { UpdateTourDto } from './dto/update.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { TourQueryDto } from './dto/query.dto';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('tour')
 export class TourController {
@@ -33,7 +34,10 @@ export class TourController {
 
   @Get('/full/:tour_id')
   async getFullTour(@Param('tour_id') tour_id: string) {
-    return this.tourService.getFullTour(+tour_id);
+    const tour = await this.tourService.getFullTour(+tour_id);
+    
+    if (tour && tour.tour_id) return tour;
+    throw new NotFoundException('Tour not found');
   }
 
   @Get('/find')
@@ -50,9 +54,10 @@ export class TourController {
   @Post()
   @HttpCode(200)
   @UsePipes(new ValidationPipe())
+  @UseInterceptors(FilesInterceptor('images'))
   @AuthRole('admin', 'manager')
-  async createTour(@Body() dto: TourDto) {
-    return this.tourService.createTour(dto);
+  async createTour(@UploadedFiles() images: Express.Multer.File[] = [], @Body() dto: TourDto) {
+    return this.tourService.createTour(images, dto);
   }
 
   @Put()
@@ -89,5 +94,10 @@ export class TourController {
   @Get('/hotel/:hotel_id') 
   async GetToursByHotels(@Param('hotel_id') hotel_id: string, @Query('pageNumber') pageNumber: string, @Query('pageSize') pageSize: string) {
     return this.tourService.getToursByHotels(+hotel_id, +pageNumber, +pageSize);
+  }
+
+  @Get('/images/:total')
+  async GetToursWithImages(@Param('total') total: string) {
+    return this.tourService.getToursWithImages(+total);
   }
 }

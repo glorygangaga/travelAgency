@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import { hotelWithCountry } from '@/shared/types/hotel.types';
 import { ToursByHotel } from './ToursByHotel';
+import { CarouselImage } from '@/components/ui/carousel/CarouselImage';
 
 interface Props {
   hotel_id: string;
@@ -13,9 +14,17 @@ export async function Hotel({ hotel_id }: Props) {
     method: 'GET',
   });
 
-  if (!res.ok) return <h1>Something went wrong</h1>;
+  if (!res.ok) {
+    return <h1 className='text-center text-5xl font-bold pt-10'>Country not found</h1>;
+  }
 
-  const hotel: hotelWithCountry = await res.json();
+  let hotel: hotelWithCountry;
+
+  try {
+    hotel = await res.json();
+  } catch {
+    return <h1 className='text-center text-5xl font-bold pt-10'>Country not found</h1>;
+  }
 
   return (
     <>
@@ -32,6 +41,9 @@ export async function Hotel({ hotel_id }: Props) {
         <Link href={`/country/${hotel.country_id}`} className='text-3xl font-bold'>
           {hotel.country.country_name}
         </Link>
+        {hotel.images && hotel.images.length > 0 && (
+          <CarouselImage delay={7000} images={hotel.images} allowTouch={true} />
+        )}
       </article>
       <ToursByHotel hotel_id={hotel.hotel_id} />
     </>

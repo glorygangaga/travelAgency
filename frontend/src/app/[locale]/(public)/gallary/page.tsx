@@ -1,3 +1,4 @@
+import { Gallery } from '@/components/routes/gallery/Gallery';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
@@ -14,5 +15,5 @@ export async function generateMetadata({
 }
 
 export default function Page() {
-  return <div>Gallary</div>;
+  return <Gallery />;
 }

@@ -6,13 +6,14 @@ import { useModal } from '@/components/ui/modal/ModalProvider';
 import { countryService } from '@/services/country.service';
 import { createCountryType } from '@/shared/types/country.types';
 import { ButtonSubmit } from '@/components/ui/button/ButtonSubmit';
+import { AddImageAll } from '@/components/ui/image/AddImageAll';
 
 export default function CountryCreate() {
   const queryClient = useQueryClient();
   const { close } = useModal();
   const { isPending, mutate } = useMutation({
     mutationKey: ['countries'],
-    mutationFn: (data: createCountryType) => countryService.createCountry(data),
+    mutationFn: (data: FormData) => countryService.createCountry(data),
     onSuccess() {
       reset();
       close();
@@ -32,13 +33,24 @@ export default function CountryCreate() {
     setError,
     reset,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<createCountryType>({
     mode: 'onSubmit',
   });
 
   const onSubmit: SubmitHandler<createCountryType> = (data) => {
-    mutate(data);
+    const formData = new FormData();
+    formData.append('country_name', data.country_name);
+    formData.append('description', data.description);
+
+    if (data.files && data.files.length > 0) {
+      Array.from(data.files).forEach((file) => {
+        formData.append('images', file);
+      });
+    }
+
+    mutate(formData);
   };
 
   return (
@@ -49,6 +61,12 @@ export default function CountryCreate() {
           <p>{errors.root.message}</p>
         </div>
       )}
+      <AddImageAll
+        multiple={true}
+        onChange={(files) => {
+          setValue('files', files);
+        }}
+      />
       <Input
         placeholder='Country name'
         id='country_name'

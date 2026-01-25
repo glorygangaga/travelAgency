@@ -10,7 +10,7 @@ import { User } from '@/shared/types/user.types';
 export function useProfile() {
   const token = typeof window !== 'undefined' ? Cookies.get(EnumTokens.ACCESS_TOKEN) : null;
 
-  const { setUserData, getFavorites } = useUserStore();
+  const { setUserData, getFavorites, setImage } = useUserStore();
 
   const { data } = useQuery({
     queryKey: ['profile'],
@@ -31,6 +31,8 @@ export function useProfile() {
       phone: data.phone,
       token: null,
     };
+
+    if (data?.image[0]?.image_id) setImage(data.image[0].image_id);
 
     setUserData(newData);
     getFavorites();

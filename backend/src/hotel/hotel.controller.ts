@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, UploadedFiles, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
 import { HotelService } from './hotel.service';
 import { AuthRole } from 'src/decorators/role.decorator';
 import { CreateHotelDto } from './dto/create.dto';
 import { UpdateHotelDto } from './dto/update.dto';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('hotel')
 export class HotelController {
@@ -21,9 +22,10 @@ export class HotelController {
   @Post()
   @HttpCode(200)
   @UsePipes(new ValidationPipe())
+  @UseInterceptors(FilesInterceptor('images'))
   @AuthRole('admin', 'manager')
-  async createHotel(@Body() dto: CreateHotelDto) {
-    return this.hotelService.createHotel(dto);
+  async createHotel(@UploadedFiles() images: Express.Multer.File[] = [], @Body() dto: CreateHotelDto) {
+    return this.hotelService.createHotel(images, dto);
   }
 
   @Put()

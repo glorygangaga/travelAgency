@@ -1,5 +1,5 @@
 import { axiosClassic, axiosWithAuth } from "@/api/interseptors";
-import { countryType, createCountryType, getCountryTypeResponse } from "@/shared/types/country.types";
+import { countryType, getCountryTypeResponse } from "@/shared/types/country.types";
 
 class CountryService {
   private BASE_URL = '/country';
@@ -14,8 +14,8 @@ class CountryService {
     return response.data;
   }
 
-  async createCountry(country: createCountryType) {
-    const response = await axiosWithAuth.post<countryType>(this.BASE_URL, country);
+  async createCountry(country: FormData) {
+    const response = await axiosWithAuth.post<countryType>(this.BASE_URL, country, {headers: { 'Content-Type': 'multipart/form-data'} });
     return response.data;
   }
 

@@ -16,12 +16,14 @@ export class UserService {
   async getById(user_id: number) {
     return this.prisma.user.findUnique({
       where: {user_id},
+      include: {image: { select: {image_id: true}}}
     })
   }
 
   async getByEmail(email: string) {
     return this.prisma.user.findUnique({
-      where: {email}
+      where: {email},
+      include: {image: { select: {image_id: true}}}
     })
   }
 
@@ -87,7 +89,8 @@ export class UserService {
         phone: true,
         created_at: true,
         updated_at: true,
-        role_id: true
+        role_id: true,
+        image: { select: {image_id: true}}
       }
     });
 

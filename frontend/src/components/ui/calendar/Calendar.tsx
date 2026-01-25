@@ -153,7 +153,7 @@ export default function Calendar({
       </div>
 
       {showInfo && (
-        <div className='mt-1 text-sm text-gray-500 text-center'>
+        <div className='mt-1 text-sm text-gray-500 grid justify-items-center'>
           <p className='flex items-center gap-1.5'>
             <span>{start.toLocaleDateString()}</span>
             <ArrowRight className='w-4' />

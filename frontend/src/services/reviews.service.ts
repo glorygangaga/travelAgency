@@ -1,5 +1,5 @@
 import { axiosClassic, axiosWithAuth } from "@/api/interseptors";
-import { approveReviewType, createReviewType, getReviewsListType, getReviewsNotFullListType, getReviewTypeResponse, ReviewType, updateReviewType } from "@/shared/types/reviews.types";
+import { approveReviewType, createReviewType, getReviewListTypeHome, getReviewsListType, getReviewsNotFullListType, getReviewTypeResponse, ReviewType, updateReviewType } from "@/shared/types/reviews.types";
 
 class ReviewService {
   private BASE_URL = '/review';
@@ -43,6 +43,11 @@ class ReviewService {
 
   async getReviewsNotApproved(pages: {pageNumber: number, pageSize: number}) {
     const response = await axiosWithAuth.get<getReviewsNotFullListType>(this.BASE_URL + '/approved', {params: pages});
+    return response.data;
+  }
+
+  async getReviewsForHomePage(total: number) {
+    const response = await axiosClassic.get<getReviewListTypeHome[]>(this.BASE_URL + `/best/${total}`);
     return response.data;
   }
 }

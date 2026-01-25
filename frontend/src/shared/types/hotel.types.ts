@@ -9,7 +9,8 @@ export type hotelType = {
 export type hotelWithCountry = {
   country: {
     country_name: string,
-  } 
+  }
+  images: {image_id: number}[];
 } & hotelType;
 
 export type getHotelWithCountryType = {
@@ -27,6 +28,7 @@ export type createHotelType = {
   hotel_name: string
   category: string
   description: string
+  files: File[]
 }
 
 export type updateHotelType = {

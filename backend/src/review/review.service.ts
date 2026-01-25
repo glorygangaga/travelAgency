@@ -17,9 +17,9 @@ export class ReviewService {
     const reviews = await this.prisma.review.findMany({where: {tour_id, is_approved: true},
       orderBy: {created_at: 'desc'},
       take: pageSize, skip,
-      include: {user: {select: {username: true, email: true}}}
+      include: {user: {select: {username: true, email: true, image: {select: {image_id: true}}}}}
     });
-    const rev = reviews.map(review => ({...review, user: {username: review.user.username || review.user.email.split('@')[0]}}));
+    const rev = reviews.map(review => ({...review, user: {username: review.user.username || review.user.email.split('@')[0], image_id: review.user.image}}));
 
     const total = await this.prisma.review.count({where: {tour_id, is_approved: true}});
     return {reviews: rev, total};
@@ -87,5 +87,17 @@ export class ReviewService {
     const reviews_total = reivews.length;
     const rating = reivews.reduce((sum, x) => sum + x.rating, 0) / reviews_total;
     return {rating, reviews_total};
+  }
+
+  async getReviewsHomePage(total: number) {
+    const reviews = await this.prisma.review.findMany({
+      where: {is_approved: true, rating: {gte: 3}},
+      take: total,
+      include: {user: {select: {username: true, email: true, image: {select: {image_id: true}}}}},
+    });
+
+    const rev = reviews.map(review => ({...review, user: {username: review.user.username || review.user.email.split('@')[0], image: review.user.image[0] ?? {image_id: -1}}}));
+
+    return rev;
   }
 }

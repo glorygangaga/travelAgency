@@ -24,6 +24,7 @@ export interface User {
   role_id: ROLE_ID,
   date: string | null;
   fullname: string | null;
+
   passport_number: string | null;
   phone: string | null;
   token: string | null;
@@ -40,13 +41,16 @@ export type UserTypeResponse = {
   phone: string | null;
   created_at: Date;
   updated_at: Date;
+  image: {image_id: number}[]
 }
 
 export interface UserStore {
   user: User | null;
+  imageId: number | null;
   loading: boolean;
   error: string | null;
   setUserData: (user: User) => void;
+  setImage: (imageId: number) => void;
   logout: () => void;
   favorites: number[];
   getFavorites: () => void;

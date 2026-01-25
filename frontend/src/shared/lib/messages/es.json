@@ -159,5 +159,55 @@
       "FILTER_MAX": "Filtrar por precio máximo",
       "FILTER_MIN": "Filtrar por precio mínimo"
     }
+  },
+  "HOME": {
+    "CHOOSE": "Elegir un tour",
+    "BUTTON": "¡Ver las mejores ofertas!",
+    "ABOUT": {
+      "TITLE": "Sobre nosotros",
+      "WELCOME": "Bienvenido a",
+      "TEXT1": "No solo vendemos tours, creamos viajes impecables que se convierten en parte de tu historia. Para nosotros, la calidad no es solo una palabra en un eslogan publicitario. Es un principio fundamental que guía cada una de nuestras acciones, cada ruta que diseñamos y cada sonrisa de nuestros clientes.",
+      "TEXT2": "Nuestro servicio de atención al cliente funciona las 24 horas del día, los 7 días de la semana. Dondequiera que viajes, una sola llamada basta para resolver cualquier problema, desde cambiar una habitación de hotel hasta organizar asistencia de emergencia. Nunca te quedarás solo ante una dificultad.",
+      "TEXT3": {
+        "FIRST": "Detrás de nuestra calidad hay personas: nuestro equipo de gestores de viajes profesionales, apasionados por su trabajo. No son solo asesores, sino viajeros experimentados, geógrafos e historiadores de formación, que comparten con entusiasmo sus conocimientos y consejos prácticos. Como resultado, elegir",
+        "SECOND": "significa confiar tus vacaciones a profesionales para quienes no existen los pequeños detalles. Significa recibir no solo un paquete turístico, sino tranquilidad para el futuro y la llave a un mundo de experiencias impecables."
+      },
+      "ADDITIONAL": {
+        "TEXT1": "Socios verificados y pagos seguros",
+        "TEXT2": "Ofrecemos precios competitivos sin comisiones ocultas",
+        "TEXT3": "Destinos en todo el mundo"
+      }
+    }
+  },
+  "CONTACTS": "Contactos",
+  "ABOUT": {
+    "US": "Sobre nuestra agencia de viajes",
+    "DO": "No solo vendemos tours: creamos viajes inolvidables que se convierten en parte de tu historia.",
+    "WHO": {
+      "WHO": "Quiénes somos",
+      "TEXT1": "Somos un equipo de profesionales apasionados por los viajes que creen que cada experiencia debe ser fluida, inspiradora y sin preocupaciones.",
+      "TEXT2": "Nuestros gestores de viajes no son solo consultores: son exploradores, historiadores y expertos en logística que se encargan de cada detalle para que tú solo disfrutes la aventura."
+    },
+    "VALUES": {
+      "VALUES": "Nuestros valores fundamentales",
+      "TITLE1": "Fiabilidad",
+      "TEXT1": "Socios verificados, condiciones transparentes y pagos seguros.",
+      "TITLE2": "Enfoque personalizado",
+      "TEXT2": "Cada tour se adapta a tus preferencias y estilo de viaje.",
+      "TITLE3": "Destinos en todo el mundo",
+      "TEXT3": "Desde escapadas urbanas hasta aventuras exóticas: el mundo entero está a tu alcance.",
+      "TITLE4": "Soporte 24/7",
+      "TEXT4": "A una llamada de distancia para resolver cualquier problema, en cualquier lugar del mundo."
+    },
+    "WHY": {
+      "WHY": "Por qué elegirnos",
+      "TEXT1": "Elegir nuestra agencia es elegir tranquilidad. Nos encargamos de todo — vuelos, hoteles, traslados y experiencias — con precisión y cuidado.",
+      "TEXT2": "Con nosotros no solo compras un tour. Obtienes confianza, comodidad y acceso a un mundo de experiencias perfectamente planificadas."
+    },
+    "READY": {
+      "READY": "¿Listo para tu próximo viaje?",
+      "TEXT": "Déjanos crear una experiencia de viaje que recordarás toda la vida.",
+      "BUTTON": "Elige tu tour"
+    }
   }
 }

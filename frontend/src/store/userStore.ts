@@ -5,14 +5,19 @@ export const useUserStore = create<UserStore>((set) => ({
   user: null,
   loading: false,
   error: null,
+  imageId: null,
   favorites: [],
 
   setUserData: (user: User) => {
     set({user})
   },
 
+  setImage: (imageId: number) => {
+    set({imageId});
+  },
+
   logout: () => {
-    set({user: null})
+    set({user: null, imageId: null, favorites: []})
   },
 
   handleFavorite(tour_id: number) {
